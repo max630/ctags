@@ -1,4 +1,4 @@
-# $Id: mk_manx.mak,v 1.6 2002/07/11 02:19:51 darren Exp $
+# $Id: mk_manx.mak,v 1.7 2002/10/03 02:09:44 darren Exp $
 #
 # Makefile for ctags on the Amiga, using Aztec/Manx C 5.0 or later
 
@@ -36,6 +36,7 @@ OBJECTS = \
 	sh.$(OBJEXT) \
 	slang.$(OBJEXT) \
 	sort.$(OBJEXT) \
+	sql.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
 	verilog.$(OBJEXT) \

@@ -1,4 +1,4 @@
-.TH CTAGS 1 "Version 5.3.1" "Darren Hiebert"
+.TH CTAGS 1 "Version 5.4" "Darren Hiebert"
 
 
 .SH "NAME"
@@ -79,8 +79,8 @@ names are mapped to languages according to the following default mappings
 .B BETA
 *.bet
 .TP 9
-.B COBOL
-*.cob *.COB
+.B Cobol
+*.cbl *.cob *.CBL *.COB
 .TP 9
 .B Eiffel
 *.e
@@ -109,6 +109,9 @@ names are mapped to languages according to the following default mappings
 .B PHP
 *.php *.php3 *.phtml
 .TP 9
+.B PL/SQL
+*.sql
+.TP 9
 .B Python
 *.py *.python
 .TP 9
@@ -129,6 +132,9 @@ names are mapped to languages according to the following default mappings
 .TP 9
 .B Tcl
 *.tcl *.wish
+.TP 9
+.B Vera
+*.vr *.vri *.vrh
 .TP 9
 .B Verilog
 *.v
@@ -275,7 +281,7 @@ be the name of the function instead of the correct name of "foo". Specifying
 .RS 8
 /* creates an RCS version string in module */
 .br
-MODULE_VERSION("$Revision: 1.17 $")
+MODULE_VERSION("$Revision: 1.21 $")
 .RE
 
 .IP
@@ -523,6 +529,9 @@ Line number of tag definintion
 .TP 4
 .I s
 Scope of tag definition [enabled]
+.TP 4
+.I s
+Signature of routine (e.g. prototype or parameter list)
 .TP 4
 .I z
 Include the "kind:" key in kind field
@@ -950,8 +959,23 @@ Cobol
 .RS 5
 .PD 0
 .TP 4
+.I d
+data items
+.TP 4
+.I f
+file descriptions (FD, SD, RD)
+.TP 4
+.I g
+group items
+.TP 4
 .I p
 paragraphs
+.TP 4
+.I P
+program ids
+.TP 4
+.I s
+sections
 .RE
 .PD 1
 .RE
@@ -1203,12 +1227,100 @@ namespaces
 .RE
 
 .TP 5
+SQL
+.RS 5
+.PD 0
+.TP 4
+.I c
+cursors
+.TP 4
+.I d
+prototypes
+.TP 4
+.I f
+functions
+.TP 4
+.I F
+record fields
+.TP 4
+.I l
+local variables
+.TP 4
+.I P
+packages
+.TP 4
+.I p
+procedures
+.TP 4
+.I r
+records
+.TP 4
+.I s
+subtypes
+.TP 4
+.I t
+tables
+.TP 4
+.I T
+triggers
+.TP 4
+.I v
+variables
+.RE
+.PD 1
+.RE
+
+.TP 5
 Tcl
 .RS 5
 .PD 0
 .TP 4
 .I p
 procedures
+.RE
+.PD 1
+.RE
+
+.TP 5
+Vera
+.RS 5
+.PD 0
+.TP 4
+.I c
+class
+.TP 4
+.I d
+macro
+.TP 4
+.I e
+enumerator
+.TP 4
+.I f
+function
+.TP 4
+.I g
+enum
+.TP 4
+.I m
+member
+.TP 4
+.I p
+program
+.TP 4
+.I P
+prototype
+.TP 4
+.I t
+task
+.TP 4
+.I T
+typedef
+.TP 4
+.I v
+variable
+.TP 4
+.I x
+externvar
 .RE
 .PD 1
 .RE
@@ -1423,6 +1535,14 @@ of a routine or class, where \fIvalue\fP is specific to the language
 .I inherits
 When present, \fIvalue\fP. is a comma-separated list of classes from which
 this class is derived (i.e. inherits from).
+
+.TP 12
+.I signature
+When present, \fIvalue\fP. is a language-dependent representation of the
+signature of a routine. A routine signature in its complete form specifies the
+return type of a routine and its formal argument list. This extension field is
+presently supported only for C-based languages and does not include the return
+type.
 
 .PP
 In addition, information on the scope of the tag definition may be available,

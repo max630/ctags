@@ -1,5 +1,5 @@
 /*
-*   $Id: parse.h,v 1.7 2002/02/17 06:04:32 darren Exp $
+*   $Id: parse.h,v 1.8 2002/10/17 21:08:40 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -109,7 +109,7 @@ extern boolean parseFile (const char *const fileName);
 /* Regex interface */
 #ifdef HAVE_REGEX
 extern void findRegexTags (void);
-extern void matchRegex (const vString* const line, const langType language);
+extern boolean matchRegex (const vString* const line, const langType language);
 #endif
 extern boolean processRegexOption (const char *const option, const char *const parameter);
 extern void addLanguageRegex (const langType language, const char* const regex);

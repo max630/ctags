@@ -1,4 +1,4 @@
-# $Id: source.mak,v 1.9 2002/07/11 02:19:51 darren Exp $
+# $Id: source.mak,v 1.10 2002/10/03 02:09:44 darren Exp $
 #
 # Shared macros
 
@@ -39,6 +39,7 @@ SOURCES = \
 	sh.c \
 	slang.c \
 	sort.c \
+	sql.c \
 	strlist.c \
 	tcl.c \
 	verilog.c \
@@ -85,6 +86,7 @@ OBJECTS = \
 	sh.$(OBJEXT) \
 	slang.$(OBJEXT) \
 	sort.$(OBJEXT) \
+	sql.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
 	verilog.$(OBJEXT) \

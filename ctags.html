@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of CTAGS</TITLE>
 </HEAD><BODY>
 <H1>CTAGS</H1>
-Section: User Commands  (1)<BR>Updated: Version 5.3.1<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: Version 5.4<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <P>
@@ -101,10 +101,10 @@ names are mapped to languages according to the following default mappings
 
 <DD>
 *.bet
-<DT><B>COBOL</B>
+<DT><B>Cobol</B>
 
 <DD>
-*.cob *.COB
+*.cbl *.cob *.CBL *.COB
 <DT><B>Eiffel</B>
 
 <DD>
@@ -141,6 +141,10 @@ names are mapped to languages according to the following default mappings
 
 <DD>
 *.php *.php3 *.phtml
+<DT><B>PL/SQL</B>
+
+<DD>
+*.sql
 <DT><B>Python</B>
 
 <DD>
@@ -169,6 +173,10 @@ names are mapped to languages according to the following default mappings
 
 <DD>
 *.tcl *.wish
+<DT><B>Vera</B>
+
+<DD>
+*.vr *.vri *.vrh
 <DT><B>Verilog</B>
 
 <DD>
@@ -332,7 +340,7 @@ be the name of the function instead of the correct name of &quot;foo&quot;. Spec
 /* creates an RCS version string in module */
 <BR>
 
-MODULE_VERSION(&quot;$Revision: 1.17 $&quot;)
+MODULE_VERSION(&quot;$Revision: 1.21 $&quot;)
 </DL>
 
 <P>
@@ -612,6 +620,10 @@ Line number of tag definintion
 
 <DD>
 Scope of tag definition [enabled]
+<DT><I>s</I>
+
+<DD>
+Signature of routine (e.g. prototype or parameter list)
 <DT><I>z</I>
 
 <DD>
@@ -1071,10 +1083,30 @@ extern and forward variable declarations [off]
 <DL COMPACT><DT><DD>
 
 <DL COMPACT>
+<DT><I>d</I>
+
+<DD>
+data items
+<DT><I>f</I>
+
+<DD>
+file descriptions (FD, SD, RD)
+<DT><I>g</I>
+
+<DD>
+group items
 <DT><I>p</I>
 
 <DD>
 paragraphs
+<DT><I>P</I>
+
+<DD>
+program ids
+<DT><I>s</I>
+
+<DD>
+sections
 </DL>
 </DL>
 
@@ -1399,6 +1431,64 @@ namespaces
 
 
 <P>
+<DT>SQL<DD>
+<DL COMPACT><DT><DD>
+
+<DL COMPACT>
+<DT><I>c</I>
+
+<DD>
+cursors
+<DT><I>d</I>
+
+<DD>
+prototypes
+<DT><I>f</I>
+
+<DD>
+functions
+<DT><I>F</I>
+
+<DD>
+record fields
+<DT><I>l</I>
+
+<DD>
+local variables
+<DT><I>P</I>
+
+<DD>
+packages
+<DT><I>p</I>
+
+<DD>
+procedures
+<DT><I>r</I>
+
+<DD>
+records
+<DT><I>s</I>
+
+<DD>
+subtypes
+<DT><I>t</I>
+
+<DD>
+tables
+<DT><I>T</I>
+
+<DD>
+triggers
+<DT><I>v</I>
+
+<DD>
+variables
+</DL>
+</DL>
+
+
+
+<P>
 <DT>Tcl<DD>
 <DL COMPACT><DT><DD>
 
@@ -1407,6 +1497,64 @@ namespaces
 
 <DD>
 procedures
+</DL>
+</DL>
+
+
+
+<P>
+<DT>Vera<DD>
+<DL COMPACT><DT><DD>
+
+<DL COMPACT>
+<DT><I>c</I>
+
+<DD>
+class
+<DT><I>d</I>
+
+<DD>
+macro
+<DT><I>e</I>
+
+<DD>
+enumerator
+<DT><I>f</I>
+
+<DD>
+function
+<DT><I>g</I>
+
+<DD>
+enum
+<DT><I>m</I>
+
+<DD>
+member
+<DT><I>p</I>
+
+<DD>
+program
+<DT><I>P</I>
+
+<DD>
+prototype
+<DT><I>t</I>
+
+<DD>
+task
+<DT><I>T</I>
+
+<DD>
+typedef
+<DT><I>v</I>
+
+<DD>
+variable
+<DT><I>x</I>
+
+<DD>
+externvar
 </DL>
 </DL>
 
@@ -1657,6 +1805,15 @@ of a routine or class, where <I>value</I> is specific to the language
 <DD>
 When present, <I>value</I>. is a comma-separated list of classes from which
 this class is derived (i.e. inherits from).
+<P>
+<DT><I>signature</I>
+
+<DD>
+When present, <I>value</I>. is a language-dependent representation of the
+signature of a routine. A routine signature in its complete form specifies the
+return type of a routine and its formal argument list. This extension field is
+presently supported only for C-based languages and does not include the return
+type.
 <P>
 </DL>
 <P>
@@ -1980,6 +2137,6 @@ the info page for GNU <B>etags</B>.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 07:01:16 GMT, September 12, 2002
+Time: 21:18:56 GMT, October 17, 2002
 </BODY>
 </HTML>

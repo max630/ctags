@@ -1,5 +1,5 @@
 /*
-*   $Id: entry.c,v 1.7 2002/06/17 04:48:13 darren Exp $
+*   $Id: entry.c,v 1.8 2002/09/30 04:30:47 darren Exp $
 *
 *   Copyright (c) 1996-2002, Darren Hiebert
 *
@@ -744,6 +744,11 @@ static int addExtensionFields (const tagEntryInfo *const tag)
 	    tag->extensionFields.implementation != NULL)
 	length += fprintf (TagFile.fp, "%s\timplementation:%s", sep,
 			   tag->extensionFields.implementation);
+
+    if (Option.extensionFields.signature  &&
+	    tag->extensionFields.signature != NULL)
+	length += fprintf (TagFile.fp, "%s\tsignature:%s", sep,
+			   tag->extensionFields.signature);
 
     return length;
 #undef sep
