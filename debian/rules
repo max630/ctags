@@ -9,7 +9,7 @@ all build stamp-build: Makefile
 	touch stamp-build
 
 Makefile:
-	CFLAGS="-g -O2 " ./configure 
+	CFLAGS="-g -O2 -Wall" ./configure 
 
 clean:
 	rm -f stamp-build debian/files debian/substvars
@@ -38,7 +38,6 @@ binary-arch: stamp-build
 	install -p -o root -g root -m 644 debian/changelog \
 		debian/tmp/$(docdir)/changelog.Debian
 	install -p -o root -g root -m 644 FAQ debian/tmp/$(docdir)/
-	install -p -o root -g root -m 644 QUOTES debian/tmp/$(docdir)/
 	install -p -o root -g root -m 644 NEWS debian/tmp/$(docdir)/changelog
 	gzip -9 debian/tmp/$(docdir)/*
 	install -p -o root -g root -m 644 debian/copyright debian/tmp/$(docdir)/

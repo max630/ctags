@@ -18,5 +18,6 @@ Description: multi-language reimplementation of ctags
  .
  Exuberant Ctags supports all possible C language constructions
  and multiple other languages such as assembler, AWK, ASP, BETA,
- Bourne shell, C++, Eiffel, Fortran, Java, Lisp, Pascal, Perl,
- PHP, Python, REXX, Ruby, S-Lang, Scheme, Tcl and Vim.
+ Bourne/Korn/Z shell, C++, COBOL, Eiffel, Fortran, Java, Lisp,
+ Lua, Makefile, Pascal, Perl, PHP, Python, REXX, Ruby, S-Lang,
+ Scheme, Tcl, Verilog, Vim and YACC.

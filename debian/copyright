@@ -1,8 +1,8 @@
-This is Debian prepackaged version of Darren Hieberts <darren@hiebert.com>
-ctags utility.  
+This is the Debian prepackaged version of Darren Hiebert's
+<darren@hiebert.com> ctags utility.  
 
 This package was originally put together by Heiko Schlittermann
-<heiko@lotte.sax.de>, from the sources found on Darrens Site
+<heiko@lotte.sax.de>, from the sources found on Darren's site
 as http://fly.hiwaay.net/~darren/archives/ctags-3.1.2.tar.gz
 
 It has been repackaged from scratch by Wichert Akkerman
