@@ -1,7 +1,7 @@
 /*
-*   $Id: parse.h,v 1.8 2002/10/17 21:08:40 darren Exp $
+*   $Id: parse.h,v 1.12 2003/04/01 05:02:21 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 1998-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -83,7 +83,6 @@ extern parserDefinitionFunc PARSER_LIST;
 
 /* Legacy interface */
 extern boolean includingDefineTags (void);
-extern void processLegacyKindOption (const char *const parameter);
 
 /* Language processing and parsing */
 extern void makeSimpleTag (const vString* const name, kindOption* const kinds, const int kind);
@@ -97,6 +96,7 @@ extern void clearLanguageMap (const langType language);
 extern void addLanguageExtensionMap (const langType language, const char* extension);
 extern void addLanguagePatternMap (const langType language, const char* ptrn);
 extern void printLanguageMap (const langType language);
+extern void printLanguageMaps (const langType language);
 extern void enableLanguages (const boolean state);
 extern void enableLanguage (const langType language, const boolean state);
 extern void initializeParsing (void);
@@ -104,6 +104,8 @@ extern void freeParserResources (void);
 extern void processLanguageDefineOption (const char *const option, const char *const parameter);
 extern boolean processKindOption (const char *const option, const char *const parameter);
 extern void printKindOptions (void);
+extern void printLanguageKinds (const langType language);
+extern void printLanguageList (void);
 extern boolean parseFile (const char *const fileName);
 
 /* Regex interface */
@@ -114,10 +116,10 @@ extern boolean matchRegex (const vString* const line, const langType language);
 extern boolean processRegexOption (const char *const option, const char *const parameter);
 extern void addLanguageRegex (const langType language, const char* const regex);
 extern void addTagRegex (const langType language, const char* const regex, const char* const name, const char* const kinds, const char* const flags);
-extern void addCallbackRegex (const langType language, const char* const regex, const char* flags, const regexCallback callback);
+extern void addCallbackRegex (const langType language, const char *const regex, const char *const flags, const regexCallback callback);
 extern void disableRegexKinds (const langType __unused__ language);
 extern boolean enableRegexKind (const langType language, const int kind, const boolean mode);
-extern void printRegexKindOptions (const langType language);
+extern void printRegexKinds (const langType language, boolean indent);
 extern void freeRegexResources (void);
 extern void checkRegex (void);
 

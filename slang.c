@@ -1,5 +1,5 @@
 /*
- *   $Id: slang.c,v 1.3 2002/10/17 21:11:12 darren Exp $
+ *   $Id: slang.c,v 1.4 2003/02/23 18:23:10 darren Exp $
  *
  *   Copyright (c) 2000-2001, Francesc Rocher
  *
@@ -24,10 +24,10 @@ static void installSlangRegex (const langType language)
 {
     addTagRegex (language,
 	"^.*define[ \t]+([A-Z_][A-Z0-9_]*)[^;]*$",
-	"\\1", "f,function", "i");
+	"\\1", "f,function,functions", "i");
     addTagRegex (language,
 	"^[ \t]*implements[ \t]+\\([ \t]*\"([^\"]*)\"[ \t]*\\)[ \t]*;",
-	"\\1", "n,namespace", NULL);
+	"\\1", "n,namespace,namespaces", NULL);
 }
 
 extern parserDefinition* SlangParser (void)

@@ -1,7 +1,7 @@
 /*
-*   $Id: e_msoft.h,v 1.3 2002/05/15 04:48:26 darren Exp $
+*   $Id: e_msoft.h,v 1.6 2003/04/01 05:02:21 darren Exp $
 *
-*   Copyright (c) 2002, Darren Hiebert
+*   Copyright (c) 2002-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -17,6 +17,7 @@
 #define errout	stdout
 
 #define CASE_INSENSITIVE_FILENAMES 1
+#define MANUAL_GLOBBING 1
 #define MSDOS_STYLE_PATH 1
 #define HAVE_DOS_H 1
 #define HAVE_FCNTL_H 1
@@ -45,8 +46,8 @@
 
 #elif defined (_MSC_VER)
 
-#  define HAVE__FINDFIRST 1
-#  define HAVE_DIRECT_H 1
+# define HAVE__FINDFIRST 1
+# define HAVE_DIRECT_H 1
 
 #elif defined (__MINGW32__)
 

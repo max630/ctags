@@ -1,4 +1,4 @@
-# $Id: mk_mpw.mak,v 1.7 2002/10/03 02:09:44 darren Exp $
+# $Id: mk_mpw.mak,v 1.9 2003/02/13 02:59:30 darren Exp $
 #
 # Makefile for Macintosh using MPW
 #
@@ -19,6 +19,7 @@ SOURCES = ¶
 	cobol.c ¶
 	eiffel.c ¶
 	entry.c ¶
+	erlang.c ¶
 	fortran.c ¶
 	get.c ¶
 	keyword.c ¶
@@ -41,6 +42,7 @@ SOURCES = ¶
 	sh.c ¶
 	slang.c ¶
 	sort.c ¶
+	sml.c ¶
 	sql.c ¶
 	strlist.c ¶
 	tcl.c ¶
@@ -60,6 +62,7 @@ OBJ = ¶
 	cobol.o ¶
 	eiffel.o ¶
 	entry.o ¶
+	erlang.o ¶
 	fortran.o ¶
 	get.o ¶
 	keyword.o ¶
@@ -82,6 +85,7 @@ OBJ = ¶
 	sh.o ¶
 	slang.o ¶
 	sort.o ¶
+	sml.o ¶
 	sql.o ¶
 	strlist.o ¶
 	tcl.o ¶

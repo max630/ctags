@@ -1,7 +1,7 @@
 /*
-*   $Id: parsers.h,v 1.6 2002/10/16 02:19:03 darren Exp $
+*   $Id: parsers.h,v 1.11 2003/04/01 05:02:21 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -22,10 +22,14 @@
     BetaParser, \
     CParser, \
     CppParser, \
+    CsharpParser, \
     CobolParser, \
     EiffelParser, \
+    ErlangParser, \
     FortranParser, \
+    HtmlParser, \
     JavaParser, \
+    JavaScriptParser, \
     LispParser, \
     LuaParser, \
     MakefileParser, \
@@ -38,6 +42,7 @@
     SchemeParser, \
     ShParser, \
     SlangParser, \
+    SmlParser, \
     SqlParser, \
     TclParser, \
     VeraParser, \

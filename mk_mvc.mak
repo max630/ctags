@@ -1,4 +1,4 @@
-# $Id: mk_mvc.mak,v 1.3 2002/07/11 01:27:24 darren Exp $
+# $Id: mk_mvc.mak,v 1.6 2003/04/01 04:55:17 darren Exp $
 #
 # Makefile for Win32 using Microsoft Visual C++ compiler
 
@@ -31,18 +31,22 @@ EXTRA_LIBS = regex.obj
 
 DEFINES = -DWIN32 $(REGEX_DEFINE)
 INCLUDES = $(EXTRA_INC)
+OPT = /O2 /G5
 
 ctags: ctags.exe
 
 ctags.exe: $(SOURCES) respmvc $(EXTRA_LIBS)
-	cl /Fe$@ @respmvc /link setargv.obj
+	cl $(OPT) /Fe$@ @respmvc /link setargv.obj
+
+readtags.exe: readtags.c
+	cl /clr $(OPT) /Fe$@ $(DEFINES) -DREADTAGS_MAIN readtags.c /link setargv.obj
 
 # Debug version
 dctags.exe: $(SOURCES) respmvc $(EXTRA_LIBS)
-	cl -DDEBUG /Fe$@ @respmvc debug.c /link setargv.obj
+	cl /Zi -DDEBUG /Fe$@ @respmvc debug.c /link setargv.obj
 
 regex.obj:
-	cl /c /Fo$@ $(DEFINES) -Dconst= $(INCLUDES) $(REGEX_DIR)\regex.c
+	cl /c $(OPT) /Fo$@ $(DEFINES) -Dconst= $(INCLUDES) $(REGEX_DIR)\regex.c
 
 respmvc: $(SOURCES) $(HEADERS) mk_mvc.mak
 	echo $(DEFINES) $(INCLUDES) $(SOURCES) $(EXTRA_LIBS) > $@

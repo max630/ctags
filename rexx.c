@@ -1,7 +1,7 @@
 /*
-*   $Id: rexx.c,v 1.3 2002/02/17 06:04:32 darren Exp $
+*   $Id: rexx.c,v 1.5 2003/04/01 04:55:28 darren Exp $
 *
-*   Copyright (c) 2001-2002, Darren Hiebert
+*   Copyright (c) 2001-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -23,7 +23,7 @@
 static void installRexxRegex (const langType language)
 {
     addTagRegex (language, "^([A-Za-z0-9@#$\\.!?_]+)[ \t]*:",
-	"\\1", "s,subroutine", NULL);
+	"\\1", "s,subroutine,subroutines", NULL);
 }
 
 extern parserDefinition* RexxParser (void)

@@ -1,5 +1,5 @@
 /*
-*   $Id: beta.c,v 1.5 2002/06/15 23:16:03 darren Exp $
+*   $Id: beta.c,v 1.6 2003/02/23 17:37:48 darren Exp $
 *
 *   Copyright (c) 1999-2000, Mjølner Informatics
 *
@@ -41,7 +41,7 @@ static kindOption BetaKinds [] = {
     { TRUE,  'f', "fragment", "fragment definitions"},
     { FALSE, 'p', "pattern",  "all patterns"},
     { TRUE,  's', "slot",     "slots (fragment uses)"},
-    { TRUE,  'v', "virtual",  "patterns (only virtual or rebound patterns are recorded)"}
+    { TRUE,  'v', "virtual",  "patterns (virtual or rebound)"}
 };
 
 /* [A-Z_a-z0-9] */

@@ -1,7 +1,7 @@
 /*
-*   $Id: options.h,v 1.6 2002/09/30 04:30:47 darren Exp $
+*   $Id: options.h,v 1.8 2003/04/01 05:02:21 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 1998-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -125,6 +125,7 @@ extern void verbose (const char *const format, ...) __printf__ (1, 2);
 extern void freeList (stringList** const pString);
 extern void setDefaultTagFileName (void);
 extern void checkOptions (void);
+extern boolean filesRequired (void);
 extern void testEtagsInvocation (void);
 
 extern cookedArgs* cArgNewFromString (const char* string);

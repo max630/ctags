@@ -1,7 +1,7 @@
 /*
-*   $Id: tcl.c,v 1.4 2002/09/29 03:43:08 darren Exp $
+*   $Id: tcl.c,v 1.7 2003/04/01 04:55:28 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -24,13 +24,13 @@
 *   DATA DEFINITIONS
 */
 typedef enum {
-    K_PROCEDURE, K_CLASS, K_METHOD
+    K_CLASS, K_METHOD, K_PROCEDURE
 } tclKind;
 
 static kindOption TclKinds [] = {
-    { TRUE, 'p', "procedure", "procedures" },
-    { TRUE, 'c', "class",  "classes" },
-    { TRUE, 'f', "method", "methods" }
+    { TRUE, 'c', "class",     "classes" },
+    { TRUE, 'm', "method",    "methods" },
+    { TRUE, 'p', "procedure", "procedures" }
 };
 
 /*

@@ -1,4 +1,4 @@
-# $Id: mk_bc5.mak,v 1.2 2002/07/11 01:27:24 darren Exp $
+# $Id: mk_bc5.mak,v 1.3 2003/01/16 03:36:20 darren Exp $
 #
 # Makefile for Win32 using Borland C++ compiler, version 5.5 (free version)
 
@@ -48,6 +48,9 @@ ctags: ctags.exe
 
 ctags.exe: $(SOURCES) respbc5 $(EXTRA_LIBS)
 	$(BCC) $(CFLAGS) $(OPT) $(MT_OPT) -O2 -e$@ $(LDFLAGS) @respbc5
+
+readtags.exe: readtags.c
+	$(BCC) $(CFLAGS) $(OPT) $(MT_OPT) -O2 -e$@ $(DEFINES) -DREADTAGS_MAIN readtags.c $(LDFLAGS)
 
 # Debug version
 dctags.exe: $(SOURCES) respbc5 $(EXTRA_LIBS)

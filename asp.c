@@ -1,5 +1,5 @@
 /*
-*   $Id: asp.c,v 1.4 2002/02/16 19:53:16 darren Exp $
+*   $Id: asp.c,v 1.6 2003/02/23 17:37:48 darren Exp $
 *
 *   Copyright (c) 2000, Patrick Dehne <patrick@steidle.net>
 *
@@ -25,12 +25,13 @@
 *   DATA DEFINITIONS
 */
 typedef enum {
-    K_FUNCTION, K_SUB
+  K_FUNCTION, K_SUB, K_DIM
 } aspKind;
 
 static kindOption AspKinds [] = {
     { TRUE, 'f', "function", "functions"},
-    { TRUE, 's', "sub", "subroutines"}
+    { TRUE, 's', "sub",      "subroutines"},
+    { TRUE, 'v', "variable", "variables"}
 };
 
 /*
@@ -145,6 +146,25 @@ static void findAspTags (void)
 		    }
 		    vStringTerminate (name);
 		    makeSimpleTag (name, AspKinds, K_SUB);
+		    vStringClear (name);
+		}
+	    }
+
+	    /* dim variable? */
+	    else if (strncasecmp ((const char*) cp, "dim", (size_t) 3) == 0)
+	    {
+		cp += 3;
+		if (isspace ((int) *cp))
+		{
+		    while (isspace ((int) *cp))
+			++cp;
+		    while (isalnum ((int) *cp)  ||  *cp == '_')
+		    {
+			vStringPut (name, (int) *cp);
+			++cp;
+		    }
+		    vStringTerminate (name);
+		    makeSimpleTag (name, AspKinds, K_DIM);
 		    vStringClear (name);
 		}
 	    }

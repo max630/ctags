@@ -1,7 +1,7 @@
 /*
-*   $Id: cobol.c,v 1.3 2002/10/17 21:11:34 darren Exp $
+*   $Id: cobol.c,v 1.5 2003/04/01 04:55:27 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -23,17 +23,17 @@
 static void installCobolRegex (const langType language)
 {
    addTagRegex (language, "^[ \t]*[0-9]+[ \t]+([A-Z0-9][A-Z0-9-]*)[ \t]+(BLANK|OCCURS|IS|JUST|PIC|REDEFINES|RENAMES|SIGN|SYNC|USAGE|VALUE)",
-	"\\1", "d,data", "i");
+	"\\1", "d,data,data items", "i");
    addTagRegex (language, "^[ \t]*[FSR]D[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "f,file", "i");
+	"\\1", "f,file,file descriptions (FD, SD, RD)", "i");
    addTagRegex (language, "^[ \t]*[0-9]+[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "g,group", "i");
+	"\\1", "g,group,group items", "i");
    addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "p,paragraph", "i");
+	"\\1", "p,paragraph,paragraphs", "i");
    addTagRegex (language, "^[ \t]*PROGRAM-ID\\.[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "P,program", "i");
+	"\\1", "P,program,program ids", "i");
    addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)[ \t]+SECTION\\.",
-	"\\1", "s,section", "i");
+	"\\1", "s,section,sections", "i");
 }
 
 extern parserDefinition* CobolParser ()

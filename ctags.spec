@@ -1,11 +1,11 @@
 Distribution: Exuberant Ctags
 Summary: A multi-language source code indexing tool
 Name: ctags
-Version: 5.4
+Version: 5.5
 Release: 1
 Copyright: GPL
 Group: Development/Tools
-Source: http://ctags.sourceforge.net/archives/ctags-%{version}.tar.gz
+Source: http://prdownloads.sourceforge.net/ctags/ctags-%{version}.tar.gz
 URL: http://ctags.sourceforge.net
 Buildroot: /var/tmp/ctags-root
 

@@ -1,7 +1,7 @@
 /*
-*   $Id: vim.c,v 1.5 2002/09/05 00:29:58 darren Exp $
+*   $Id: vim.c,v 1.10 2003/04/01 04:55:28 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -27,13 +27,15 @@
 *   DATA DEFINITIONS
 */
 typedef enum {
+    K_AUGROUP,
     K_FUNCTION,
     K_VARIABLE
 } vimKind;
 
 static kindOption VimKinds [] = {
-    { TRUE,  'f', "function", "function definitions"},
-    { TRUE,  'v', "variable", "variable definitions"},
+    { TRUE,  'a', "augroup",  "autocommand groups" },
+    { TRUE,  'f', "function", "function definitions" },
+    { TRUE,  'v', "variable", "variable definitions" },
 };
 
 /*
@@ -56,7 +58,7 @@ static const unsigned char* skipPrefix (const unsigned char* name, int *scope)
 	    *scope = *name;
 	result = name + 2;
     }
-    else if (strncmp ((const char*) name, "<SID>", (size_t) 5) == 0)
+    else if (strncasecmp ((const char*) name, "<SID>", (size_t) 5) == 0)
     {
 	if (scope != NULL)
 	    *scope = *name;
@@ -74,6 +76,10 @@ static void findVimTags (void)
 
     while ((line = fileReadLine ()) != NULL)
     {
+	while (isspace ((int) *line))
+	    ++line;
+	if ((int) *line == '"')
+	    continue;        /* skip comment */
 	if (strncmp ((const char*) line, "fu", (size_t) 2) == 0)
 	{
 	    const unsigned char *cp = line + 1;
@@ -99,6 +105,31 @@ static void findVimTags (void)
 		    } while (isalnum ((int) *cp)  ||  *cp == '_');
 		    vStringTerminate (name);
 		    makeSimpleTag (name, VimKinds, K_FUNCTION);
+		    vStringClear (name);
+		}
+	    }
+	}
+
+        if  (strncmp ((const char*) line, "aug", (size_t) 3) == 0)
+	{
+	    /* Found Autocommand Group (augroup) */
+	    const unsigned char *cp = line + 2;
+	    if ((int) *++cp == 'r' && (int) *++cp == 'o' &&
+		(int) *++cp == 'u' && (int) *++cp == 'p')
+		    ++cp;
+	    if (isspace ((int) *cp))
+	    {
+		while (isspace ((int) *cp))
+		    ++cp; 
+		if (strncasecmp ((const char*) cp, "end", (size_t) 3) != 0)
+		{    
+		    do
+		    {
+			vStringPut (name, (int) *cp);
+			++cp;
+		    } while (isalnum ((int) *cp)  ||  *cp == '_');
+		    vStringTerminate (name);
+		    makeSimpleTag (name, VimKinds, K_AUGROUP);
 		    vStringClear (name);
 		}
 	    }

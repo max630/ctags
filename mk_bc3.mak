@@ -1,4 +1,4 @@
-# $Id: mk_bc3.mak,v 1.1 2001/11/02 04:53:43 darren Exp $
+# $Id: mk_bc3.mak,v 1.2 2003/02/24 02:27:53 darren Exp $
 #
 # Simple makefile for Borland C++ 3.1
 
@@ -31,7 +31,7 @@ debug: dctags.exe
 dctags.exe: $(SOURCES) respbc3 debug.c
 	$(CC) -DDEBUG -v -e$@ @respbc3 debug.c
 
-respbc3: makefile.bc3
+respbc3: mk_bc3.mak
 	copy &&|
 $(CFLAGS)
 $(LFLAGS)
