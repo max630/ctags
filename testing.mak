@@ -1,6 +1,6 @@
-#	$Id: testing.mak,v 1.4 2002/02/15 05:31:58 darren Exp $
+#	$Id: testing.mak,v 1.7 2002/07/11 04:49:31 darren Exp $
 #
-#	Copyright (c) 1996-2001, Darren Hiebert
+#	Copyright (c) 1996-2002, Darren Hiebert
 #
 #	Development makefile for Exuberant Ctags, used to build releases.
 #	Requires GNU make.
@@ -17,14 +17,14 @@ DIFF = if diff $(DIFF_OPTIONS) tags.ref tags.test > $(DIFF_FILE); then \
 		echo "FAILED: differences left in $(DIFF_FILE)" ; \
 	  fi
 
-.PHONY: test test.include test.fields test.eiffel test.linux
+.PHONY: test test.include test.fields test.etags test.eiffel test.linux
 
-test: test.include test.fields test.linedir test.eiffel test.linux
+test: test.include test.fields test.linedir test.etags test.eiffel test.linux
 
 test.%: DIFF_FILE = $@.diff
 
 REF_INCLUDE_OPTIONS = $(TEST_OPTIONS) --format=1
-TEST_INCLUDE_OPTIONS = $(REF_INCLUDE_OPTIONS) --format=1
+TEST_INCLUDE_OPTIONS = $(TEST_OPTIONS) --format=1
 test.include: $(CTAGS_TEST) $(CTAGS_REF)
 	@ echo -n "Testing tag inclusion..."
 	@ $(CTAGS_REF) -R $(REF_INCLUDE_OPTIONS) -o tags.ref Test
@@ -45,6 +45,14 @@ test.linedir: $(CTAGS_TEST) $(CTAGS_REF)
 	@ echo -n "Testing line directives..."
 	@ $(CTAGS_REF) $(REF_LINEDIR_OPTIONS) -o tags.ref Test/line_directives.c
 	@ $(CTAGS_TEST) $(TEST_LINEDIR_OPTIONS) -o tags.test Test/line_directives.c
+	@- $(DIFF)
+
+REF_ETAGS_OPTIONS = -e
+TEST_ETAGS_OPTIONS = -e
+test.etags: $(CTAGS_TEST) $(CTAGS_REF)
+	@ echo -n "Testing TAGS output..."
+	@ $(CTAGS_REF) -R $(REF_ETAGS_OPTIONS) -o tags.ref Test
+	@ $(CTAGS_TEST) -R $(TEST_ETAGS_OPTIONS) -o tags.test Test
 	@- $(DIFF)
 
 REF_EIFFEL_OPTIONS = $(TEST_OPTIONS) --format=1 --languages=eiffel

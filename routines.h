@@ -1,7 +1,7 @@
 /*
-*   $Id: routines.h,v 1.2 2002/02/16 23:19:39 darren Exp $
+*   $Id: routines.h,v 1.7 2002/07/11 03:17:33 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -45,9 +45,38 @@
 /*
 *   DATA DECLARATIONS
 */
+#if defined (MSDOS_STYLE_PATH) || defined (VMS)
+extern const char *const PathDelimiters;
+#endif
 extern char *CurrentDirectory;
 typedef int errorSelection;
 enum eErrorTypes { FATAL = 1, WARNING = 2, PERROR = 4 };
+
+typedef struct {
+	/* Name of file for which status is valid */
+    char* name;
+
+	/* Does file exist? If not, members below do not contain valid data. */
+    boolean exists;
+
+	/* is file path a symbolic link to another file? */
+    boolean isSymbolicLink;
+
+	/* Is file (pointed to) a directory? */
+    boolean isDirectory;
+
+	/* Is file (pointed to) a normal file? */
+    boolean isNormalFile;
+
+	/* Is file (pointed to) executable? */
+    boolean isExecutable;
+
+	/* Is file (pointed to) setuid? */
+    boolean isSetuid;
+
+	/* Size of file (pointed to) */
+    unsigned long size;
+} fileStatus; 
 
 /*
 *   FUNCTION PROTOTYPES
@@ -67,12 +96,8 @@ extern void *eRealloc (void *const ptr, const size_t size);
 extern void eFree (void *const ptr);
 
 /* String manipulation functions */
-#if !defined (HAVE_STRCASECMP) && !defined (HAVE_STRICMP)
-extern int strcasecmp (const char *s1, const char *s2);
-#endif
-#if !defined (HAVE_STRNCASECMP) && !defined (HAVE_STRNICMP)
-extern int strncasecmp (const char *s1, const char *s2, size_t n);
-#endif
+extern int struppercmp (const char *s1, const char *s2);
+extern int strnuppercmp (const char *s1, const char *s2, size_t n);
 #ifndef HAVE_STRSTR
 extern char* strstr (const char *str, const char *substr);
 #endif
@@ -84,12 +109,8 @@ extern char* newUpperString (const char* str);
 
 /* File system functions */
 extern void setCurrentDirectory (void);
+extern fileStatus *eStat (const char *const fileName);
 extern boolean doesFileExist (const char *const fileName);
-extern long unsigned int getFileSize (const char *const name);
-extern boolean isExecutable (const char *const name);
-extern boolean isNormalFile (const char *const name);
-extern boolean isDirectory (const char *const name);
-extern boolean isSymbolicLink (const char *const name);
 extern boolean isRecursiveLink (const char* const dirName);
 extern boolean isSameFile (const char *const name1, const char *const name2);
 #if defined(NEED_PROTO_FGETPOS)
@@ -101,7 +122,6 @@ extern boolean isAbsolutePath (const char *const path);
 extern char* absoluteFilename (const char *file);
 extern char* absoluteDirname (char *file);
 extern char* relativeFilename (const char *file, const char *dir);
-extern vString *combinePathAndFile (const char *const path, const char *const file);
 extern FILE *tempFile (const char *const mode, char **const pName);
 
 #endif	/* _ROUTINES_H */

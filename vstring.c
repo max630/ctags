@@ -1,7 +1,7 @@
 /*
-*   $Id: vstring.c,v 1.3 2002/02/16 19:53:17 darren Exp $
+*   $Id: vstring.c,v 1.6 2002/03/30 05:00:14 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -86,6 +86,7 @@ extern vString *vStringNew (void)
     return string;
 }
 
+#ifndef VSTRING_PUTC_MACRO
 extern void vStringPut (vString *const string, const int c)
 {
     if (string->length == string->size)		/*  check for buffer overflow */
@@ -95,14 +96,22 @@ extern void vStringPut (vString *const string, const int c)
     if (c != '\0')
 	string->length++;
 }
+#endif
 
 extern void vStringCatS (vString *const string, const char *const s)
 {
+#if 1
+    const size_t len = strlen (s);
+    while (string->length + len >= string->size)/*  check for buffer overflow */
+	vStringAutoResize (string);
+    strcpy (string->buffer + string->length, s);
+    string->length += len;
+#else
     const char *p = s;
-
     do
 	vStringPut (string, *p);
     while (*p++ != '\0');
+#endif
 }
 
 extern vString *vStringNewCopy (vString *const string)

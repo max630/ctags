@@ -1,7 +1,7 @@
 /*
-*   $Id: entry.c,v 1.4 2002/02/16 19:53:16 darren Exp $
+*   $Id: entry.c,v 1.7 2002/06/17 04:48:13 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -152,8 +152,10 @@ static void addPseudoTags (void)
 		    "extended format; --format=1 will not append ;\" to lines";
 
 	writePseudoTag ("TAG_FILE_FORMAT", format, formatComment);
-	writePseudoTag ("TAG_FILE_SORTED", Option.sorted ? "1":"0",
-		       "0=unsorted, 1=sorted");
+	writePseudoTag ("TAG_FILE_SORTED",
+			Option.sorted == SO_FOLDSORTED ? "2" :
+			    (Option.sorted == SO_SORTED ? "1" : "0"),
+		       "0=unsorted, 1=sorted, 2=foldcase");
 	writePseudoTag ("TAG_PROGRAM_AUTHOR",	AUTHOR_NAME,  AUTHOR_EMAIL);
 	writePseudoTag ("TAG_PROGRAM_NAME",	PROGRAM_NAME, "");
 	writePseudoTag ("TAG_PROGRAM_URL",	PROGRAM_URL,  "official site");
@@ -190,7 +192,8 @@ static void updateSortedFlag (const char *const line,
 		    d != (int) Option.sorted)
 		{
 		    fsetpos (fp, &flagLocation);
-		    fputc (Option.sorted ? '1' : '0', fp);
+		    fputc (Option.sorted == SO_FOLDSORTED ? '2' :
+				(Option.sorted == SO_SORTED ? '1' : '0'), fp);
 		}
 		fsetpos (fp, &nextLine);
 	    }
@@ -452,7 +455,7 @@ static void sortTagFile (void)
 {
     if (TagFile.numTags.added > 0L)
     {
-	if (Option.sorted)
+	if (Option.sorted != SO_UNSORTED)
 	{
 	    verbose ("sorting tag file\n");
 #ifdef EXTERNAL_SORT
@@ -635,9 +638,15 @@ static size_t writeCompactSourceLine (FILE *const fp, const char *const line)
 static int writeXrefEntry (const tagEntryInfo *const tag)
 {
     const char *const line =
-			readSourceLine (TagFile.vLine, tag->filePosition, NULL);
-    int length = fprintf (TagFile.fp, "%-20s %-10s %4lu  %-14s ", tag->name,
-			 tag->kindName, tag->lineNumber, tag->sourceFileName);
+	    readSourceLine (TagFile.vLine, tag->filePosition, NULL);
+    int length;
+
+    if (Option.tagFileFormat == 1)
+	length = fprintf (TagFile.fp, "%-16s %4lu %-16s ", tag->name,
+		tag->lineNumber, tag->sourceFileName);
+    else
+	length = fprintf (TagFile.fp, "%-16s %-10s %4lu %-16s ", tag->name,
+		tag->kindName, tag->lineNumber, tag->sourceFileName);
 
     length += writeCompactSourceLine (TagFile.fp, line);
     putc (NEWLINE, TagFile.fp);

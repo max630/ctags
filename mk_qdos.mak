@@ -1,4 +1,4 @@
-# $Id: mk_qdos.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
+# $Id: mk_qdos.mak,v 1.7 2002/07/11 02:19:51 darren Exp $
 #
 # Makefile for ctags on QDOS/SMS systems and C68 v4.24
 # Submitted by Thierry Godefroy <godefroy@imaginet.fr>
@@ -34,24 +34,26 @@ LIBS =
 
 OBJEXT = o
 
-HEADERS = \
+HEADERS = e_qdos.h \
 	args.h ctags.h debug.h entry.h general.h get.h keyword.h \
-	main.h options.h parse.h parsers.h read.h sort.h strlist.h vstring.h
+	main.h options.h parse.h parsers.h read.h routines.h sort.h \
+	strlist.h vstring.h
 
-OBJECTS = \
+OBJECTS = qdos.$(OBJEXT) \
 	args.$(OBJEXT) \
 	asm.$(OBJEXT) \
 	asp.$(OBJEXT) \
 	awk.$(OBJEXT) \
-	eiffel.$(OBJEXT) \
 	beta.$(OBJEXT) \
 	c.$(OBJEXT) \
 	cobol.$(OBJEXT) \
+	eiffel.$(OBJEXT) \
 	entry.$(OBJEXT) \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
 	lisp.$(OBJEXT) \
+	lregex.$(OBJEXT) \
 	lua.$(OBJEXT) \
 	main.$(OBJEXT) \
 	make.$(OBJEXT) \
@@ -62,7 +64,6 @@ OBJECTS = \
 	php.$(OBJEXT) \
 	python.$(OBJEXT) \
 	read.$(OBJEXT) \
-	regex.$(OBJEXT) \
 	rexx.$(OBJEXT) \
 	routines.$(OBJEXT) \
 	ruby.$(OBJEXT) \
@@ -72,9 +73,10 @@ OBJECTS = \
 	sort.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
+	verilog.$(OBJEXT) \
 	vim.$(OBJEXT) \
-	yacc.$(OBJEXT) \
 	vstring.$(OBJEXT) \
+	yacc.$(OBJEXT)
 
 $(EXEC) : $(OBJECTS)
     $(LD) -o$(EXEC) $(LDFLAGS) $(OBJECTS) $(LIBS)

@@ -1,7 +1,7 @@
 /*
-*   $Id: vstring.h,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: vstring.h,v 1.4 2002/03/30 05:01:44 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -36,6 +36,16 @@
 #define vStringLower(vs)	toLowerString((vs)->buffer)
 #define vStringUpper(vs)	toUpperString((vs)->buffer)
 
+#ifndef DEBUG
+# define VSTRING_PUTC_MACRO 1
+#endif
+#ifdef VSTRING_PUTC_MACRO
+#define vStringPut(s,c) \
+    (void)(((s)->length == (s)->size ? vStringAutoResize (s) : 0), \
+    ((s)->buffer [(s)->length++] = (c)), \
+    ((c) == '\0' ? (s)->length-- : 0))
+#endif
+
 /*
 *   DATA DECLARATIONS
 */
@@ -53,7 +63,9 @@ extern boolean vStringAutoResize (vString *const string);
 extern void vStringClear (vString *const string);
 extern vString *vStringNew (void);
 extern void vStringDelete (vString *const string);
+#ifndef VSTRING_PUTC_MACRO
 extern void vStringPut (vString *const string, const int c);
+#endif
 extern void vStringStripNewline (vString *const string);
 extern void vStringStripLeading (vString *const string);
 extern void vStringStripTrailing (vString *const string);

@@ -1,6 +1,6 @@
-#	$Id: maintainer.mak,v 1.22 2002/02/16 19:53:16 darren Exp $
+#	$Id: maintainer.mak,v 1.30 2002/07/18 00:00:05 darren Exp $
 #
-#	Copyright (c) 1996-2001, Darren Hiebert
+#	Copyright (c) 1996-2002, Darren Hiebert
 #
 #	Development makefile for Exuberant Ctags, used to build releases.
 #	Requires GNU make.
@@ -17,16 +17,20 @@ VERSION_FILES=	$(DOS_VER_FILES) configure.in ctags.spec
 
 LIB_FILES	=	readtags.c readtags.h
 
-COMMON_FILES =	COPYING EXTENDING.html FAQ INSTALL.oth NEWS QUOTES README \
+ENVIRONMENT_MAKEFILES = \
 				mk_bc3.mak mk_bc5.mak mk_djg.mak mk_manx.mak mk_ming.mak \
 				mk_mpw.mak mk_mvc.mak mk_os2.mak mk_qdos.mak mk_sas.mak \
-				source.mak $(DSOURCES) $(HEADERS) $(LIB_FILES)
+
+COMMON_FILES =	COPYING EXTENDING.html FAQ INSTALL.oth NEWS README \
+				$(ENVIRONMENT_MAKEFILES) source.mak \
+				$(DSOURCES) $(HEADERS) $(LIB_FILES) \
+				$(ENVIRONMENT_SOURCES) $(ENVIRONMENT_HEADERS)
 
 UNIX_FILES	=	$(COMMON_FILES) \
-				INSTALL acconfig.h configure.in \
+				.indent.pro INSTALL acconfig.h configure.in \
 				Makefile.in maintainer.mak testing.mak \
 				descrip.mms mkinstalldirs magic.diff \
-				argproc.c mac.c mac.h qdos.c ctags.1 ctags.lsm
+				ctags.1 ctags.lsm
 
 DOS_FILES	=	$(COMMON_FILES)
 
@@ -51,7 +55,8 @@ CC		= gcc3
 INCLUDE	= -I.
 DEFS	= -DHAVE_CONFIG_H
 COMP_FLAGS = $(INCLUDE) $(DEFS) $(CFLAGS)
-OPT		= -O2 -march=i686 -mcpu=i686 
+PROF_OPT= -O3 -march=i686 -mcpu=i686 
+OPT		= $(PROF_OPT) -fomit-frame-pointer
 DCFLAGS	= $(COMP_FLAGS) -DDEBUG -DINTERNAL_SORT
 LD		= gcc
 LDFLAGS	= 
@@ -93,7 +98,7 @@ mctags: $(SOURCES:.c=.om) debug.om safe_malloc.om
 	$(LD) -o $@ $(LDFLAGS) $^
 
 ctags.prof: $(SOURCES) $(HEADERS) Makefile
-	$(CC) -pg $(COMP_FLAGS) $(WARNINGS) $(SOURCES) -o $@
+	$(CC) -pg $(PROF_OPT) $(COMP_FLAGS) $(WARNINGS) $(SOURCES) -o $@
 
 ctags.cov: $(SOURCES) $(HEADERS) Makefile
 	$(CC) -fprofile-arcs -ftest-coverage $(COMP_FLAGS) $(WARNINGS) $(SOURCES) -o $@
@@ -101,7 +106,7 @@ ctags.cov: $(SOURCES) $(HEADERS) Makefile
 gcov: $(SOURCES:.c=.c.gcov)
 
 readtags: readtags.[ch]
-	$(CC) -g $(COMP_FLAGS) -DREADTAGS_MAIN -o $@ readtags.c
+	$(CC) -g $(COMP_FLAGS) -DDEBUG -DREADTAGS_MAIN -o $@ readtags.c
 
 readtags.o: readtags.c readtags.h
 	$(CC) $(COMP_FLAGS) -c readtags.c
@@ -324,7 +329,7 @@ cleanrelease-%:
 	rm -f $(RPM_ROOT)/SRPMS/ctags-$*-1.src.rpm
 	rm -f $(RPM_ROOT)/SPECS/ctags-$*.spec
 
-internal-release-%: ctags-%.tar.gz ctags-%.tar.Z dos-% rpm-% website-%
+internal-release-%: ctags-%.tar.gz dos-% rpm-% website-%
 	@ echo "---------- Copying files to web archive"
 	cp -p ctags-$*.tar.* $(WEB_ARCHIVE_DIR)
 	cp -p $(RPM_ROOT)/RPMS/i386/ctags-$*-1.i386.rpm $(WEB_ARCHIVE_DIR)

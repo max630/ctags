@@ -1,7 +1,7 @@
 /*
-*   $Id: parsers.h,v 1.2 2001/12/20 01:06:10 darren Exp $
+*   $Id: parsers.h,v 1.4 2002/07/11 02:19:51 darren Exp $
 *
-*   Copyright (c) 2000-2001, Darren Hiebert
+*   Copyright (c) 2000-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -39,6 +39,7 @@
     ShParser, \
     SlangParser, \
     TclParser, \
+    VerilogParser, \
     VimParser, \
     YaccParser
 

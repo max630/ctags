@@ -1,7 +1,7 @@
 /*
-*   $Id: regex.c,v 1.8 2002/02/16 19:53:16 darren Exp $
+*   $Id: lregex.c,v 1.1 2002/07/11 01:18:13 darren Exp $
 *
-*   Copyright (c) 2000-2001, Darren Hiebert
+*   Copyright (c) 2000-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -20,7 +20,7 @@
 
 #include <string.h>
 
-#if defined (HAVE_REGCOMP) || defined (HAVE_RE_COMPILE_PATTERN)
+#ifdef HAVE_REGCOMP
 # include <ctype.h>
 # include <stddef.h>
 # ifdef HAVE_SYS_TYPES_H

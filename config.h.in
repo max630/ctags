@@ -1,8 +1,8 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 /*
-*   $Id: acconfig.h,v 1.1 2001/11/02 04:53:42 darren Exp $
+*   $Id: acconfig.h,v 1.2 2002/02/17 06:04:32 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -187,6 +187,9 @@
 
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
+
+/* Define if you have the tempnam function.  */
+#undef HAVE_TEMPNAM
 
 /* Define if you have the times function.  */
 #undef HAVE_TIMES

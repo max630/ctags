@@ -1,4 +1,4 @@
-<!-- $Id: EXTENDING.html,v 1.6 2002/02/16 23:19:14 darren Exp $ -->
+<!-- $Id: EXTENDING.html,v 1.8 2002/02/24 19:01:29 darren Exp $ -->
 <html>
 <head>
 <title>Exuberant Ctags: Adding support for a new language</title>
@@ -117,7 +117,12 @@ parsing function, <code>SwineParser()</code>, sets <code>regex</code> to true,
 and points <code>initialize</code> to a function which calls
 <code>addTagRegex()</code> to install the regular expressions which define its
 tags. The regular expressions thus installed are compared against each line 
-of the input file and generate a specified tag when matched.
+of the input file and generate a specified tag when matched. It is usually
+much easier to write a regex-based parser, although they can be slower (one
+parser example was 4 times slower). Whether the speed difference matters to
+you depends upon how much code you have to parse. It is probably a good
+strategy to implement a regex-based parser first, and if it is too slow for
+you, then invest the time and effort to write a character-based parser.
 </p>
 
 <p>

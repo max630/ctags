@@ -1,6 +1,6 @@
-dnl $Id: configure.in,v 1.5 2002/02/16 20:52:08 darren Exp $
+dnl $Id: configure.in,v 1.9 2002/06/17 04:48:13 darren Exp $
 
-dnl	Copyright (c) 1996-1999, Darren Hiebert
+dnl	Copyright (c) 1996-2002, Darren Hiebert
 dnl
 dnl	This source code is released for free distribution under the terms
 dnl	of the GNU General Public License.
@@ -13,7 +13,7 @@ AC_CONFIG_HEADER(config.h)
 
 dnl Report system info
 dnl ------------------
-echo 'Exuberant Ctags, version 5.2.2'
+echo 'Exuberant Ctags, version 5.3'
 uname -mrsv 2>/dev/null
 
 dnl Define convenience macros
@@ -122,7 +122,7 @@ else
 	if test "$sort_found" = yes ; then
 		AC_MSG_CHECKING(if sort accepts our command line)
 		touch /tmp/sort.test
-		sort -u -o /tmp/sort.test /tmp/sort.test 1>/dev/null 2>&1
+		sort -u -f -o /tmp/sort.test /tmp/sort.test 1>/dev/null 2>&1
 		if test $? -ne 0 ; then
 			AC_MSG_RESULT(no)
 		else
@@ -155,7 +155,7 @@ case `uname` in
 	SunOS)
 		if uname -r | grep '5\.' >/dev/null 2>&1; then
 			AC_MSG_CHECKING("Solaris native compiler")
-			if test "$CC" = "cc" -a `which cc` = "/usr/ucb/cc"; then
+			if test "$CC" = "cc" -a "`which cc`" = "/usr/ucb/cc"; then
 				AC_MSG_RESULT(yes; adding compiler option for ANSI support)
 				CC="$CC -Xa"
 			else
@@ -252,6 +252,9 @@ fi
 
 AC_CHECK_FUNCS(mkstemp, have_mkstemp=yes)
 if test "$have_mkstemp" != yes ; then
+	AC_CHECK_FUNCS(tempnam, have_tempnam=yes)
+fi
+if test "$have_mkstemp" != yes -a "$have_tempnam" != yes; then
 	AC_CHECK_FUNCS(chmod)
 	if test "$tmpdir_specified" = yes ; then
 		AC_MSG_RESULT(use of tmpnam overrides temporary directory selection)

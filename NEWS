@@ -1,4 +1,37 @@
-Current Version: 5.2.2
+Current Version: 5.3
+
+ctags-5.3 (Wed Jul 17 2002)
+* Allowed --etags-include option without input files.
+* Changed Asm parser to back to C-based parser to remove redundant tags,
+  and extending its support for more variants [Asm].
+* Changed to using _tempnam() to create temporary files on Windows, allowing
+  "TMP" environment variable to set temporary directory.
+* Changed the -x output to match that of traditional ctags when the --format=1
+  option is supplied. The new format was also changed slightly to conform more
+  closely to the original format, with the addition of the extra tag type field.
+* Added support for Verilog language, submitted by Nam SungHyun.
+* Added support for RISC OS platform, contributed by Andrew Wingate.
+* Added support for "#pragma weak", generating macro tags for weak symbols [C].
+* Added support for mixins and class methods to Ruby parser, submitted by
+  Matthias Veit [Ruby].
+* Added support to ctags and readtags library for case-folded sorting of tag
+  files, submitted by Flemming Madsen.
+* Added identification of class methods [Python].
+* Fixed portability problems [Bugs #541997, #571240].
+* Fixed bug in configure script [Solaris, Bug #542966].
+* Fixed invalid package name tags [Perl, Bug #535068].
+* Fixed failure to output relative paths into etags TAGS files on Win32
+  [Bug #568365].
+* Fixed incorrect line address in cases of line continuation [Fortran].
+* Fixed missing tags for certain cases of invalid syntax [C].
+* Fixed missing tags in Fortran with HPF extensions [Fortran, Bug #565813].
+* Fixed spurious tag for clients portion of feature clause when following
+  an empty feature clause [Eiffel].
+
+ctags-5.2.3 (Sun Feb 24 2002)
+* Fixed portability problem in makefile [Solaris, FreeBSD].
+* Fixed infinite loop for certain cases of invalid syntax [Eiffel].
+* Changed Asm parser to regex, extending its support for more variants [Asm].
 
 ctags-5.2.2 (Sat Feb 16 2002)
 * Fixed spurious tags following empty feature clause [Eiffel].

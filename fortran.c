@@ -1,7 +1,7 @@
 /*
-*   $Id: fortran.c,v 1.2 2002/02/16 19:53:16 darren Exp $
+*   $Id: fortran.c,v 1.5 2002/07/10 05:40:15 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -797,10 +797,10 @@ static void readToken (tokenInfo *const token)
     vStringClear (token->string);
 
 getNextChar:
+    c = getChar ();
+
     token->lineNumber	= getSourceLineNumber ();
     token->filePosition	= getInputFilePosition ();
-
-    c = getChar ();
 
     switch (c)
     {
@@ -1464,15 +1464,21 @@ static void parseInternalSubprogramPart (tokenInfo *const token)
     {
 	switch (token->keyword)
 	{
-	    case KEYWORD_function:   parseFunctionSubprogram (token);   break;
-	    case KEYWORD_subroutine: parseSubroutineSubprogram (token); break;
-	    case KEYWORD_recursive:  readToken (token); break;
+	    case KEYWORD_function:
+		parseFunctionSubprogram (token);
+		break;
+
+	    case KEYWORD_subroutine:
+		parseSubroutineSubprogram (token);
+		break;
 
 	    default:
 		if (isTypeSpec (token))
 		    parseTypeSpec (token);
-		else
+		else if (isKeyword (token, KEYWORD_end))
 		    done = TRUE;
+		else
+		    readToken (token);
 		break;
 	}
     } while (! done);

@@ -1,7 +1,7 @@
 /*
-*   $Id: parse.c,v 1.3 2002/02/16 19:53:16 darren Exp $
+*   $Id: parse.c,v 1.6 2002/03/09 22:11:09 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -133,9 +133,9 @@ static vString* determineInterpreter (const char* const cmd)
     do
     {
 	vStringClear (interpreter);
-	for ( ;  isspace (*p)  ;  ++p)
+	for ( ;  isspace ((int) *p)  ;  ++p)
 	    ; /* no-op */
-	for ( ;  *p != '\0'  &&  ! isspace (*p)  ;  ++p)
+	for ( ;  *p != '\0'  &&  ! isspace ((int) *p)  ;  ++p)
 	    vStringPut (interpreter, (int) *p);
 	vStringTerminate (interpreter);
     } while (strcmp (vStringValue (interpreter), "env") == 0);
@@ -175,8 +175,12 @@ extern langType getFileLanguage (const char *const fileName)
 	if (language == LANG_IGNORE)
 	    language = getPatternLanguage (fileName);
 #ifdef SYS_INTERPRETER
-	if (language == LANG_IGNORE  &&  isExecutable (fileName))
-	    language = getInterpreterLanguage (fileName);
+	if (language == LANG_IGNORE)
+	{
+	    fileStatus *status = eStat (fileName);
+	    if (status->isExecutable)
+		language = getInterpreterLanguage (fileName);
+	}
 #endif
     }
     return language;

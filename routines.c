@@ -1,7 +1,7 @@
 /*
-*   $Id: routines.c,v 1.3 2002/02/16 23:20:10 darren Exp $
+*   $Id: routines.c,v 1.13 2002/07/16 02:23:33 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -21,8 +21,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include <errno.h>
+#include <stdio.h>	/* to declare tempnam(), and SEEK_SET (hopefully) */
 
-#include <stdio.h>	/* to declare SEEK_SET (hopefully) */
 #ifdef HAVE_FCNTL_H
 # include <fcntl.h>	/* to declar O_RDWR, O_CREAT, O_EXCL */
 #endif
@@ -96,6 +96,10 @@
 # endif
 #endif
 
+#ifndef S_IFMT
+# define S_IFMT 0
+#endif
+
 #ifndef S_IXUSR
 # define S_IXUSR 0
 #endif
@@ -111,6 +115,10 @@
 #endif
 #ifndef S_IWUSR
 # define S_IWUSR 0200
+#endif
+
+#ifndef S_ISUID
+# define S_ISUID 0
 #endif
 
 /*  Hack for rediculous practice of Microsoft Visual C++.
@@ -137,16 +145,16 @@
 /*
 *   DATA DEFINITIONS
 */
-char *CurrentDirectory = NULL;
-
-static const char *ExecutableProgram = NULL;
-static const char *ExecutableName = NULL;
-
 #if defined (MSDOS_STYLE_PATH)
-static const char PathDelimiters [] = ":/\\";
+const char *const PathDelimiters = ":/\\";
 #elif defined (VMS)
-static const char PathDelimiters [] = ":]>";
+const char *const PathDelimiters = ":]>";
 #endif
+
+char *CurrentDirectory;
+
+static const char *ExecutableProgram;
+static const char *ExecutableName;
 
 /*
 *   FUNCTION PROTOTYPES
@@ -156,6 +164,9 @@ extern int stat (const char *, struct stat *);
 #endif
 #ifdef NEED_PROTO_LSTAT
 extern int lstat (const char *, struct stat *);
+#endif
+#if defined (MSDOS) || defined (WIN32) || defined (VMS) || defined (__EMX__) || defined (AMIGA)
+# define lstat(fn,buf) stat(fn,buf)
 #endif
 
 /*
@@ -250,8 +261,14 @@ extern void eFree (void *const ptr)
  *  String manipulation functions
  */
 
-#if !defined (HAVE_STRCASECMP) && !defined (HAVE_STRICMP)
-extern int strcasecmp (const char *s1, const char *s2)
+/*
+ * Compare two strings, ignoring case.
+ * Return 0 for match, < 0 for smaller, > 0 for bigger
+ * Make sure case is folded to uppercase in comparison (like for 'sort -f')
+ * This makes a difference when one of the chars lies between upper and lower
+ * ie. one of the chars [ \ ] ^ _ ` for ascii. (The '_' in particular !)
+ */
+extern int struppercmp (const char *s1, const char *s2)
 {
     int result;
     do
@@ -260,10 +277,8 @@ extern int strcasecmp (const char *s1, const char *s2)
     } while (result == 0  &&  *s1++ != '\0'  &&  *s2++ != '\0');
     return result;
 }
-#endif
 
-#if !defined (HAVE_STRNCASECMP) && !defined (HAVE_STRNICMP)
-extern int strncasecmp (const char *s1, const char *s2, size_t n)
+extern int strnuppercmp (const char *s1, const char *s2, size_t n)
 {
     int result;
     do
@@ -272,7 +287,6 @@ extern int strncasecmp (const char *s1, const char *s2, size_t n)
     } while (result == 0  &&  --n > 0  &&  *s1++ != '\0'  &&  *s2++ != '\0');
     return result;
 }
-#endif
 
 #ifndef HAVE_STRSTR
 extern char* strstr (const char *str, const char *substr)
@@ -343,82 +357,30 @@ extern char* newUpperString (const char* str)
 
 extern void setCurrentDirectory (void)
 {
-#ifdef AMIGA
-    char* const cwd = eStrdup (".");
-#else
-    char* const cwd = getcwd (NULL, PATH_MAX);
-#endif
-    CurrentDirectory = xMalloc (strlen (cwd) + 2, char);
-    if (cwd [strlen (cwd) - (size_t) 1] == PATH_SEPARATOR)
-	strcpy (CurrentDirectory, cwd);
-    else
-	sprintf (CurrentDirectory, "%s%c", cwd, OUTPUT_PATH_SEPARATOR);
-    free (cwd);
-}
-
-extern boolean doesFileExist (const char *const fileName)
-{
-    struct stat fileStatus;
-
-    return (boolean) (stat (fileName, &fileStatus) == 0);
-}
-
-extern long unsigned int getFileSize (const char *const name)
-{
-    struct stat fileStatus;
-    unsigned long size = 0;
-
-    if (stat (name, &fileStatus) == 0)
-	size = fileStatus.st_size;
-
-    return size;
-}
-
-extern boolean isExecutable (const char *const name)
-{
-    struct stat fileStatus;
-    boolean result = FALSE;
-
-    if (stat (name, &fileStatus) == 0)
-	result = (boolean) ((fileStatus.st_mode & (S_IXUSR|S_IXGRP|S_IXOTH)) != 0);
-
-    return result;
-}
-
-static boolean isSetUID (const char *const name)
-{
-#if defined (VMS) || defined (MSDOS) || defined (WIN32) || defined (__EMX__) || defined (AMIGA)
-    return FALSE;
-#else
-    struct stat fileStatus;
-    boolean result = FALSE;
-
-    if (stat (name, &fileStatus) == 0)
-	result = (boolean) ((fileStatus.st_mode & S_ISUID) != 0);
-
-    return result;
-#endif
-}
-
-extern boolean isNormalFile (const char *const name)
-{
-    struct stat fileStatus;
-    boolean result = FALSE;
-
-    if (stat (name, &fileStatus) == 0)
-	result = (boolean) (S_ISREG (fileStatus.st_mode));
-
-    return result;
-}
-
-extern boolean isDirectory (const char *const name)
-{
-    boolean result = FALSE;
 #ifndef AMIGA
-    struct stat fileStatus;
-    if (stat (name, &fileStatus) == 0)
-	result = (boolean) S_ISDIR (fileStatus.st_mode);
+    char* buf;
+#endif
+    if (CurrentDirectory == NULL)
+	CurrentDirectory = xMalloc ((size_t) (PATH_MAX + 1), char);
+#ifdef AMIGA
+    strcpy (CurrentDirectory, ".");
 #else
+    buf = getcwd (CurrentDirectory, PATH_MAX);
+    if (buf == NULL)
+	perror ("");
+#endif
+    if (CurrentDirectory [strlen (CurrentDirectory) - (size_t) 1] !=
+	    PATH_SEPARATOR)
+    {
+	sprintf (CurrentDirectory + strlen (CurrentDirectory), "%c",
+		OUTPUT_PATH_SEPARATOR);
+    }
+}
+
+#ifdef AMIGA
+static boolean isAmigaDirectory (const char *const name)
+{
+    boolean result = FALSE;
     struct FileInfoBlock *const fib = xMalloc (1, struct FileInfoBlock);
     if (fib != NULL)
     {
@@ -432,43 +394,74 @@ extern boolean isDirectory (const char *const name)
 	}
 	eFree (fib);
     }
-#endif
     return result;
 }
-
-extern boolean isSymbolicLink (const char *const name)
-{
-#if defined (MSDOS) || defined (WIN32) || defined (VMS) || defined (__EMX__) || defined (AMIGA)
-    return FALSE;
-#else
-    struct stat fileStatus;
-    boolean result = FALSE;
-
-    if (lstat (name, &fileStatus) == 0)
-	result = (boolean) (S_ISLNK (fileStatus.st_mode));
-
-    return result;
 #endif
+
+/* For caching of stat() calls */
+extern fileStatus *eStat (const char *const fileName)
+{
+    struct stat status;
+    static fileStatus file;
+    if (file.name == NULL  ||  strcmp (fileName, file.name) != 0)
+    {
+	if (file.name != NULL)
+	    eFree (file.name);
+	file.name = eStrdup (fileName);
+	if (lstat (file.name, &status) != 0)
+	    file.exists = FALSE;
+	else
+	{
+	    file.isSymbolicLink = (boolean) S_ISLNK (status.st_mode);
+	    if (file.isSymbolicLink  &&  stat (file.name, &status) != 0)
+		file.exists = FALSE;
+	    else
+	    {
+		file.exists = TRUE;
+#ifdef AMIGA
+		file.isDirectory = isAmigaDirectory (file.name);
+#else
+		file.isDirectory = (boolean) S_ISDIR (status.st_mode);
+#endif
+		file.isNormalFile = (boolean) (S_ISREG (status.st_mode));
+		file.isExecutable = (boolean) ((status.st_mode &
+		    (S_IXUSR | S_IXGRP | S_IXOTH)) != 0);
+		file.isSetuid = (boolean) ((status.st_mode & S_ISUID) != 0);
+		file.size = status.st_size;
+	    }
+	}
+    }
+    return &file;
+}
+
+extern boolean doesFileExist (const char *const fileName)
+{
+    fileStatus *status = eStat (fileName);
+    return status->exists;
 }
 
 extern boolean isRecursiveLink (const char* const dirName)
 {
     boolean result = FALSE;
-    char* const path = absoluteFilename (dirName);
-    while (path [strlen (path) - 1] == PATH_SEPARATOR)
-	path [strlen (path) - 1] = '\0';
-    while (! result  &&  strlen (path) > (size_t) 1)
+    fileStatus *status = eStat (dirName);
+    if (status->isSymbolicLink)
     {
-	char *const separator = strrchr (path, PATH_SEPARATOR);
-	if (separator == NULL)
-	    break;
-	else if (separator == path)	/* backed up to root directory */
-	    *(separator + 1) = '\0';
-	else
-	    *separator = '\0';
-	result = isSameFile (path, dirName);
+	char* const path = absoluteFilename (dirName);
+	while (path [strlen (path) - 1] == PATH_SEPARATOR)
+	    path [strlen (path) - 1] = '\0';
+	while (! result  &&  strlen (path) > (size_t) 1)
+	{
+	    char *const separator = strrchr (path, PATH_SEPARATOR);
+	    if (separator == NULL)
+		break;
+	    else if (separator == path)	/* backed up to root directory */
+		*(separator + 1) = '\0';
+	    else
+		*separator = '\0';
+	    result = isSameFile (path, dirName);
+	}
+	eFree (path);
     }
-    eFree (path);
     return result;
 }
 
@@ -604,12 +597,13 @@ extern char* absoluteFilename (const char *file)
 	res = concat (CurrentDirectory, file, "");
 
     /* Delete the "/dirname/.." and "/." substrings. */
-    slashp = strchr (res, '/');
+    slashp = strchr (res, PATH_SEPARATOR);
     while (slashp != NULL  &&  slashp [0] != '\0')
     {
 	if (slashp[1] == '.')
 	{
-	    if (slashp [2] == '.' && (slashp [3] == '/' || slashp [3] == '\0'))
+	    if (slashp [2] == '.' &&
+		(slashp [3] == PATH_SEPARATOR || slashp [3] == '\0'))
 	    {
 		cp = slashp;
 		do
@@ -622,20 +616,20 @@ extern char* absoluteFilename (const char *file)
 		 * so the luser could say `d:/../NAME'. We silently treat this
 		 * as `d:/NAME'.
 		 */
-		else if (cp [0] != '/')
+		else if (cp [0] != PATH_SEPARATOR)
 		    cp = slashp;
 #endif
 		strcpy (cp, slashp + 3);
 		slashp = cp;
 		continue;
 	    }
-	    else if (slashp [2] == '/'  ||  slashp [2] == '\0')
+	    else if (slashp [2] == PATH_SEPARATOR  ||  slashp [2] == '\0')
 	    {
 		strcpy (slashp, slashp + 2);
 		continue;
 	    }
 	}
-	slashp = strchr (slashp + 1, '/');
+	slashp = strchr (slashp + 1, PATH_SEPARATOR);
     }
 
     if (res [0] == '\0')
@@ -643,7 +637,7 @@ extern char* absoluteFilename (const char *file)
     else
     {
 #ifdef MSDOS_STYLE_PATH
-	/* Canonicalize drive letter case.  */
+	/* Canonicalize drive letter case. */
 	if (res [1] == ':'  &&  islower (res [0]))
 	    res [0] = toupper (res [0]);
 #endif
@@ -660,13 +654,7 @@ extern char* absoluteDirname (char *file)
 {
     char *slashp, *res;
     char save;
-#ifdef MSDOS_STYLE_PATH
-    char *p;
-    for (p = file  ;  *p != '\0'  ;  p++)
-	if (*p == '\\')
-	    *p = '/';
-#endif
-    slashp = strrchr (file, '/');
+    slashp = strrchr (file, PATH_SEPARATOR);
     if (slashp == NULL)
 	res = eStrdup (CurrentDirectory);
     else
@@ -698,17 +686,17 @@ extern char* relativeFilename (const char *file, const char *dir)
     fp--;
     dp--;			/* back to the first differing char */
     do
-    {				/* look at the equal chars until '/' */
+    {				/* look at the equal chars until path sep */
 	if (fp == absdir)
 	    return absdir;	/* first char differs, give up */
 	fp--;
 	dp--;
-    } while (*fp != '/');
+    } while (*fp != PATH_SEPARATOR);
 
     /* Build a sequence of "../" strings for the resulting relative file name.
      */
     i = 0;
-    while ((dp = strchr (dp + 1, '/')) != NULL)
+    while ((dp = strchr (dp + 1, PATH_SEPARATOR)) != NULL)
 	i += 1;
     res = xMalloc (3 * i + strlen (fp + 1) + 1, char);
     res [0] = '\0';
@@ -722,73 +710,27 @@ extern char* relativeFilename (const char *file, const char *dir)
     return res;
 }
 
-extern vString *combinePathAndFile (const char *const path,
-				    const char *const file)
-{
-    vString *const filePath = vStringNew ();
-#ifdef VMS
-    const char *const directoryId = strstr (file, ".DIR;1");
-
-    if (directoryId == NULL)
-    {
-	const char *const versionId = strchr (file, ';');
-
-	vStringCopyS (filePath, path);
-	if (versionId == NULL)
-	    vStringCatS (filePath, file);
-	else
-	    vStringNCatS (filePath, file, versionId - file);
-	vStringCopyToLower (filePath, filePath);
-    }
-    else
-    {
-	/*  File really is a directory; append it to the path.
-	 *  Gotcha: doesn't work with logical names.
-	 */
-	vStringNCopyS (filePath, path, strlen (path) - 1);
-	vStringPut (filePath, '.');
-	vStringNCatS (filePath, file, directoryId - file);
-	if (strchr (path, '[') != NULL)
-	    vStringPut (filePath, ']');
-	else
-	    vStringPut (filePath, '>');
-	vStringTerminate (filePath);
-    }
-#else
-    const int lastChar = path [strlen (path) - 1];
-# ifdef MSDOS_STYLE_PATH
-    boolean terminated = (boolean) (strchr (PathDelimiters, lastChar) != NULL);
-# else
-    boolean terminated = (boolean) (lastChar == PATH_SEPARATOR);
-# endif
-
-    vStringCopyS (filePath, path);
-    if (! terminated)
-    {
-	vStringPut (filePath, OUTPUT_PATH_SEPARATOR);
-	vStringTerminate (filePath);
-    }
-    vStringCatS (filePath, file);
-#endif
-
-    return filePath;
-}
-
 extern FILE *tempFile (const char *const mode, char **const pName)
 {
     char *name;
     FILE *fp;
     int fd;
-#ifdef HAVE_MKSTEMP
+#if defined(HAVE_MKSTEMP)
     const char *const pattern = "tags.XXXXXX";
     const char *tmpdir = NULL;
-    if (! isSetUID (ExecutableProgram))
+    fileStatus *file = eStat (ExecutableProgram);
+    if (file->isSetuid)
 	tmpdir = getenv ("TMPDIR");
     if (tmpdir == NULL)
 	tmpdir = TMPDIR;
     name = xMalloc (strlen (tmpdir) + 1 + strlen (pattern) + 1, char);
     sprintf (name, "%s%c%s", tmpdir, OUTPUT_PATH_SEPARATOR, pattern);
     fd = mkstemp (name);
+#elif defined(HAVE_TEMPNAM)
+    name = tempnam (TMPDIR, "tags");
+    if (name == NULL)
+	error (FATAL | PERROR, "cannot allocate temporary file name");
+    fd = open (name, O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
 #else
     name = xMalloc (L_tmpnam, char);
     if (tmpnam (name) != name)

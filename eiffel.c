@@ -1,7 +1,7 @@
 /*
-*   $Id: eiffel.c,v 1.7 2002/02/16 19:53:16 darren Exp $
+*   $Id: eiffel.c,v 1.14 2002/03/01 03:47:29 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -121,7 +121,9 @@ static langType Lang_eiffel;
 
 static const char *FileName;
 static FILE *File;
-static int IdentifyClass;
+static int PrintClass;
+static int PrintReferences;
+static int SelfReferences;
 static int Debug;
 static stringList *GenericNames;
 static stringList *ReferencedTypes;
@@ -225,41 +227,49 @@ static void buildEiffelKeywordHash (void)
 
 static void addGenericName (tokenInfo *const token)
 {
-    if (vStringLength (token->featureName) > 0)
-	stringListAdd (GenericNames, vStringNewCopy (token->featureName));
+    if (vStringLength (token->string) > 0)
+	stringListAdd (GenericNames, vStringNewCopy (token->string));
 }
 
 static boolean isGeneric (tokenInfo *const token)
 {
     return (boolean) stringListHasInsensitive (
-	GenericNames, vStringValue (token->featureName));
+	GenericNames, vStringValue (token->string));
 }
 
 static void reportType (tokenInfo *const token)
 {
-    if (vStringLength (token->featureName) > 0  && ! isGeneric (token)  &&
-	strcasecmp (vStringValue (token->featureName),
-		 vStringValue (token->className)) != 0 &&
-	! stringListHasInsensitive (ReferencedTypes,
-				    vStringValue (token->featureName)))
+    if (vStringLength (token->string) > 0  && ! isGeneric (token)  &&
+	(SelfReferences || strcasecmp (vStringValue (
+	    token->string), vStringValue (token->className)) != 0) &&
+	! stringListHasInsensitive (
+	    ReferencedTypes, vStringValue (token->string)))
     {
-	printf ("%s\n", vStringValue (token->featureName));
-	stringListAdd (ReferencedTypes, vStringNewCopy (token->featureName));
-	vStringClear (token->featureName);
+	printf ("%s\n", vStringValue (token->string));
+	stringListAdd (ReferencedTypes, vStringNewCopy (token->string));
     }
 }
 
 static int fileGetc (void)
 {
-    const int result = getc (File);
-    if (Debug > 0  &&  result != EOF)
-	putc (result, stderr);
-    return result;
+    int c = getc (File);
+    if (c == '\r')
+    {
+	c = getc (File);
+	if (c != '\n')
+	{
+	    ungetc (c, File);
+	    c = '\n';
+	}
+    }
+    if (Debug > 0  &&  c != EOF)
+	putc (c, errout);
+    return c;
 }
 
 static int fileUngetc (c)
 {
-    return ungetc(c, File);
+    return ungetc (c, File);
 }
 
 extern char *readLine (vString *const vLine, FILE *const fp)
@@ -781,7 +791,6 @@ static void parseGeneric (tokenInfo *const token, boolean __unused__ declaration
 		    findKeyword (token, KEYWORD_end);
 		else if (isType (token, TOKEN_IDENTIFIER))
 		{
-		    vStringCopy (token->featureName, token->string);
 		    if (constraint)
 			reportType (token);
 		    else
@@ -792,20 +801,14 @@ static void parseGeneric (tokenInfo *const token, boolean __unused__ declaration
 	    else if (isKeyword (token, KEYWORD_like))
 		readToken (token);
 	    else if (isType (token, TOKEN_IDENTIFIER))
-	    {
-		vStringCopy (token->featureName, token->string);
 		reportType (token);
-	    }
 	}
 	else
 	{
 	    if (isType (token, TOKEN_OPEN_BRACKET))
 		++depth;
 	    else if (isType (token, TOKEN_IDENTIFIER))
-	    {
-		vStringCopy (token->featureName, token->string);
 		reportType (token);
-	    }
 	    else if (isKeyword (token, KEYWORD_like))
 		readToken (token);
 	}
@@ -819,7 +822,6 @@ static void parseType (tokenInfo *const token)
     boolean bitType;
     Assert (isType (token, TOKEN_IDENTIFIER));
 #ifdef TYPE_REFERENCE_TOOL
-    vStringCopy (token->featureName, token->string);
     reportType (token);
 #endif
     bitType = (boolean)(strcmp ("BIT", vStringValue (token->string)) == 0);
@@ -989,7 +991,7 @@ static void parseArguments (tokenInfo *const token)
 #endif
 }
 
-static void parseFeature (tokenInfo *const token)
+static boolean parseFeature (tokenInfo *const token)
 {
     boolean found = FALSE;
     while (readFeatureName (token))
@@ -1017,6 +1019,7 @@ static void parseFeature (tokenInfo *const token)
 	if (isKeyword (token, KEYWORD_is))
 	    findFeatureEnd (token);
     }
+    return found;
 }
 
 static void parseExport (tokenInfo *const token)
@@ -1043,7 +1046,13 @@ static void parseFeatureClauses (tokenInfo *const token)
     {
 	if (isKeyword (token, KEYWORD_feature))
 	    parseExport (token);
-	parseFeature (token);
+	if (! isKeyword (token, KEYWORD_feature) &&
+	    ! isKeyword (token, KEYWORD_invariant) &&
+	    ! isKeyword (token, KEYWORD_indexing))
+	{
+	    if (! parseFeature (token))
+		readToken (token);
+	}
     } while (! isKeyword (token, KEYWORD_end) &&
 	     ! isKeyword (token, KEYWORD_invariant) &&
 	     ! isKeyword (token, KEYWORD_indexing));
@@ -1140,13 +1149,11 @@ static void parseClass (tokenInfo *const token)
 	readToken (token);
 #else
 	vStringCopy (token->className, token->string);
-	if (IdentifyClass)
-	{
+	if (PrintClass)
 	    puts (vStringValue (token->className));
+	if (! PrintReferences)
 	    exit (0);
-	}
-	else
-	    readToken (token);
+	readToken (token);
 #endif
     }
 
@@ -1242,11 +1249,13 @@ static void findReferences (void)
 static const char *const Usage =
     "Prints names of types referenced by an Eiffel language file.\n"
     "\n"
-    "Usage: %s [-c] [-d] [file_name | -]\n"
+    "Usage: %s [-cdrs] [file_name | -]\n"
     "\n"
     "Options:\n"
-    "    -c    Print only class name of current file.\n"
+    "    -c    Print class name of current file (on first line of output).\n"
     "    -d    Enable debug output.\n"
+    "    -r    Print types referenced by current file (default unless -c).\n"
+    "    -s    Include self-references.\n"
     "\n";
 
 extern main (int argc, char** argv)
@@ -1255,23 +1264,30 @@ extern main (int argc, char** argv)
     for (i = 1  ;  argv [i] != NULL  ;  ++i)
     {
 	const char *const arg = argv [i];
-	if (arg [0] == '-') switch (arg [1])
+	if (arg [0] == '-')
 	{
-	    case 'c':  IdentifyClass = 1; break;
-	    case 'd':  Debug = 1;         break;
-	    case '\0':
-		File = stdin;
-		FileName = "stdin";
-		break;
-	    default:
-		fprintf (stderr, "%s: unknown option: %c\n", argv [0], arg [1]);
-		fprintf (stderr, Usage, argv [0]);
-		exit (1);
-		break;
+	    int j;
+	    if (arg [1] == '\0')
+	    {
+		    File = stdin;
+		    FileName = "stdin";
+	    }
+	    else for (j = 1  ;  arg [j] != '\0'  ;  ++j) switch (arg [j])
+	    {
+		case 'c':  PrintClass      = 1; break;
+		case 'r':  PrintReferences = 1; break;
+		case 's':  SelfReferences  = 1; break;
+		case 'd':  Debug           = 1; break;
+		default:
+		    fprintf (errout, "%s: unknown option: %c\n", argv [0], arg [1]);
+		    fprintf (errout, Usage, argv [0]);
+		    exit (1);
+		    break;
+	    }
 	}
 	else if (File != NULL)
 	{
-	    fprintf (stderr, Usage, argv [0]);
+	    fprintf (errout, Usage, argv [0]);
 	    exit (1);
 	}
 	else
@@ -1285,9 +1301,11 @@ extern main (int argc, char** argv)
 	    }
 	}
     }
+    if (! PrintClass)
+	PrintReferences = 1;
     if (File == NULL)
     {
-	fprintf (stderr, Usage, argv [0]);
+	fprintf (errout, Usage, argv [0]);
 	exit (1);
     }
 
