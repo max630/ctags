@@ -1,5 +1,5 @@
 /*
-*   $Id: php.c,v 1.3 2003/07/18 02:32:29 darren Exp $
+*   $Id: php.c,v 1.5 2004/02/18 05:30:11 darren Exp $
 *
 *   Copyright (c) 2000, Jesus Castagnetto <jmcastagnetto@zkey.com>
 *
@@ -28,18 +28,34 @@
 *   DATA DEFINITIONS
 */
 typedef enum {
-    K_CLASS, K_DEFINE, K_FUNCTION
+    K_CLASS, K_DEFINE, K_FUNCTION, K_VARIABLE
 } phpKind;
 
 static kindOption PhpKinds [] = {
     { TRUE, 'c', "class",    "classes" },
     { TRUE, 'd', "define",   "constant definitions" },
-    { TRUE, 'f', "function", "functions" }
+    { TRUE, 'f', "function", "functions" },
+    { TRUE, 'v', "variable", "variables" }
 };
 
 /*
 *   FUNCTION DEFINITIONS
 */
+
+static boolean isLetter(const int c)
+{
+    return (boolean)(isalpha(c) || (c >= 127  &&  c <= 255));
+}
+
+static boolean isVarChar1(const int c)
+{
+    return (boolean)(isLetter (c)  ||  c == '_');
+}
+
+static boolean isVarChar(const int c)
+{
+    return (boolean)(isVarChar1 (c) || isdigit (c));
+}
 
 static void findPhpTags (void)
 {
@@ -53,7 +69,25 @@ static void findPhpTags (void)
 	while (isspace (*cp))
 	    cp++;
 
-	if (strncmp ((const char*) cp, "function", (size_t) 8) == 0  &&
+	if (*(const char*)cp == '$'  &&  isVarChar1 (*(const char*)(cp+1)))
+	{
+	    cp += 1;
+	    vStringClear (name);
+	    while (isVarChar ((int) *cp))
+	    {
+		vStringPut (name, (int) *cp);
+		++cp;
+	    }
+	    while (isspace ((int) *cp))
+		++cp;
+	    if (*(const char*) cp == '=')
+	    {
+		vStringTerminate (name);
+		makeSimpleTag (name, PhpKinds, K_VARIABLE);
+		vStringClear (name);
+	    }
+	}
+	else if (strncmp ((const char*) cp, "function", (size_t) 8) == 0  &&
 	    isspace ((int) cp [8]))
 	{
 	    cp += 8;
@@ -64,6 +98,7 @@ static void findPhpTags (void)
 	    if (*cp == '&')	/* skip reference character */
 		cp++;
 
+	    vStringClear (name);
 	    while (isalnum ((int) *cp)  ||  *cp == '_')
 	    {
 		vStringPut (name, (int) *cp);
@@ -80,6 +115,7 @@ static void findPhpTags (void)
 
 	    while (isspace ((int) *cp))
 		++cp;
+	    vStringClear (name);
 	    while (isalnum ((int) *cp)  ||  *cp == '_')
 	    {
 		vStringPut (name, (int) *cp);
@@ -107,6 +143,7 @@ static void findPhpTags (void)
 	    else if (! ((*cp == '_')  || isalnum ((int) *cp)))
 		continue;
           
+	    vStringClear (name);
 	    while (isalnum ((int) *cp)  ||  *cp == '_')
 	    {
 		vStringPut (name, (int) *cp);
@@ -116,7 +153,6 @@ static void findPhpTags (void)
 	    makeSimpleTag (name, PhpKinds, K_DEFINE);
 	    vStringClear (name);
 	}
-
     }
     vStringDelete (name);
 }

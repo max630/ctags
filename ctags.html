@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of CTAGS</TITLE>
 </HEAD><BODY>
 <H1>CTAGS</H1>
-Section: User Commands  (1)<BR>Updated: Version 5.5.2<BR><A HREF="#index">Index</A>
+Section: Exuberant Ctags (1)<BR>Updated: Version 5.5.3<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <P>
@@ -210,8 +210,8 @@ To clear the list of ignore identifiers, supply a single dash (&quot;-&quot;) fo
 This feature is useful when preprocessor macros are used in such a way that
 they cause syntactic confusion due to their presence. Indeed, this is the best
 way of working around a number of problems caused by the presence of
-syntax-busting macros in source files (see <B>BUGS</B>, below). Some examples
-will illustrate this point.
+syntax-busting macros in source files (see <B>CAVEATS</B>, below). Some
+examples will illustrate this point.
 <P>
 <DL COMPACT><DT><DD>
 int foo ARGDECL4(void *, ptr, long int, nbytes)
@@ -227,7 +227,7 @@ be the name of the function instead of the correct name of &quot;foo&quot;. Spec
 /* creates an RCS version string in module */
 <BR>
 
-MODULE_VERSION(&quot;$Revision: 1.35 $&quot;)
+MODULE_VERSION(&quot;$Revision: 1.38 $&quot;)
 </DL>
 
 <P>
@@ -570,7 +570,7 @@ before the first file name. [Ignored in etags mode]
 <DT><B>--help</B>
 
 <DD>
-Prints to standard output a detailed usage description and then exits.
+Prints to standard output a detailed usage description, and then exits.
 <P>
 <DT><B>--if0</B>[=<I>yes</I>|<I>no</I>]<DD>
 Indicates a preference as to whether code within an &quot;#if 0&quot; branch of a
@@ -674,7 +674,7 @@ argument. See the <B>--list-languages</B> option for a complete list of the
 built-in language names.
 <P>
 <DT><B>--license</B><DD>
-Prints a summary of the software license to standard output and then exits.
+Prints a summary of the software license to standard output, and then exits.
 <P>
 <DT><B>--line-directives</B>[=<I>yes</I>|<I>no</I>]<DD>
 Specifies whether &quot;#line&quot; directives should be recognized. These are present
@@ -699,23 +699,24 @@ disabled, symbolic links are ignored. This option is on by default.
 <P>
 <DT><B>--list-kinds</B>[=<I>language</I>|<I>all</I>]<DD>
 Lists the tag kinds recognized for either the specified language or all
-languages. Each kind of tag recorded in the tag file is represented by a
-one-letter flag, which is also used to filter the tags placed into the output
-through use of the <B>--&lt;LANG&gt;-kinds</B> option. Note that some languages and/or
-tag kinds may be implemented using regular expressions and may not be
-available if regex support is not compiled into <B>ctags</B> (see the
-<B>--regex-&lt;LANG&gt;</B> option). Each kind listed is enabled unless followed by
-&quot;[off]&quot;.
+languages, and then exits. Each kind of tag recorded in the tag file is
+represented by a one-letter flag, which is also used to filter the tags placed
+into the output through use of the <B>--&lt;LANG&gt;-kinds</B> option. Note that some
+languages and/or tag kinds may be implemented using regular expressions and
+may not be available if regex support is not compiled into <B>ctags</B> (see
+the <B>--regex-&lt;LANG&gt;</B> option). Each kind listed is enabled unless followed
+by &quot;[off]&quot;.
 <P>
 <DT><B>--list-maps</B>[=<I>language</I>|<I>all</I>]<DD>
 Lists the file extensions and file name patterns which associate a file name
-with a language for either the specified language or all languages. See
-the <B>--langmap</B> option, and <B>SOURCE FILES</B>, above.
+with a language for either the specified language or all languages, and then
+exits. See the <B>--langmap</B> option, and <B>SOURCE FILES</B>, above.
 <P>
 <DT><B>--list-languages</B><DD>
-Lists the names of the languages understood by <B>ctags</B>. These language
-names are case insensitive and may be used in the <B>--language-force</B>,
-<B>--languages</B>, <B>--&lt;LANG&gt;-kinds</B>, and <B>--regex-&lt;LANG&gt;</B> options.
+Lists the names of the languages understood by <B>ctags</B>, and then exits.
+These language names are case insensitive and may be used in the
+<B>--language-force</B>, <B>--languages</B>, <B>--&lt;LANG&gt;-kinds</B>, and
+<B>--regex-&lt;LANG&gt;</B> options.
 <P>
 <DT><B>--options</B>=<I>file</I><DD>
 Read additional options from <I>file</I>. As a special case, if
@@ -833,8 +834,8 @@ the first argument on the command line, it will take effect before any options
 are read from these sources. The default is <I>no</I>.
 <P>
 <DT><B>--version</B><DD>
-Prints a version identifier for <B>ctags</B> to standard output and then exits.
-This is guaranteed to always contain the string &quot;Exuberant Ctags&quot;.
+Prints a version identifier for <B>ctags</B> to standard output, and then
+exits. This is guaranteed to always contain the string &quot;Exuberant Ctags&quot;.
 <P>
 <P>
 </DL>
@@ -1343,6 +1344,6 @@ the info page for GNU <B>etags</B>.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 01:19:26 GMT, September 18, 2003
+Time: 04:28:13 GMT, March 15, 2004
 </BODY>
 </HTML>

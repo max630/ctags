@@ -1,5 +1,5 @@
 /*
-*   $Id: parse.c,v 1.10 2003/07/11 01:21:54 darren Exp $
+*   $Id: parse.c,v 1.11 2003/10/13 02:35:45 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -343,7 +343,8 @@ extern void freeParserResources (void)
 	LanguageTable [i]->name = NULL;
 	eFree (LanguageTable [i]);
     }
-    eFree (LanguageTable);
+    if (LanguageTable != NULL)
+	eFree (LanguageTable);
     LanguageTable = NULL;
     LanguageCount = 0;
 }

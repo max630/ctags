@@ -1,5 +1,5 @@
 /*
-*   $Id: routines.h,v 1.9 2003/07/20 22:48:37 darren Exp $
+*   $Id: routines.h,v 1.10 2003/10/13 02:35:45 darren Exp $
 *
 *   Copyright (c) 2002, Darren Hiebert
 *
@@ -81,6 +81,7 @@ typedef struct {
 /*
 *   FUNCTION PROTOTYPES
 */
+extern void freeRoutineResources (void);
 extern void setExecutableName (const char *const path);
 extern const char *getExecutableName (void);
 extern void error (const errorSelection selection, const char *const format, ...) __printf__ (2, 3);
