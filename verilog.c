@@ -1,5 +1,5 @@
 /*
- *  $Id: verilog.c,v 1.1 2002/07/11 02:19:51 darren Exp $
+ *  $Id: verilog.c,v 1.2 2002/07/22 02:00:53 darren Exp $
  *
  *  Copyright (c) 2002, Nam SungHyun <namsh@kldp.org>
  *
@@ -40,7 +40,7 @@
  *   DATA DECLARATIONS
  */
 typedef enum {
-    K_UNDEFINED,
+    K_UNDEFINED = -1,
     K_FUNCTION, K_MODULE, K_PARAMETER, K_PORT, K_REG, K_TASK,
     K_VARIABLE, K_WIRE
 } verilogKind;

@@ -1,5 +1,5 @@
 /*
-*   $Id: ruby.c,v 1.3 2002/06/11 18:37:40 darren Exp $
+*   $Id: ruby.c,v 1.4 2002/09/05 00:35:37 darren Exp $
 *
 *   Copyright (c) 2000-2001, Thaddeus Covert <sahuagin@mediaone.net>
 *   Copyright (c) 2002 Matthias Veit <matthias_veit@yahoo.de>
@@ -125,7 +125,8 @@ static void findRubyTags (void)
 			* characters.
 			*/
 		    while (isalnum ((int) *cp)  ||
-			(cp != '\0' && strchr ("_!?.", (int) cp) != NULL))
+			((int) *cp != '\0' &&
+			 strchr ("_!?.", (int) *cp) != NULL))
 		    {
 			/* classmethods are accesible only via class instance
 			    * instead of object instance. This difference has to

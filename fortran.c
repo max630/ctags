@@ -1,5 +1,5 @@
 /*
-*   $Id: fortran.c,v 1.5 2002/07/10 05:40:15 darren Exp $
+*   $Id: fortran.c,v 1.6 2002/08/23 01:02:19 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -1435,7 +1435,8 @@ static void parseBlockData (tokenInfo *const token)
     if (isKeyword (token, KEYWORD_data))
     {
 	readToken (token);
-	makeFortranTag (token, TAG_BLOCK_DATA);
+	if (isType (token, TOKEN_IDENTIFIER))
+	    makeFortranTag (token, TAG_BLOCK_DATA);
     }
     ancestorPush (token);
     skipToNextStatement (token);
