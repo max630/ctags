@@ -1,5 +1,5 @@
 /*
-*   $Id: options.h,v 1.8 2003/04/01 05:02:21 darren Exp $
+*   $Id: options.h,v 1.10 2003/07/21 01:09:08 darren Exp $
 *
 *   Copyright (c) 1998-2003, Darren Hiebert
 *
@@ -138,7 +138,7 @@ extern boolean cArgIsOption (cookedArgs* const current);
 extern const char* cArgItem (cookedArgs* const current);
 extern void cArgForth (cookedArgs* const current);
 
-extern const char *fileExtension (const char *const fileName);
+extern boolean isExcludedFile (const char* const name);
 extern boolean isIncludeFile (const char *const fileName);
 extern boolean isIgnoreToken (const char *const name, boolean *const pIgnoreParens, const char **const replacement);
 extern void parseOption (cookedArgs* const cargs);

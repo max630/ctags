@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of CTAGS</TITLE>
 </HEAD><BODY>
 <H1>CTAGS</H1>
-Section: User Commands  (1)<BR>Updated: Version 5.5<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: Version 5.5.1<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <P>
@@ -50,6 +50,7 @@ this release are:
 <B>FTE</B> (Folding Text Editor),
 <B>JED</B>,
 <B>jEdit</B>,
+<B>Mined</B>,
 <B>NEdit</B> (Nirvana Edit),
 <B>TSE</B> (The SemWare Editor),
 <B>UltraEdit</B>,
@@ -182,27 +183,29 @@ already mapped to a particular language (see <B>SOURCE FILES</B>, above), you
 will also need to use either the <B>--langmap</B> or <B>--language-force</B>
 option.
 <P>
-<DT><B>-I</B><I> tokenlist</I>
+<DT><B>-I</B><I> identifier-list</I>
 
 <DD>
-Specifies a list of tokens which are to be specially handled while parsing C
-and C++ source files. This option is specifically provided to handle special
-cases arising through the use of preprocessor macros. When the tokens listed
-are simple tokens, these tokens will be ignored during parsing of the source
-files. If a token is suffixed with a '+' character, <B>ctags</B> will also
-ignore any parenthesis-enclosed argument list which may immediately follow the
-token in the source files. If two tokens are separated with the '=' character,
-the first token is replaced by the second token for parsing purposes. The list
-of tokens may be supplied directly on the command line or read in from a
-separate file. If the first character of <I>tokenlist</I> is '@', '.' or a
-pathname separator ('/' or '\'), or the first two characters specify a drive
-letter (e.g. &quot;C:&quot;), the parameter <I>tokenlist</I> will be interpreted as a
-filename from which to read a list of tokens, one per input line.
-Otherwise, <I>tokenlist</I> is a list of tokens (or token pairs) to be
-specially handled, each delimited by a either a comma or by white space (in
-which case the list should be quoted to keep the entire list as one command
-line argument). Multiple <B>-I</B> options may be supplied. To clear the list
-of ignore tokens, supply a single dash (&quot;-&quot;) for <I>tokenlist</I>.
+Specifies a list of identifiers which are to be specially handled while
+parsing C and C++ source files. This option is specifically provided to handle
+special cases arising through the use of preprocessor macros. When the
+identifiers listed are simple identifiers, these identifiers will be ignored
+during parsing of the source files. If an identifier is suffixed with a '+'
+character, <B>ctags</B> will also ignore any parenthesis-enclosed argument list
+which may immediately follow the identifier in the source files. If two
+identifiers are separated with the '=' character, the first identifiers is
+replaced by the second identifiers for parsing purposes. The list of
+identifiers may be supplied directly on the command line or read in from a
+separate file. If the first character of <I>identifier-list</I> is '@', '.' or
+a pathname separator ('/' or '\'), or the first two characters specify a
+drive letter (e.g. &quot;C:&quot;), the parameter <I>identifier-list</I> will be
+interpreted as a filename from which to read a list of identifiers, one per
+input line. Otherwise, <I>identifier-list</I> is a list of identifiers (or
+identifier pairs) to be specially handled, each delimited by a either a comma
+or by white space (in which case the list should be quoted to keep the entire
+list as one command line argument). Multiple <B>-I</B> options may be supplied.
+To clear the list of ignore identifiers, supply a single dash (&quot;-&quot;) for
+<I>identifier-list</I>.
 <P>
 This feature is useful when preprocessor macros are used in such a way that
 they cause syntactic confusion due to their presence. Indeed, this is the best
@@ -224,7 +227,7 @@ be the name of the function instead of the correct name of &quot;foo&quot;. Spec
 /* creates an RCS version string in module */
 <BR>
 
-MODULE_VERSION(&quot;$Revision: 1.30 $&quot;)
+MODULE_VERSION(&quot;$Revision: 1.35 $&quot;)
 </DL>
 
 <P>
@@ -567,7 +570,7 @@ before the first file name. [Ignored in etags mode]
 <DT><B>--help</B>
 
 <DD>
-Prints to standard output a detailed usage description.
+Prints to standard output a detailed usage description and then exits.
 <P>
 <DT><B>--if0</B>[=<I>yes</I>|<I>no</I>]<DD>
 Indicates a preference as to whether code within an &quot;#if 0&quot; branch of a
@@ -671,7 +674,7 @@ argument. See the <B>--list-languages</B> option for a complete list of the
 built-in language names.
 <P>
 <DT><B>--license</B><DD>
-Prints a summary of the software license to standard output.
+Prints a summary of the software license to standard output and then exits.
 <P>
 <DT><B>--line-directives</B>[=<I>yes</I>|<I>no</I>]<DD>
 Specifies whether &quot;#line&quot; directives should be recognized. These are present
@@ -698,7 +701,7 @@ disabled, symbolic links are ignored. This option is on by default.
 Lists the tag kinds recognized for either the specified language or all
 languages. Each kind of tag recorded in the tag file is represented by a
 one-letter flag, which is also used to filter the tags placed into the output
-through use of the <B>--&lt;LANG&gt;-kind</B> option. Note that some languages and/or
+through use of the <B>--&lt;LANG&gt;-kinds</B> option. Note that some languages and/or
 tag kinds may be implemented using regular expressions and may not be
 available if regex support is not compiled into <B>ctags</B> (see the
 <B>--regex-&lt;LANG&gt;</B> option). Each kind listed is enabled unless followed by
@@ -830,8 +833,8 @@ the first argument on the command line, it will take effect before any options
 are read from these sources. The default is <I>no</I>.
 <P>
 <DT><B>--version</B><DD>
-Prints a version identifier for <B>ctags</B> to standard output. This is
-guaranteed to always contain the string &quot;Exuberant Ctags&quot;.
+Prints a version identifier for <B>ctags</B> to standard output and then exits.
+This is guaranteed to always contain the string &quot;Exuberant Ctags&quot;.
 <P>
 <P>
 </DL>
@@ -1340,6 +1343,6 @@ the info page for GNU <B>etags</B>.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 05:02:36 GMT, April 01, 2003
+Time: 01:57:56 GMT, July 31, 2003
 </BODY>
 </HTML>

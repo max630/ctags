@@ -1,5 +1,5 @@
 /*
-*   $Id: options.c,v 1.16 2003/04/01 04:55:27 darren Exp $
+*   $Id: options.c,v 1.22 2003/07/21 01:09:08 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -53,7 +53,7 @@
 # define DEFAULT_FILE_FORMAT	2
 #endif
 
-#if defined (MSDOS) || defined (WIN32) || defined (OS2) || defined (AMIGA) || defined (HAVE_OPENDIR)
+#if defined (HAVE_OPENDIR) || defined (HAVE_FINDFIRST) || defined (HAVE__FINDFIRST) || defined (AMIGA)
 # define RECURSE_SUPPORTED
 #endif
 
@@ -93,6 +93,7 @@ typedef const struct {
 
 static boolean NonOptionEncountered;
 static stringList *OptionFiles;
+static stringList* Excluded;
 static boolean FilesRequired = TRUE;
 static boolean SkipConfiguration;
 
@@ -673,24 +674,6 @@ static void addExtensionList (stringList *const slist,
     eFree (extensionList);
 }
 
-extern const char *fileExtension (const char *const fileName)
-{
-    const char *extension;
-    const char *pDelimiter = NULL;
-#ifdef QDOS
-    pDelimiter = strrchr (fileName, '_');
-#endif
-    if (pDelimiter == NULL)
-        pDelimiter = strrchr (fileName, '.');
-
-    if (pDelimiter == NULL)
-	extension = "";
-    else
-	extension = pDelimiter + 1;	/* skip to first char of extension */
-
-    return extension;
-}
-
 static boolean isFalse (const char *parameter)
 {
     return (boolean) (
@@ -727,7 +710,7 @@ extern boolean isIncludeFile (const char *const fileName)
  */
 
 static void processEtagsInclude (
-	const char *const __unused__ option, const char *const parameter)
+	const char *const option, const char *const parameter)
 {
     if (! Option.etags)
 	error (FATAL, "Etags must be enabled to use \"%s\" option", option);
@@ -739,6 +722,51 @@ static void processEtagsInclude (
 	stringListAdd (Option.etagsInclude, file);
 	FilesRequired = FALSE;
     }
+}
+
+static void processExcludeOption (
+	const char *const option __unused__, const char *const parameter)
+{
+    const char *const fileName = parameter + 1;
+    if (parameter [0] == '\0')
+	freeList (&Excluded);
+    else if (parameter [0] == '@')
+    {
+	stringList* const sl = stringListNewFromFile (fileName);
+	if (sl == NULL)
+	    error (FATAL | PERROR, "cannot open \"%s\"", fileName);
+	if (Excluded == NULL)
+	    Excluded = sl;
+	else
+	    stringListCombine (Excluded, sl);
+	verbose ("    adding exclude patterns from %s\n", fileName);
+    }
+    else
+    {
+	vString *const item = vStringNewInit (parameter);
+	if (Excluded == NULL)
+	    Excluded = stringListNew ();
+	stringListAdd (Excluded, item);
+	verbose ("    adding exclude pattern: %s\n", parameter);
+    }
+}
+
+extern boolean isExcludedFile (const char* const name)
+{
+    const char* base = baseFilename (name);
+    boolean result = FALSE;
+    if (Excluded != NULL)
+    {
+	result = stringListFileMatched (Excluded, base);
+	if (! result  &&  name != base)
+	    result = stringListFileMatched (Excluded, name);
+    }
+#ifdef AMIGA
+    /* not a good solution, but the only one which works often */
+    if (! result)
+	result = (boolean) (strcmp (name, TagFile.name) == 0);
+#endif
+    return result;
 }
 
 static void processExcmdOption (
@@ -832,7 +860,7 @@ static void processFieldsOption (
 }
 
 static void processFilterTerminatorOption (
-	const char *const __unused__ option, const char *const parameter)
+	const char *const option __unused__, const char *const parameter)
 {
     freeString (&Option.filterTerminator);
     Option.filterTerminator = stringCopy (parameter);
@@ -894,14 +922,15 @@ static void printProgramIdentification (void)
 }
 
 static void processHelpOption (
-	const char *const __unused__ option, const char *const __unused__ parameter)
+	const char *const option __unused__,
+	const char *const parameter __unused__)
 {
     printProgramIdentification ();
     putchar ('\n');
     printInvocationDescription ();
     putchar ('\n');
     printOptionDescriptions (LongOptionDescription);
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 static void processLanguageForceOption (
@@ -1102,13 +1131,14 @@ static void processLanguagesOption (
 }
 
 static void processLicenseOption (
-	const char *const __unused__ option, const char *const __unused__ parameter)
+	const char *const option __unused__,
+	const char *const parameter __unused__)
 {
     printProgramIdentification ();
     puts ("");
     puts (License1);
     puts (License2);
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 static void processListKindsOption (
@@ -1128,7 +1158,8 @@ static void processListKindsOption (
 }
 
 static void processListMapsOption (
-	const char *const __unused__ option, const char *const __unused__ parameter)
+	const char *const __unused__ option,
+	const char *const __unused__ parameter)
 {
     if (parameter [0] == '\0' || strcasecmp (parameter, "all") == 0)
         printLanguageMaps (LANG_AUTO);
@@ -1144,9 +1175,10 @@ static void processListMapsOption (
 }
 
 static void processListLanguagesOption (
-	const char *const __unused__ option, const char *const __unused__ parameter)
+	const char *const option __unused__,
+	const char *const parameter __unused__)
 {
-    printLanguageList();
+    printLanguageList ();
     FilesRequired = FALSE;
 }
 
@@ -1318,10 +1350,11 @@ static void processIgnoreOption (const char *const list)
 }
 
 static void processVersionOption (
-	const char *const __unused__ option, const char *const __unused__ parameter)
+	const char *const option __unused__,
+	const char *const parameter __unused__)
 {
     printProgramIdentification ();
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 /*
@@ -1456,12 +1489,11 @@ static void processLongOption (
     else if (processRegexOption (option, parameter))
 	;
 #ifndef RECURSE_SUPPORTED
-    else if (strcmp (item, "recurse") == 0)
+    else if (strcmp (option, "recurse") == 0)
 	error (WARNING, "%s option not supported on this host", option);
 #endif
     else
 	error (FATAL, "Unknown option: --%s", option);
-#undef isOption
 }
 
 static void processShortOption (
@@ -1607,7 +1639,7 @@ static boolean parseFileOptions (const char* const fileName)
     const char* const format = "Considering option file %s: %s\n";
     CheckFile = fileName;
     if (stringListHasTest (OptionFiles, checkSameFile))
-	verbose (format, fileName, "already read");
+	verbose (format, fileName, "already considered");
     else
     {
 	FILE* const fp = fopen (fileName, "r");
@@ -1735,6 +1767,7 @@ extern void freeOptionResources (void)
     freeString (&Option.fileList);
     freeString (&Option.filterTerminator);
 
+    freeList (&Excluded);
     freeList (&Option.ignore);
     freeList (&Option.headerExt);
     freeList (&Option.etagsInclude);

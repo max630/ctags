@@ -1,5 +1,5 @@
 /*
-*   $Id: c.c,v 1.21 2003/04/01 04:55:27 darren Exp $
+*   $Id: c.c,v 1.23 2003/07/17 03:08:23 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -60,7 +60,7 @@ typedef enum eException {
 /*  Used to specify type of keyword.
  */
 typedef enum eKeywordId {
-    KEYWORD_NONE,
+    KEYWORD_NONE = -1,
     KEYWORD_ATTRIBUTE, KEYWORD_ABSTRACT,
     KEYWORD_BOOLEAN, KEYWORD_BYTE, KEYWORD_BAD_STATE, KEYWORD_BAD_TRANS,
     KEYWORD_BIND, KEYWORD_BIND_VAR, KEYWORD_BIT,
@@ -2122,7 +2122,8 @@ static void analyzeParens (statementInfo *const st)
 	    st->gotArgs = TRUE;
 	    setToken (st, TOKEN_ARGS);
 	    advanceToken (st);
-	    analyzePostParens (st, &info);
+	    if (st->scope != SCOPE_TYPEDEF)
+		analyzePostParens (st, &info);
 	}
 	else
 	    setToken (st, TOKEN_NONE);

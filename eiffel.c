@@ -1,5 +1,5 @@
 /*
-*   $Id: eiffel.c,v 1.14 2002/03/01 03:47:29 darren Exp $
+*   $Id: eiffel.c,v 1.16 2003/07/17 03:08:23 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -52,7 +52,7 @@ typedef enum eException { ExceptionNone, ExceptionEOF } exception_t;
 /*  Used to specify type of keyword.
  */
 typedef enum eKeywordId {
-    KEYWORD_NONE,
+    KEYWORD_NONE = -1,
     KEYWORD_alias, KEYWORD_all, KEYWORD_and, KEYWORD_as, KEYWORD_check,
     KEYWORD_class, KEYWORD_create, KEYWORD_creation, KEYWORD_Current,
     KEYWORD_debug, KEYWORD_deferred, KEYWORD_do, KEYWORD_else,
@@ -767,7 +767,7 @@ static void findKeyword (tokenInfo *const token, const keywordId keyword)
 	readToken (token);
 }
 
-static void parseGeneric (tokenInfo *const token, boolean __unused__ declaration)
+static void parseGeneric (tokenInfo *const token, boolean declaration __unused__)
 {
     unsigned int depth = 0;
 #ifdef TYPE_REFERENCE_TOOL
