@@ -1,3 +1,11 @@
+exuberant-ctags (1:5.5.1-1) unstable; urgency=low
+
+  * New upstream release.
+    - ctags --help, --version, and --license no longer create a tags file
+      (closes: #187474).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 15 Aug 2003 20:55:20 +0100
+
 exuberant-ctags (1:5.5-1) unstable; urgency=low
 
   * New upstream release.
