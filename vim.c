@@ -1,5 +1,5 @@
 /*
-*   $Id: vim.c,v 1.10 2003/04/01 04:55:28 darren Exp $
+*   $Id: vim.c,v 1.11 2003/12/23 02:27:46 darren Exp $
 *
 *   Copyright (c) 2000-2003, Darren Hiebert
 *
@@ -96,7 +96,7 @@ static void findVimTags (void)
 		while (isspace ((int) *cp))
 		    ++cp;
                 cp = skipPrefix (cp, &scope);
-		if (isupper ((int) *cp))
+		if (isupper ((int) *cp)  ||  scope == 's'  ||  scope == '<')
 		{
 		    do
 		    {

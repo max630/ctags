@@ -1,5 +1,5 @@
 /*
-*   $Id: routines.c,v 1.18 2003/07/20 22:48:37 darren Exp $
+*   $Id: routines.c,v 1.21 2003/10/31 04:15:35 darren Exp $
 *
 *   Copyright (c) 2002-2003, Darren Hiebert
 *
@@ -135,6 +135,8 @@
 # elif defined (__BORLANDC__)
 #  define PATH_MAX  MAXPATH
 #  define currentdrive() (getdisk() + 'A')
+# elif defined (DJGPP)
+#  define currentdrive() (getdisk() + 'A')
 # else
 #  define currentdrive() 'C'
 # endif
@@ -179,6 +181,12 @@ extern int lstat (const char *, struct stat *);
 /*
 *   FUNCTION DEFINITIONS
 */
+
+extern void freeRoutineResources (void)
+{
+    if (CurrentDirectory != NULL)
+	eFree (CurrentDirectory);
+}
 
 extern void setExecutableName (const char *const path)
 {
@@ -710,7 +718,6 @@ extern char* absoluteFilename (const char *file)
 	    sprintf (drive, "%c:", currentdrive ());
 	    res = concat (drive, file, "");
 	}
-printf ("absolute of %s = %s\n", file, res);
 #else
 	res = eStrdup (file);
 #endif

@@ -1,5 +1,5 @@
 /*
-*   $Id: sql.c,v 1.8 2003/07/17 03:08:24 darren Exp $
+*   $Id: sql.c,v 1.10 2003/12/21 19:19:27 darren Exp $
 *
 *   Copyright (c) 2002-2003, Darren Hiebert
 *
@@ -100,6 +100,8 @@ typedef struct sTokenInfo {
     tokenType	type;
     keywordId	keyword;
     vString *	string;
+    unsigned long lineNumber;
+    fpos_t filePosition;
 } tokenInfo;
 
 /*
@@ -230,6 +232,8 @@ static void makeSqlTag (tokenInfo *const token, const sqlKind kind)
 	tagEntryInfo e;
 	initTagEntry (&e, name);
 
+	e.lineNumber   = token->lineNumber;
+	e.filePosition = token->filePosition;
 	e.kindName     = SqlKinds [kind].name;
 	e.kind         = SqlKinds [kind].letter;
 
@@ -382,6 +386,8 @@ getNextChar:
 	    else
 	    {
 		parseIdentifier (token->string, c);
+		token->lineNumber = getSourceLineNumber ();
+		token->filePosition = getInputFilePosition ();
 		token->keyword = analyzeToken (token->string);
 		if (isKeyword (token, KEYWORD_rem))
 		{

@@ -1,5 +1,5 @@
 /*
-*   $Id: options.c,v 1.22 2003/07/21 01:09:08 darren Exp $
+*   $Id: options.c,v 1.25 2004/02/28 15:19:45 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -947,7 +947,7 @@ static void processLanguageForceOption (
 	       "\"--%s\" option is obsolete; use \"--language-force\" instead",
 	       option);
     if (language == LANG_IGNORE)
-	error (FATAL, "Uknown language specified in \"%s\" option", option);
+	error (FATAL, "Unknown language specified in \"%s\" option", option);
     else
 	Option.language = language;
 }
@@ -1150,11 +1150,11 @@ static void processListKindsOption (
     {
 	langType language = getNamedLanguage (parameter);
 	if (language == LANG_IGNORE)
-	    error (FATAL, "Uknown language specified in \"%s\" option", option);
+	    error (FATAL, "Unknown language specified in \"%s\" option",option);
 	else
 	    printLanguageKinds (language);
     }
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 static void processListMapsOption (
@@ -1167,11 +1167,11 @@ static void processListMapsOption (
     {
 	langType language = getNamedLanguage (parameter);
 	if (language == LANG_IGNORE)
-	    error (FATAL, "Uknown language specified in \"%s\" option", option);
+	    error (FATAL, "Unknown language specified in \"%s\" option",option);
 	else
 	    printLanguageMaps (language);
     }
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 static void processListLanguagesOption (
@@ -1179,7 +1179,7 @@ static void processListLanguagesOption (
 	const char *const parameter __unused__)
 {
     printLanguageList ();
-    FilesRequired = FALSE;
+    exit (0);
 }
 
 static void processOptionFile (
@@ -1510,7 +1510,7 @@ static void processShortOption (
     {
 	case '?':
 	    processHelpOption ("?", NULL);
-	    FilesRequired = FALSE;
+	    exit (0);
 	    break;
 	case 'a':
 	    checkOptionOrder (option);
@@ -1621,6 +1621,7 @@ extern void parseOption (cookedArgs* const args)
 
 extern void parseOptions (cookedArgs* const args)
 {
+    NonOptionEncountered = FALSE;
     while (! cArgOff (args)  &&  cArgIsOption (args))
 	parseOption (args);
     if (! cArgOff (args)  &&  ! cArgIsOption (args))

@@ -1,5 +1,5 @@
 /*
-*   $Id: entry.c,v 1.8 2002/09/30 04:30:47 darren Exp $
+*   $Id: entry.c,v 1.9 2003/10/13 02:35:45 darren Exp $
 *
 *   Copyright (c) 1996-2002, Darren Hiebert
 *
@@ -104,7 +104,8 @@ extern int ftruncate (int fd, off_t length);
 
 extern void freeTagFileResources (void)
 {
-    eFree (TagFile.directory);
+    if (TagFile.directory != NULL)
+	eFree (TagFile.directory);
     vStringDelete (TagFile.vLine);
 }
 

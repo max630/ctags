@@ -1,5 +1,5 @@
 /*
-*   $Id: fortran.c,v 1.37 2003/07/21 03:38:50 darren Exp $
+*   $Id: fortran.c,v 1.41 2004/03/15 04:17:36 darren Exp $
 *
 *   Copyright (c) 1998-2003, Darren Hiebert
 *
@@ -44,7 +44,7 @@
 */
 
 typedef enum eException {
-    ExceptionNone, ExceptionEOF, ExceptionFixedFormat
+    ExceptionNone, ExceptionEOF, ExceptionFixedFormat, ExceptionLoop
 } exception_t;
 
 /*  Used to designate type of line read in fixed source form.
@@ -696,29 +696,47 @@ static int skipToNextLine (void)
 static int getFreeFormChar (void)
 {
     static boolean newline = TRUE;
-    boolean recurse = FALSE;
+    boolean advanceLine = FALSE;
     int c = fileGetc ();
 
-    if (c == '&')		/* handle line continuation */
+    /* If the last nonblank, non-comment character of a FORTRAN 90
+     * free-format text line is an ampersand then the next non-comment
+     * line is a continuation line.
+     */
+    if (c == '&')
     {
-	recurse = TRUE;
-	c = fileGetc ();
+	do
+	    c = fileGetc ();
+	while (isspace (c)  &&  c != '\n');
+	if (c == '\n')
+	{
+	    newline = TRUE;
+	    advanceLine = TRUE;
+	}
+	else if (c == '!')
+	    advanceLine = TRUE;
+	else
+	{
+	    fileUngetc (c);
+	    c = '&';
+	}
     }
     else if (newline && (c == '!' || c == '#'))
-	recurse = TRUE;
-    while (recurse)
+	advanceLine = TRUE;
+    while (advanceLine)
     {
 	while (isspace (c))
 	    c = fileGetc ();
-	while (c == '!' || (newline && c == '#'))
+	if (c == '!' || (newline && c == '#'))
 	{
 	    c = skipToNextLine ();
 	    newline = TRUE;
+	    continue;
 	}
 	if (c == '&')
 	    c = fileGetc ();
 	else
-	    recurse = FALSE;
+	    advanceLine = FALSE;
     }
     newline = (boolean) (c == '\n');
     return c;
@@ -957,8 +975,7 @@ getNextChar:
 	case '<':
 	case '>':
 	{
-	    const char *const operatorChars = "*/+-=<>";
-
+	    const char *const operatorChars = "*/+=<>";
 	    do {
 		vStringPut (token->string, c);
 		c = getChar ();
@@ -1878,14 +1895,16 @@ static boolean parseImplicitPartStmt (tokenInfo *const token)
  *      [implicit-part] (is [implicit-part-stmt] ... [implicit-stmt])
  *      [declaration-construct] ...
  */
-static void parseSpecificationPart (tokenInfo *const token)
+static boolean parseSpecificationPart (tokenInfo *const token)
 {
+    boolean result = FALSE;
     while (skipStatementIfKeyword (token, KEYWORD_use))
-	;
+	result = TRUE;
     while (parseImplicitPartStmt (token))
-	;
+	result = TRUE;
     while (parseDeclarationConstruct (token))
-	;
+	result = TRUE;
+    return result;
 }
 
 /*  block-data is
@@ -1927,8 +1946,8 @@ static void parseBlockData (tokenInfo *const token)
 static void parseInternalSubprogramPart (tokenInfo *const token)
 {
     boolean done = FALSE;
-    Assert (isKeyword (token, KEYWORD_contains));
-    skipToNextStatement (token);
+    if (isKeyword (token, KEYWORD_contains))
+	skipToNextStatement (token);
     do
     {
 	switch (token->keyword)
@@ -1996,8 +2015,9 @@ static void parseModule (tokenInfo *const token)
  *      or data-stmt
  *      or entry-stmt
  */
-static void parseExecutionPart (tokenInfo *const token)
+static boolean parseExecutionPart (tokenInfo *const token)
 {
+    boolean result = FALSE;
     boolean done = FALSE;
     while (! done)
     {
@@ -2008,10 +2028,12 @@ static void parseExecutionPart (tokenInfo *const token)
 		    readToken (token);
 		else
 		    skipToNextStatement (token);
+		result = TRUE;
 		break;
 
 	    case KEYWORD_entry:
 		parseEntryStmt (token);
+		result = TRUE;
 		break;
 
 	    case KEYWORD_contains:
@@ -2028,12 +2050,14 @@ static void parseExecutionPart (tokenInfo *const token)
 		    isSecondaryKeyword (token, KEYWORD_where))
 		{
 		    skipToNextStatement (token);
+		    result = TRUE;
 		}
 		else
 		    done = TRUE;
 		break;
 	}
     }
+    return result;
 }
 
 static void parseSubprogram (tokenInfo *const token, const tagType tag)
@@ -2128,8 +2152,10 @@ static void parseProgramUnit (tokenInfo *const token)
 		    readToken (token);
 		else
 		{
-		    parseSpecificationPart (token);
-		    parseExecutionPart (token);
+		    boolean one = parseSpecificationPart (token);
+		    boolean two = parseExecutionPart (token);
+		    if (! (one || two))
+			readToken (token);
 		}
 		break;
 	}

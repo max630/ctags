@@ -1,4 +1,4 @@
-# $Id: mk_mvc.mak,v 1.6 2003/04/01 04:55:17 darren Exp $
+# $Id: mk_mvc.mak,v 1.7 2003/09/19 04:02:39 darren Exp $
 #
 # Makefile for Win32 using Microsoft Visual C++ compiler
 
@@ -51,9 +51,11 @@ regex.obj:
 respmvc: $(SOURCES) $(HEADERS) mk_mvc.mak
 	echo $(DEFINES) $(INCLUDES) $(SOURCES) $(EXTRA_LIBS) > $@
 
-clean:
+mostlyclean:
 	- del *.obj
-	- del ctags.exe
 	- del dctags.exe
 	- del respmvc
 	- del tags
+
+clean: mostlyclean
+	- del ctags.exe

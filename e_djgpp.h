@@ -1,5 +1,5 @@
 /*
-*   $Id: e_djgpp.h,v 1.4 2003/04/01 05:02:21 darren Exp $
+*   $Id: e_djgpp.h,v 1.5 2003/10/31 04:15:35 darren Exp $
 *
 *   Copyright (c) 2002-2003, Darren Hiebert
 *
@@ -14,6 +14,7 @@
 #define CASE_INSENSITIVE_FILENAMES 1
 #define MSDOS_STYLE_PATH 1
 
+#define HAVE_DIR_H 1
 #define HAVE_DIRENT_H 1
 #define HAVE_FCNTL_H 1
 #define HAVE_FNMATCH_H 1

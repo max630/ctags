@@ -1,4 +1,28 @@
-Current Version: 5.5.2
+Current Version: 5.5.3
+
+ctags-5.5.3 (Sun Mar 14 2004)
+* Removed forgotten debug statement [Bug #811704].
+* Added support for Perl labels.
+* Added support for Perl "use constant" [Perl, Patch #853704, Feature Request
+  #710017].
+* Added support for package qualification of tags, removing useless "package"
+  tag kind [Perl, Feature Request #448887].
+* Added support for "and" keyword [SML, Bug #816636].
+* Added support for variables [PHP].
+* Fixed problem destroying tag file with certain info options [Bug #845502].
+* Fixed portability problem [DJGPP].
+* Fixed problem of double characters in signature field [C, Bug #852368].
+* Fixed problem manifested by errant preprocessor conditionals [Bug #839162].
+* Fixed incorrect line address in tag file for SQL tags [SQL, Bug #823000].
+* Fixed incorrect recognition of POD paragraph [Perl, Bug #842077].
+* Fixed spurious tags for for C++ member templtates [C++, Bug #849591].
+* Fixed missing tags related to template specializations [C++, Bug #872494].
+* Fixed spurious local tags for statements following labels [C].
+* Fixed missing tags for certain scoped functions [Vim].
+* Fixed infinite loop in Fortran parser.
+* Fixed missing tags for certain initializers [Fortran, Bug #877956].
+* Fixed problem with comment line after continuation character [Fortran,
+  Bug #858165].
 
 ctags-5.5.2 (Wed Sep 17 2003)
 * Added tags for local variables for C-based languages [C/C++/C#/Java/Vera,

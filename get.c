@@ -1,5 +1,5 @@
 /*
-*   $Id: get.c,v 1.6 2002/10/16 02:19:03 darren Exp $
+*   $Id: get.c,v 1.7 2003/12/14 18:48:38 darren Exp $
 *
 *   Copyright (c) 1996-2002, Darren Hiebert
 *
@@ -117,6 +117,11 @@ extern void cppInit (const boolean state)
     Cpp.directive.state	    = DRCTV_NONE;
     Cpp.directive.accept    = TRUE;
     Cpp.directive.nestLevel = 0;
+
+    Cpp.directive.ifdef [0].ignoreAllBranches = FALSE;
+    Cpp.directive.ifdef [0].singleBranch = FALSE;
+    Cpp.directive.ifdef [0].branchChosen = FALSE;
+    Cpp.directive.ifdef [0].ignoring     = FALSE;
 
     if (Cpp.directive.name == NULL)
 	Cpp.directive.name = vStringNew ();
