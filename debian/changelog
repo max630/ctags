@@ -1,3 +1,10 @@
+exuberant-ctags (1:5.2.2-2) unstable; urgency=low
+
+  * New maintainer. Thanks, Wichert.
+  * Remove the /usr/doc compatibility symlink.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed,  7 Aug 2002 14:12:47 +0100
+
 exuberant-ctags (1:5.2.2-1) unstable; urgency=medium
 
   * New upstream version

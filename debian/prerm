@@ -1,7 +1,5 @@
 #! /bin/sh
 
-pkg=exuberant-ctags
-
 set -e
 
 if [ ! \( "$1" = "upgrade" -o "$1" = "remove" \) ]; then
@@ -12,9 +10,5 @@ if [ "$1" = "remove" ] ; then
 	for i in ctags etags ; do
 		update-alternatives --remove $i /usr/bin/ctags-exuberant
 	done
-fi
-
-if [ -L /usr/doc/$pkg ]; then
-	rm -f /usr/doc/$pkg
 fi
 
