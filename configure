@@ -1278,7 +1278,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
           ac_config_headers="$ac_config_headers config.h"
 
 
-echo 'Exuberant Ctags, version 5.5.1'
+echo 'Exuberant Ctags, version 5.5.2'
 uname -mrsv 2>/dev/null
 
 
