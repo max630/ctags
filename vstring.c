@@ -1,5 +1,5 @@
 /*
-*   $Id: vstring.c,v 1.6 2002/03/30 05:00:14 darren Exp $
+*   $Id: vstring.c,v 1.7 2002/09/04 03:30:54 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -194,7 +194,7 @@ extern void vStringNCopyS (vString *const string, const char *const s,
     vStringNCatS (string, s, length);
 }
 
-extern void vStringCopyToLower (vString *const dest, vString *const src)
+extern void vStringCopyToLower (vString *const dest, const vString *const src)
 {
     const size_t length = src->length;
     const char *s = src->buffer;

@@ -1,4 +1,4 @@
-#	$Id: testing.mak,v 1.7 2002/07/11 04:49:31 darren Exp $
+#	$Id: testing.mak,v 1.9 2002/09/04 03:30:54 darren Exp $
 #
 #	Copyright (c) 1996-2002, Darren Hiebert
 #
@@ -9,7 +9,7 @@ CTAGS_TEST = ctags
 CTAGS_REF = ctags.ref
 TEST_OPTIONS = -nu --c-types=+px
 
-DIFF_OPTIONS = -I '^!_TAG'
+DIFF_OPTIONS = -U 0 -I '^!_TAG'
 DIFF = if diff $(DIFF_OPTIONS) tags.ref tags.test > $(DIFF_FILE); then \
 		rm -f tags.ref tags.test $(DIFF_FILE) ; \
 		echo "Passed" ; \

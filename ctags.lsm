@@ -1,7 +1,7 @@
 Begin4
 Title:		Exuberant Ctags
-Version:	5.3
-Entered-date:	2002-07-17
+Version:	5.3.1
+Entered-date:	2002-09-12
 Description:	An improved ctags with multilanguage support.
 Keywords:	tag tags ctags etags ftags ptags Exuberant Assembler ASP AWK
 		Bourne sh BETA C C++ COBOL Eiffel Fortran Java Korn ksh Lisp
@@ -10,7 +10,7 @@ Keywords:	tag tags ctags etags ftags ptags Exuberant Assembler ASP AWK
 Author:		dhiebert@users.sourceforge.net (Darren Hiebert)
 Maintained-by:  dhiebert@users.sourceforge.net (Darren Hiebert)
 Primary-site:	http://prdownloads.sourceforge.net/ctags
-		226K ctags-5.3.tar.gz
+		226K ctags-5.3.1.tar.gz
 Original-site:	http://ctags.sourceforge.net
 Platforms:	UNIX, MSDOS, Windows 95/98/NT, OS/2, QNX, Amiga, QDOS, RISC OS,
 		VMS, Macintosh, MacOS X, Cray

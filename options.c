@@ -1,5 +1,5 @@
 /*
-*   $Id: options.c,v 1.10 2002/06/17 04:48:13 darren Exp $
+*   $Id: options.c,v 1.11 2002/08/14 05:08:10 darren Exp $
 *
 *   Copyright (c) 1996-2002, Darren Hiebert
 *
@@ -410,19 +410,6 @@ extern void checkOptions (void)
 	if (Option.tagFileName != NULL)
 	    error (WARNING, "%s ignores output tag file name", notice);
     }
-#ifdef UPDATE_ENABLED
-    if (Option.update)
-    {
-	notice = "update option is not compatible with";
-	if (Option.etags)
-	    error (FATAL, "%s emacs-style tags", notice);
-	if (Option.filter)
-	    error (FATAL, "%s filter option", notice);
-	if (isDestinationStdout ())
-	    error (FATAL, "%s tags to stdout", notice);
-	Option.append = TRUE;
-    }
-#endif
 }
 
 static void setEtagsMode (void)

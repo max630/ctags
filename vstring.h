@@ -1,5 +1,5 @@
 /*
-*   $Id: vstring.h,v 1.4 2002/03/30 05:01:44 darren Exp $
+*   $Id: vstring.h,v 1.5 2002/09/04 03:30:54 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -75,7 +75,7 @@ extern vString *vStringNewCopy (vString *const string);
 extern vString *vStringNewInit (const char *const s);
 extern void vStringCopyS (vString *const string, const char *const s);
 extern void vStringNCopyS (vString *const string, const char *const s, const size_t length);
-extern void vStringCopyToLower (vString *const dest, vString *const src);
+extern void vStringCopyToLower (vString *const dest, const vString *const src);
 extern void vStringSetLength (vString *const string);
 
 #endif	/* _VSTRING_H */
