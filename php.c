@@ -1,5 +1,5 @@
 /*
-*   $Id: php.c,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: php.c,v 1.2 2003/02/13 02:27:41 darren Exp $
 *
 *   Copyright (c) 2000, Jesus Castagnetto <jmcastagnetto@zkey.com>
 *
@@ -67,10 +67,7 @@ static void findPhpTags (void)
 		++cp;
 	    }
 	    vStringTerminate (name);
-	    while (isspace ((int) *cp))
-		++cp;
-	    if (*cp++ == '(')
-		makeSimpleTag (name, PhpKinds, K_FUNCTION);
+	    makeSimpleTag (name, PhpKinds, K_FUNCTION);
 	    vStringClear (name);
 	} 
 	else if (strncmp ((const char*) cp, "class", (size_t) 5) == 0 &&

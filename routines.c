@@ -1,7 +1,7 @@
 /*
-*   $Id: routines.c,v 1.14 2002/10/16 02:37:14 darren Exp $
+*   $Id: routines.c,v 1.16 2003/04/01 04:55:28 darren Exp $
 *
-*   Copyright (c) 2002, Darren Hiebert
+*   Copyright (c) 2002-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -54,7 +54,10 @@
 # include <direct.h>	/* to _getcwd */
 #endif
 #ifdef HAVE_DIR_H
-# include <dir.h>	/* to declare findfirst () and findnext () */
+# include <dir.h>	/* to declare findfirst() and findnext() */
+#endif
+#ifdef HAVE_IO_H
+# include <io.h>	/* to declare open() */
 #endif
 #include "debug.h"
 #include "routines.h"

@@ -1,4 +1,4 @@
-# $Id: mk_qdos.mak,v 1.8 2002/10/03 02:09:44 darren Exp $
+# $Id: mk_qdos.mak,v 1.10 2003/02/13 02:59:30 darren Exp $
 #
 # Makefile for ctags on QDOS/SMS systems and C68 v4.24
 # Submitted by Thierry Godefroy <godefroy@imaginet.fr>
@@ -49,6 +49,7 @@ OBJECTS = qdos.$(OBJEXT) \
 	cobol.$(OBJEXT) \
 	eiffel.$(OBJEXT) \
 	entry.$(OBJEXT) \
+	erlang.$(OBJEXT) \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
@@ -71,6 +72,7 @@ OBJECTS = qdos.$(OBJEXT) \
 	sh.$(OBJEXT) \
 	slang.$(OBJEXT) \
 	sort.$(OBJEXT) \
+	sml.$(OBJEXT) \
 	sql.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \

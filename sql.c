@@ -1,7 +1,7 @@
 /*
-*   $Id: sql.c,v 1.1 2002/10/03 02:09:44 darren Exp $
+*   $Id: sql.c,v 1.6 2003/04/01 04:55:28 darren Exp $
 *
-*   Copyright (c) 2002, Darren Hiebert
+*   Copyright (c) 2002-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -97,8 +97,6 @@ typedef enum eTokenType {
 typedef struct sTokenInfo {
     tokenType	type;
     keywordId	keyword;
-    unsigned long lineNumber;	/* line number of token */
-    fpos_t	filePosition;	/* file position of line containing token */
     vString *	string;
 } tokenInfo;
 
@@ -170,7 +168,7 @@ static const keywordDesc SqlKeywordTable [] = {
 *   FUNCTION DECLARATIONS
 */
 
-static void parseBlock (tokenInfo *token, boolean local);
+static void parseBlock (tokenInfo *const token, const boolean local);
 
 /*
 *   FUNCTION DEFINITIONS
@@ -178,7 +176,7 @@ static void parseBlock (tokenInfo *token, boolean local);
 
 static boolean isIdentChar1 (const int c)
 {
-    return isalpha (c);
+    return (boolean) isalpha (c);
 }
 
 static boolean isIdentChar (const int c)
@@ -205,9 +203,6 @@ static tokenInfo *newToken (void)
 
     token->type         = TOKEN_UNDEFINED;
     token->keyword      = KEYWORD_NONE;
-    token->lineNumber   = KEYWORD_NONE;
-    token->lineNumber   = getSourceLineNumber ();
-    token->filePosition = getInputFilePosition ();
     token->string       = vStringNew ();
 
     return token;
@@ -233,8 +228,6 @@ static void makeSqlTag (tokenInfo *const token, const sqlKind kind)
 
 	e.kindName     = SqlKinds [kind].name;
 	e.kind         = SqlKinds [kind].letter;
-	e.lineNumber   = token->lineNumber;
-	e.filePosition = token->filePosition;
 
 	makeTagEntry (&e);
     }
@@ -302,8 +295,6 @@ static void readToken (tokenInfo *const token)
 
     token->type         = TOKEN_UNDEFINED;
     token->keyword      = KEYWORD_NONE;
-    token->lineNumber   = getSourceLineNumber ();
-    token->filePosition = getInputFilePosition ();
     vStringClear (token->string);
 
 getNextChar:
@@ -351,7 +342,11 @@ getNextChar:
 		{
 		    skipToCharacter ('*');
 		    c = fileGetc ();
-		} while (c != '/');
+		    if (c == '/')
+			break;
+		    else
+			fileUngetc (c);
+		} while (c != '\0');
 		goto getNextChar;
 	    }
 	    break;

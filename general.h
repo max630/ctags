@@ -1,7 +1,7 @@
 /*
-*   $Id: general.h,v 1.11 2002/07/11 03:17:33 darren Exp $
+*   $Id: general.h,v 1.14 2003/04/01 05:02:13 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 1998-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -14,49 +14,27 @@
 /*
 *   INCLUDE FILES
 */
-#ifdef HAVE_CONFIG_H
+#if defined (HAVE_CONFIG_H)
 # include <config.h>
-#endif
-
-/* Include correct file for compilation environment */
-
-#ifdef AMIGA
+#elif defined (AMIGA)
 # include "e_amiga.h"
-#endif
-
-#ifdef __CYGWIN__
-# include "e_cygwin.h"
-#endif
-
-#ifdef DJGPP
+#elif defined (DJGPP)
 # include "e_djgpp.h"
-#endif
-
-#ifdef macintosh
+#elif defined (macintosh)
 # include "e_mac.h"
-#endif
-
-#if defined (MSDOS) || defined (WIN32)
+#elif defined (MSDOS) || defined (WIN32)
 # include "e_msoft.h"
-#endif
-
-#ifdef OS2
+#elif defined (OS2)
 # include "e_os2.h"
-#endif
-
-#ifdef QDOS
+#elif defined (QDOS)
 # include "e_qdos.h"
-#endif
-
-#ifdef RISCOS
+#elif defined (RISCOS)
 # include "e_riscos.h"
-#endif
-
-#if defined (__vms) && ! defined (VMS)
-# define VMS 1
-#endif
-#ifdef VMS
+#elif defined (__vms) || defined (VMS)
 # include "e_vms.h"
+# ifndef VMS
+#  define VMS 1
+# endif
 #endif
 
 
@@ -103,14 +81,6 @@
 # else
 #  define strncasecmp(s1,s2,n) strnuppercmp(s1,s2,n)
 # endif
-#endif
-
-#ifndef HAVE_STRICMP
-# define stricmp(s1,s2) struppercmp(s1,s2)
-#endif
-
-#ifndef HAVE_STRICMP
-# define strnicmp(s1,s2,n) strnuppercmp(s1,s2,n)
 #endif
 
 /*

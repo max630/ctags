@@ -1,4 +1,4 @@
-# $Id: mk_manx.mak,v 1.7 2002/10/03 02:09:44 darren Exp $
+# $Id: mk_manx.mak,v 1.9 2003/02/13 02:59:30 darren Exp $
 #
 # Makefile for ctags on the Amiga, using Aztec/Manx C 5.0 or later
 
@@ -14,6 +14,7 @@ OBJECTS = \
 	cobol.$(OBJEXT) \
 	eiffel.$(OBJEXT) \
 	entry.$(OBJEXT) \
+	erlang.$(OBJEXT) \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
@@ -36,6 +37,7 @@ OBJECTS = \
 	sh.$(OBJEXT) \
 	slang.$(OBJEXT) \
 	sort.$(OBJEXT) \
+	sml.$(OBJEXT) \
 	sql.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \

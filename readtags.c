@@ -1,7 +1,7 @@
 /*
-*   $Id: readtags.c,v 1.16 2002/09/16 06:22:39 darren Exp $
+*   $Id: readtags.c,v 1.22 2003/04/01 04:55:27 darren Exp $
 *
-*   Copyright (c) 1996-2002, Darren Hiebert
+*   Copyright (c) 1996-2003, Darren Hiebert
 *
 *   This source code is released into the public domain.
 *
@@ -44,7 +44,7 @@ struct sTagFile {
 	/* format of tag file */
     short format;
 	/* how is the tag file sorted? */
-    short sortMethod;
+    sortType sortMethod;
 	/* pointer to file structure */
     FILE* fp;
 	/* file position of first character of `line' */
@@ -236,7 +236,7 @@ static int readTagLine (tagFile *const file)
 static tagResult growFields (tagFile *const file)
 {
     tagResult result = TagFailure;
-    size_t newCount = 2 * file->fields.max;
+    unsigned short newCount = 2 * file->fields.max;
     tagExtensionField *newFields = (tagExtensionField*)
 	    realloc (file->fields.list, newCount * sizeof (tagExtensionField));
     if (newFields == NULL)
@@ -401,7 +401,7 @@ static void readPseudoTags (tagFile *const file, tagFileInfo *const info)
 	    key = entry.name + prefixLength;
 	    value = entry.file;
 	    if (strcmp (key, "TAG_FILE_SORTED") == 0)
-		file->sortMethod = atoi (value);
+		file->sortMethod = (sortType) atoi (value);
 	    else if (strcmp (key, "TAG_FILE_FORMAT") == 0)
 		file->format = atoi (value);
 	    else if (strcmp (key, "TAG_PROGRAM_AUTHOR") == 0)
@@ -520,7 +520,7 @@ static const char *readFieldValue (
 	result = entry->kind;
     else if (strcmp (key, "file") == 0)
 	result = EmptyString;
-    else for (i = 0  ;  i < entry->fields.count  &&  result != NULL  ;  ++i)
+    else for (i = 0  ;  i < entry->fields.count  &&  result == NULL  ;  ++i)
 	if (strcmp (entry->fields.list [i].key, key) == 0)
 	    result = entry->fields.list [i].value;
     return result;
@@ -711,12 +711,12 @@ static tagResult findNext (tagFile *const file, tagEntry *const entry)
 *  EXTERNAL INTERFACE
 */
 
-extern tagFile *tagsOpen (const char *filePath, tagFileInfo *info)
+extern tagFile *tagsOpen (const char *const filePath, tagFileInfo *const info)
 {
     return initialize (filePath, info);
 }
 
-extern tagResult tagsSetSortType (tagFile *file, sortType type)
+extern tagResult tagsSetSortType (tagFile *const file, const sortType type)
 {
     tagResult result = TagFailure;
     if (file != NULL  &&  file->initialized)
@@ -771,7 +771,7 @@ extern tagResult tagsFindNext (tagFile *const file, tagEntry *const entry)
     return result;
 }
 
-extern tagResult tagsClose (tagFile *file)
+extern tagResult tagsClose (tagFile *const file)
 {
     tagResult result = TagFailure;
     if (file != NULL  &&  file->initialized)
@@ -900,7 +900,7 @@ extern int main (int argc, char **argv)
 	}
 	else
 	{
-	    int j;
+	    size_t j;
 	    for (j = 1  ;  arg [j] != '\0'  ;  ++j)
 	    {
 		switch (arg [j])
@@ -945,13 +945,13 @@ extern int main (int argc, char **argv)
 		}
 	    }
 	}
-	if (! actionSupplied)
-	{
-	    fprintf (errout,
-		"%s: no action specified: specify tag name(s) or -l option\n",
-		ProgramName);
-	    exit (1);
-	}
+    }
+    if (! actionSupplied)
+    {
+	fprintf (errout,
+	    "%s: no action specified: specify tag name(s) or -l option\n",
+	    ProgramName);
+	exit (1);
     }
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
-*   $Id: acconfig.h,v 1.2 2002/02/17 06:04:32 darren Exp $
+*   $Id: acconfig.h,v 1.4 2003/04/01 05:02:21 darren Exp $
 *
-*   Copyright (c) 1998-2002, Darren Hiebert
+*   Copyright (c) 1998-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -71,6 +71,10 @@
  *  the form "#! /bin/sh" to select the interpreter to use for the script.
  */
 #undef SYS_INTERPRETER
+
+/*  Define this label if your system uses case-insensitive file names
+ */
+#undef CASE_INSENSITIVE_FILENAMES
 
 /*  Define this label to use the system sort utility (which is probably more
  *  efficient) over the internal sorting algorithm.

@@ -1,5 +1,5 @@
 /*
-*   $Id: yacc.c,v 1.5 2002/02/17 06:04:32 darren Exp $
+*   $Id: yacc.c,v 1.6 2003/02/23 18:23:10 darren Exp $
 *
 *   Copyright (c) 2001-2002, Nick Hibma <n_hibma@van-laarhoven.org>
 *
@@ -24,7 +24,7 @@
 static void installYaccRegex (const langType language)
 {
     addTagRegex (language,
-        "^([A-Za-z][A-Za-z_0-9]+)[ \t]*:", "\\1", "l,label", NULL);
+        "^([A-Za-z][A-Za-z_0-9]+)[ \t]*:", "\\1", "l,label,labels", NULL);
 }
 
 extern parserDefinition* YaccParser ()

@@ -1,7 +1,7 @@
 /*
-*   $Id: asm.c,v 1.13 2002/09/04 03:30:54 darren Exp $
+*   $Id: asm.c,v 1.16 2003/04/01 04:55:27 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -71,7 +71,7 @@ static kindOption AsmKinds [] = {
     { TRUE, 'd', "define", "defines" },
     { TRUE, 'l', "label",  "labels"  },
     { TRUE, 'm', "macro",  "macros"  },
-    { TRUE, 't', "type",   "types"   }
+    { TRUE, 't', "type",   "types (structs and records)"   }
 };
 
 static const asmKeyword AsmKeywords [] = {
@@ -94,17 +94,17 @@ static const asmKeyword AsmKeywords [] = {
 };
 
 static const opKind OpKinds [] = {
-    /* must be ordered same as opKeword enumeration */
+    /* must be ordered same as opKeyword enumeration */
     { OP_UNDEFINED,   K_NONE   },
     { OP_ALIGN,       K_NONE   },
     { OP_COLON_EQUAL, K_DEFINE },
     { OP_END,         K_NONE   },
-    { OP_ENDMACRO,    K_NONE   },
     { OP_ENDM,        K_NONE   },
+    { OP_ENDMACRO,    K_NONE   },
     { OP_ENDP,        K_NONE   },
     { OP_ENDS,        K_NONE   },
-    { OP_EQUAL,       K_DEFINE },
     { OP_EQU,         K_DEFINE },
+    { OP_EQUAL,       K_DEFINE },
     { OP_LABEL,       K_LABEL  },
     { OP_MACRO,       K_MACRO  },
     { OP_PROC,        K_LABEL  },

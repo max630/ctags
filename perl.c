@@ -1,7 +1,7 @@
 /*
-*   $Id: perl.c,v 1.5 2002/09/21 21:02:45 darren Exp $
+*   $Id: perl.c,v 1.8 2003/04/01 04:55:27 darren Exp $
 *
-*   Copyright (c) 2000-2002, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -30,7 +30,7 @@ typedef enum {
 
 static kindOption PerlKinds [] = {
     { TRUE, 's', "subroutine", "subroutines" },
-    { TRUE, 'p', "package", "packages" }
+    { TRUE, 'p', "package",    "packages" }
 };
 
 /*
@@ -107,7 +107,7 @@ static void findPerlTags (void)
 
 extern parserDefinition* PerlParser (void)
 {
-    static const char *const extensions [] = { "pl", "pm", "perl", NULL };
+    static const char *const extensions [] = { "pl", "pm", "plx", "perl", NULL };
     parserDefinition* def = parserNew ("Perl");
     def->kinds      = PerlKinds;
     def->kindCount  = KIND_COUNT (PerlKinds);

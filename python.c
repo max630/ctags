@@ -1,7 +1,7 @@
 /*
-*   $Id: python.c,v 1.3 2002/06/15 22:28:44 darren Exp $
+*   $Id: python.c,v 1.8 2003/04/01 04:55:27 darren Exp $
 *
-*   Copyright (c) 2000-2001, Darren Hiebert
+*   Copyright (c) 2000-2003, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -30,9 +30,9 @@ typedef enum {
 } pythonKind;
 
 static kindOption PythonKinds[] = {
-    {TRUE, 'c', "class", "classes"},
+    {TRUE, 'c', "class",    "classes"},
     {TRUE, 'f', "function", "functions"},
-    {TRUE, 'm', "member", "class member"}
+    {TRUE, 'm', "member",   "class members"}
 };
 
 /*
@@ -165,7 +165,7 @@ static void findPythonTags (void)
 	cp = skipSpace (cp);
 	indent = cp - line;
 
-	if (*cp == '#')	/* skip initial comment */
+	if (*cp == '#' || *cp == '\0')	/* skip comment or blank line */
 	    continue;
 	
 	if (longStringLiteral)
@@ -185,18 +185,19 @@ static void findPythonTags (void)
 		vStringClear (class);
 
 	    cp = parseIdentifier (cp, identifier);
-	    if (!isspace ((int) *cp))
-		continue;
-	    cp = skipSpace (cp);
-	    if (strcmp (vStringValue (identifier), "def") == 0)
-		parseFunction (cp, class);
-	    else if (strcmp (vStringValue (identifier), "class") == 0)
+	    if (isspace ((int) *cp))
 	    {
-		parseClass (cp, class);
-		class_indent = indent;
+		cp = skipSpace (cp);
+		if (strcmp (vStringValue (identifier), "def") == 0)
+		    parseFunction (cp, class);
+		else if (strcmp (vStringValue (identifier), "class") == 0)
+		{
+		    parseClass (cp, class);
+		    class_indent = indent;
+		}
 	    }
 	}
-	if (strstr ((const char*) cp, "\"\"\"") != NULL)
+	if ((cp = (const unsigned char*) strstr ((const char*)cp, "\"\"\"")) != NULL)
 	{
 	    cp += 3;
 	    cp = (const unsigned char*) strstr ((const char*) cp, "\"\"\"");
