@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed,  2 Apr 2003 08:23:38 +0100
+
 exuberant-ctags (1:5.4-1) unstable; urgency=low
 
   * New upstream release.
