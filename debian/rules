@@ -1,0 +1,54 @@
+#! /usr/bin/make -f
+
+# Debian package information
+package         = exuberant-ctags
+docdir          = /usr/share/doc/$(package)
+
+all build stamp-build: Makefile
+	$(MAKE) $(MFLAGS)
+	touch stamp-build
+
+Makefile:
+	CFLAGS="-g -O2 " ./configure 
+
+clean:
+	rm -f stamp-build debian/files debian/substvars
+	rm -rf debian/tmp 
+	-make distclean
+
+binary: binary-arch binary-indep
+
+binary-indep:
+	@echo This package contains no architecture independent parts
+
+binary-arch: stamp-build
+# Clean up first
+	rm -rf debian/tmp
+# Install exuberant-ctags itself
+	install -d -o root -g root -m 755 debian/tmp/usr/bin
+	install -d -o root -g root -m 755 debian/tmp/usr/share/man/man1
+	install -s -o root -g root -m 755 ctags \
+		debian/tmp/usr/bin/ctags-exuberant
+	install -p -o root -g root -m 644 ctags.1 \
+		debian/tmp/usr/share/man/man1/ctags-exuberant.1
+	gzip -9 debian/tmp/usr/share/man/man1/ctags-exuberant.1
+
+# Install the documentation
+	install -d -o root -g root -m 755 debian/tmp/$(docdir)
+	install -p -o root -g root -m 644 debian/changelog \
+		debian/tmp/$(docdir)/changelog.Debian
+	install -p -o root -g root -m 644 FAQ debian/tmp/$(docdir)/
+	install -p -o root -g root -m 644 QUOTES debian/tmp/$(docdir)/
+	install -p -o root -g root -m 644 NEWS debian/tmp/$(docdir)/changelog
+	gzip -9 debian/tmp/$(docdir)/*
+	install -p -o root -g root -m 644 debian/copyright debian/tmp/$(docdir)/
+
+# Do the usual Debian stuff
+	install -d -o root -g root -m 755 debian/tmp/DEBIAN
+	install -p -o root -g root -m 755 debian/prerm debian/tmp/DEBIAN/
+	install -p -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
+	dpkg-shlibdeps debian/tmp/usr/bin/*
+	dpkg-gencontrol -isp
+	dpkg --build debian/tmp ..
+
+.PHONY: all build binary binary-indep binary-arch clean

@@ -1,0 +1,164 @@
+exuberant-ctags (1:5.2.2-1) unstable; urgency=medium
+
+  * New upstream version
+  * Don't abort if update-alternatives reports an error. Closes: Bug#133033
+  * Remove temporary file in postinst. Closes: Bug#134208
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sun, 17 Feb 2002 15:16:36 +0100
+
+exuberant-ctags (1:5.0.1-3) unstable; urgency=low
+
+  * Fix spelling error in description
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sat, 17 Nov 2001 17:25:11 +0100
+
+exuberant-ctags (1:5.0.1-2) unstable; urgency=low
+
+  * Change alternative priority on user demand so it is higher then
+    that of other `wimpy ctags' implementations.
+  * Remove Linux reference from copyright
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sat,  6 Oct 2001 14:57:52 +0200
+
+exuberant-ctags (1:5.0.1-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Mon, 16 Apr 2001 04:36:50 +0200
+
+exuberant-ctags (1:5.0-2) unstable; urgency=low
+
+  * Change section to editors and priority to optional so they match
+    the dinstall overrides
+  * Fix typo in Suggests. Closes: Bug#92791
+  * Add vile to Suggests. Closes: Bug#51948
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sun, 15 Apr 2001 13:14:53 +0200
+
+exuberant-ctags (1:5.0-1) unstable; urgency=low
+
+  * Change maintainer, Heiko is effectively MIA
+  * New upstream version
+  * Bump Standards-Version to 3.5.2
+  * Update description to note that exuberant can now also handle
+    ASP, Makefiles, Pascal, PHP, REXX, Ruby and S-Lang.
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sat, 14 Apr 2001 10:26:58 +0200
+
+exuberant-ctags (1:4.0.3-0.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * New upstream version
+  * Update Standards-Version to 3.2.1.0
+  * Repackaged from scratch
+  * FHS compliant paths now
+  * Change priority to extra
+  * Properly handle alternatives with respect to aborted upgrades
+  * Rewrite copyright to reflect new license (GPL), homepage location
+    (sourceforge) and email address of author.
+  * Remove references to elv-ctags and conflicts for packages that
+    vanished 3 years ago
+  * Redid extended description: reformat it so it is readable
+    and reflects the current future set better.
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Tue, 29 Aug 2000 02:49:18 +0200
+
+exuberant-ctags (1:3.2.4-0) unstable; urgency=high
+
+  * new upstream (closes #37172)
+  * /usr/man/man1/ctags.1.gz removed (closes #35967)
+  * 34666 outdated with new upstream (closes #34666)
+  * fixed typos in README (closes #38882)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Tue, 20 Jul 1999 21:43:29 +0200
+
+exuberant-ctags (1:3.1.2-1) unstable; urgency=high
+
+  * new upstream
+  * Updated the debian/copyright file (original source location)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Wed, 10 Feb 1999 01:09:18 +0100
+
+exuberant-ctags (1:2.3.2-2) frozen unstable; urgency=high
+
+  * removed the ctags.1 man page (since this page is provided through
+    the alternatives mechanism (closes #33100 (grave), #28532)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Wed, 10 Feb 1999 00:39:06 +0100
+
+exuberant-ctags (1:2.3.2-1) unstable; urgency=high
+
+  * maintainer upload (since Peter Moulder can't do this)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Wed, 14 Oct 1998 17:30:03 +0200
+
+exuberant-ctags (1:2.3.2-0.1) unstable; urgency=high
+
+  * new upstream version.  Now supports Java.
+  * Non-maintainer upload.
+  * Change Section to `devel'.
+  * Fix lintian bugs.
+
+ -- Peter Moulder <pjm@debs.fuller.edu>  Sat, 26 Sep 1998 18:20:20 +1000
+
+exuberant-ctags (1:1.7.5-2) unstable; urgency=high
+
+  * include the _original_ source
+  * debian/rules clean target removes now the config.log file
+    (is not present in orig source)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Thu, 15 Jan 1998 17:21:24 +0100
+
+exuberant-ctags (1:1.7.5-1) unstable; urgency=low
+
+  * new upstream (fixes #16297)
+  * no debian related bugs fixed
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Thu, 15 Jan 1998 14:20:34 +0100
+
+exuberant-ctags (1:1.7.4-1) unstable; urgency=low
+
+  * Non-maintainer release
+  * Compiled with libc6
+  * New upstream version
+  * Use pristine upstream source
+  * Strip installed executable (fixes #15716)
+  * Rename CHANGES to changelog
+
+ -- Richard Braakman <dark@xs4all.nl>  Fri, 26 Dec 1997 22:49:10 +0100
+
+exuberant-ctags (1:1.6-1) unstable; urgency=high
+
+  * use epoch to make 1.6 > 1.6b2
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Sun, 1 Jun 1997 10:44:43 +0200
+
+exuberant-ctags (1.6-1) unstable; urgency=high
+
+  * new upstream release
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Sat, 17 May 1997 20:25:08 +0200
+
+exuberant-ctags (1.6b2-1) unstable; urgency=high
+
+  * new upstream release
+
+ -- Heiko schlittermann <heiko@lotte.sax.de>  Wed, 23 Apr 1997 11:07:09 +0200
+
+vimctags (1.5-1) unstable; urgency=low
+
+  * new upstream release
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Tue, 25 Mar 1997 22:21:21 +0100
+
+ctags (1.4-2) unstable; urgency=low
+
+  * conflicts with emacs' ctags (and elvisctags)
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Tue, 10 Sep 1996 17:04:10 +0200
+
+ctags (1.4-1) unstable; urgency=low
+
+  * initial release
+
+ -- Heiko Schlittermann <heiko@lotte.sax.de>  Fri, 30 Aug 1996 16:12:32 +0200
