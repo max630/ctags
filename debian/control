@@ -2,7 +2,7 @@ Source: exuberant-ctags
 Section: editors
 Priority: optional
 Maintainer: Colin Watson <cjwatson@debian.org>
-Standards-Version: 3.5.2
+Standards-Version: 3.5.7
 
 Package: exuberant-ctags
 Architecture: any

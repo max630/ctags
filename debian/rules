@@ -4,12 +4,24 @@
 package         = exuberant-ctags
 docdir          = /usr/share/doc/$(package)
 
+ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+CFLAGS := -O2 -g -Wall
+else
+CFLAGS := -g -Wall
+endif
+
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+INSTALL_PROGRAM := install -s
+else
+INSTALL_PROGRAM := install
+endif
+
 all build stamp-build: Makefile
 	$(MAKE) $(MFLAGS)
 	touch stamp-build
 
 Makefile:
-	CFLAGS="-g -O2 -Wall" ./configure 
+	CFLAGS="$(CFLAGS)" ./configure 
 
 clean:
 	rm -f stamp-build debian/files debian/substvars
@@ -27,7 +39,7 @@ binary-arch: stamp-build
 # Install exuberant-ctags itself
 	install -d -o root -g root -m 755 debian/tmp/usr/bin
 	install -d -o root -g root -m 755 debian/tmp/usr/share/man/man1
-	install -s -o root -g root -m 755 ctags \
+	$(INSTALL_PROGRAM) -o root -g root -m 755 ctags \
 		debian/tmp/usr/bin/ctags-exuberant
 	install -p -o root -g root -m 644 ctags.1 \
 		debian/tmp/usr/share/man/man1/ctags-exuberant.1
