@@ -1,5 +1,5 @@
 /*
-*   $Id: e_msoft.h,v 1.6 2003/04/01 05:02:21 darren Exp $
+*   $Id: e_msoft.h,v 1.7 2003/08/28 03:56:57 darren Exp $
 *
 *   Copyright (c) 2002-2003, Darren Hiebert
 *
@@ -48,6 +48,12 @@
 
 # define HAVE__FINDFIRST 1
 # define HAVE_DIRECT_H 1
+
+# if _MSC_VER >= 1300
+#  define findfirst_t intptr_t		/* Visual Studio 7 */
+# else
+#  define findfirst_t long		/* Visual Studio 6 or earlier */
+# endif
 
 #elif defined (__MINGW32__)
 

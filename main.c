@@ -1,5 +1,5 @@
 /*
-*   $Id: main.c,v 1.19 2003/07/24 03:13:57 darren Exp $
+*   $Id: main.c,v 1.20 2003/08/28 03:56:21 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -201,7 +201,7 @@ static boolean createTagsForWildcardUsingFindfirst (const char *const pattern)
     }
 #elif defined (HAVE__FINDFIRST)
     struct _finddata_t fileInfo;
-    intptr_t hFile = _findfirst (pattern, &fileInfo);
+    findfirst_t hFile = _findfirst (pattern, &fileInfo);
     if (hFile != -1L)
     {
 	do
