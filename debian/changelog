@@ -2,8 +2,9 @@ exuberant-ctags (1:5.5.2-1) unstable; urgency=low
 
   * New upstream release.
   * Improve short description a bit.
+  * Policy version 3.6.1: no changes required.
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 18 Sep 2003 19:47:54 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 18 Sep 2003 20:20:49 +0100
 
 exuberant-ctags (1:5.5.1-1) unstable; urgency=low
 
