@@ -1,5 +1,5 @@
 /*
-*   $Id: parse.c,v 1.9 2003/04/01 04:55:27 darren Exp $
+*   $Id: parse.c,v 1.10 2003/07/11 01:21:54 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -353,7 +353,7 @@ extern void freeParserResources (void)
 */
 
 extern void processLanguageDefineOption (
-	const char *const option, const char *const __unused__ parameter)
+	const char *const option, const char *const parameter __unused__)
 {
 #ifdef HAVE_REGEX
     if (parameter [0] == '\0')

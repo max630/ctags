@@ -1,4 +1,4 @@
-#	$Id: maintainer.mak,v 1.30 2002/07/18 00:00:05 darren Exp $
+#	$Id: maintainer.mak,v 1.34 2003/07/31 01:56:32 darren Exp $
 #
 #	Copyright (c) 1996-2002, Darren Hiebert
 #
@@ -51,7 +51,7 @@ WEB_ARCHIVE_DIR = releases
 CTAGS_WEBSITE = website
 DEP_DIR	= .deps
 
-CC		= gcc3
+CC		= gcc
 INCLUDE	= -I.
 DEFS	= -DHAVE_CONFIG_H
 COMP_FLAGS = $(INCLUDE) $(DEFS) $(CFLAGS)
@@ -265,9 +265,14 @@ ctags-%.tar.gz: $(UNIX_FILES) $(VERSION_FILES)
 	done
 	chmod 644 ctags-$*/*
 	chmod 755 ctags-$*/mkinstalldirs
-	(cd ctags-$*; autoheader; chmod 644 config.h.in)
-	(cd ctags-$*; autoconf; chmod 755 configure)
-	(cd ctags-$*; man2html ctags.1 > ctags.html)
+	(cd ctags-$* ;\
+		autoheader ;\
+		chmod 644 config.h.in ;\
+		autoconf ;\
+		chmod 755 configure ;\
+		rm -fr autom4te.cache ;\
+		man2html ctags.1 > ctags.html ;\
+	)
 	tar -zcf $@ ctags-$*
 
 ctags-%.tar.Z: ctags-%.tar.gz
@@ -306,7 +311,7 @@ rpm-%: ctags-%.tar.gz ctags.spec $(RPM_ROOT)/SOURCES $(RPM_ROOT)/SPECS
 	@ echo "---------- Building RPM"
 	cp -p ctags-$*.tar.gz $(RPM_ROOT)/SOURCES/
 	sed -e "s/@@VERSION@@/$*/" ctags.spec > $(RPM_ROOT)/SPECS/ctags-$*.spec
-	(cd $(RPM_ROOT)/SPECS; CC=gcc3 rpm -ba ctags-$*.spec)
+	(cd $(RPM_ROOT)/SPECS; CC=gcc rpmbuild -ba ctags-$*.spec)
 	rm -fr $(RPM_ROOT)/BUILD/ctags-$*
 
 ctags32-%: ctags-%.tar.gz

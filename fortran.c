@@ -1,5 +1,5 @@
 /*
-*   $Id: fortran.c,v 1.32 2003/04/01 04:55:27 darren Exp $
+*   $Id: fortran.c,v 1.37 2003/07/21 03:38:50 darren Exp $
 *
 *   Copyright (c) 1998-2003, Darren Hiebert
 *
@@ -62,7 +62,7 @@ typedef enum eFortranLineType {
 /*  Used to specify type of keyword.
  */
 typedef enum eKeywordId {
-    KEYWORD_NONE,
+    KEYWORD_NONE = -1,
     KEYWORD_allocatable,
     KEYWORD_assignment,
     KEYWORD_automatic,
@@ -82,8 +82,6 @@ typedef enum eKeywordId {
     KEYWORD_double,
     KEYWORD_elemental,
     KEYWORD_end,
-    KEYWORD_enddo,
-    KEYWORD_endif,
     KEYWORD_entry,
     KEYWORD_equivalence,
     KEYWORD_external,
@@ -194,10 +192,11 @@ typedef struct sTokenInfo {
 
 static langType Lang_fortran;
 static jmp_buf Exception;
-static int Ungetc = '\0';
-static unsigned int Column = 0;
-static boolean FreeSourceForm = FALSE;
-static tokenInfo *Parent = NULL;
+static int Ungetc;
+static unsigned int Column;
+static boolean FreeSourceForm;
+static boolean ParsingString;
+static tokenInfo *Parent;
 
 /* indexed by tagType */
 static kindOption FortranKinds [] = {
@@ -244,8 +243,6 @@ static const keywordDesc FortranKeywordTable [] = {
     { "do",		KEYWORD_do		},
     { "double",		KEYWORD_double		},
     { "elemental",	KEYWORD_elemental	},
-    { "enddo",		KEYWORD_enddo		},
-    { "endif",		KEYWORD_endif		},
     { "end",		KEYWORD_end		},
     { "entry",		KEYWORD_entry		},
     { "equivalence",	KEYWORD_equivalence	},
@@ -621,6 +618,12 @@ static int getFixedFormChar (void)
 	    newline = TRUE;	/* need to check for continuation line */
 	    Column = 0;
 	}
+	else if (c == '!'  &&  ! ParsingString)
+	{
+	    c = skipLine ();
+	    newline = TRUE;	/* need to check for continuation line */
+	    Column = 0;
+	}
 	else if (c == '&')	/* check for free source form */
 	{
 	    const int c2 = fileGetc ();
@@ -810,8 +813,9 @@ static vString *parseNumeric (int c)
 static void parseString (vString *const string, const int delimeter)
 {
     const unsigned long inputLineNumber = getInputLineNumber ();
-    int c = getChar ();
-
+    int c;
+    ParsingString = TRUE;
+    c = getChar ();
     while (c != delimeter  &&  c != '\n'  &&  c != EOF)
     {
 	vStringPut (string, c);
@@ -827,6 +831,7 @@ static void parseString (vString *const string, const int delimeter)
 	    longjmp (Exception, (int) ExceptionFixedFormat);
     }
     vStringTerminate (string);
+    ParsingString = FALSE;
 }
 
 /*  Read a C identifier beginning with "firstChar" and places it into "name".
@@ -890,6 +895,31 @@ static void checkForLabel (void)
 	deleteToken (token);
     }
     ungetChar (c);
+}
+
+static void readIdentifier (tokenInfo *const token, const int c)
+{
+    parseIdentifier (token->string, c);
+    token->keyword = analyzeToken (token->string);
+    if (! isKeyword (token, KEYWORD_NONE))
+	token->type = TOKEN_KEYWORD;
+    else
+    {
+	token->type = TOKEN_IDENTIFIER;
+	if (strncmp (vStringValue (token->string), "end", 3) == 0)
+	{
+	    vString *const sub = vStringNewInit (vStringValue (token->string) + 3);
+	    const keywordId kw = analyzeToken (sub);
+	    vStringDelete (sub);
+	    if (kw != KEYWORD_NONE)
+	    {
+		token->secondary = newToken ();
+		token->secondary->type = TOKEN_KEYWORD;
+		token->secondary->keyword = kw;
+		token->keyword = KEYWORD_end;
+	    }
+	}
+    }
 }
 
 static void readToken (tokenInfo *const token)
@@ -974,6 +1004,16 @@ getNextChar:
 	    }
 	    break;
 
+	case '"':
+	case '\'':
+	    parseString (token->string, c);
+	    token->type = TOKEN_STRING;
+	    break;
+
+	case ';':
+	    token->type = TOKEN_STATEMENT_END;
+	    break;
+
 	case ':':
 	    c = getChar ();
 	    if (c == ':')
@@ -987,26 +1027,12 @@ getNextChar:
 
 	default:
 	    if (isalpha (c))
-	    {
-		parseIdentifier (token->string, c);
-		token->keyword = analyzeToken (token->string);
-		if (isKeyword (token, KEYWORD_NONE))
-		    token->type = TOKEN_IDENTIFIER;
-		else
-		    token->type = TOKEN_KEYWORD;
-	    }
+		readIdentifier (token, c);
 	    else if (isdigit (c))
 	    {
 		vStringCat (token->string, parseNumeric (c));
 		token->type = TOKEN_NUMERIC;
 	    }
-	    else if (c == '"'  ||  c == '\'')
-	    {
-		parseString (token->string, c);
-		token->type = TOKEN_STRING;
-	    }
-	    else if (c == ';'  &&  FreeSourceForm)
-		token->type = TOKEN_STATEMENT_END;
 	    else
 		token->type = TOKEN_UNDEFINED;
 	    break;
@@ -1389,7 +1415,7 @@ static void parseCommonNamelistStmt (tokenInfo *const token, tagType type)
 	    makeFortranTag (token, TAG_LOCAL);
 	readToken (token);
 	if (isType (token, TOKEN_PAREN_OPEN))
-	    skipOverParens (token);
+	    skipOverParens (token);        /* skip explicit-shape-spec-list */
 	if (isType (token, TOKEN_COMMA))
 	    readToken (token);
     } while (! isType (token, TOKEN_STATEMENT_END));

@@ -15,7 +15,7 @@
 *   MACROS
 */
 #ifndef PROGRAM_VERSION
-# define PROGRAM_VERSION "5.5"
+# define PROGRAM_VERSION "5.5.1"
 #endif
 #define PROGRAM_NAME	"Exuberant Ctags"
 #define PROGRAM_URL	"http://ctags.sourceforge.net"

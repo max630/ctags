@@ -1,5 +1,5 @@
 /*
-*   $Id: routines.h,v 1.7 2002/07/11 03:17:33 darren Exp $
+*   $Id: routines.h,v 1.9 2003/07/20 22:48:37 darren Exp $
 *
 *   Copyright (c) 2002, Darren Hiebert
 *
@@ -118,7 +118,9 @@ extern int fgetpos  (FILE *stream, fpos_t *pos);
 extern int fsetpos  (FILE *stream, fpos_t *pos);
 #endif
 extern const char *baseFilename (const char *const filePath);
+extern const char *fileExtension (const char *const fileName);
 extern boolean isAbsolutePath (const char *const path);
+extern vString *combinePathAndFile (const char *const path, const char *const file);
 extern char* absoluteFilename (const char *file);
 extern char* absoluteDirname (char *file);
 extern char* relativeFilename (const char *file, const char *dir);

@@ -1,5 +1,5 @@
 /*
-*   $Id: main.c,v 1.15 2003/04/01 04:55:27 darren Exp $
+*   $Id: main.c,v 1.19 2003/07/24 03:13:57 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -63,16 +63,16 @@
 # undef boolean
 #endif
 #ifdef HAVE_DIRECT_H
-# include <direct.h>	/* to _getcwd */
+# include <direct.h>	/* to _getcwd() */
 #endif
 #ifdef HAVE_DOS_H
 # include <dos.h>	/* to declare FA_DIREC */
 #endif
 #ifdef HAVE_DIR_H
-# include <dir.h>	/* to declare findfirst () and findnext () */
+# include <dir.h>	/* to declare findfirst() and findnext */
 #endif
 #ifdef HAVE_IO_H
-# include <io.h>	/* to declare _finddata_t in MSVC++ 4.x */
+# include <io.h>	/* to declare _findfirst() */
 #endif
 
 
@@ -91,7 +91,6 @@
 /*
 *   DATA DEFINITIONS
 */
-static stringList* Excluded = NULL;
 static struct { long files, lines, bytes; } Totals = { 0, 0, 0 };
 
 #ifdef AMIGA
@@ -113,58 +112,6 @@ static boolean createTagsForEntry (const char *const entryName);
 /*
 *   FUNCTION DEFINITIONS
 */
-
-extern vString *combinePathAndFile (
-    const char *const path, const char *const file)
-{
-    vString *const filePath = vStringNew ();
-#ifdef VMS
-    const char *const directoryId = strstr (file, ".DIR;1");
-
-    if (directoryId == NULL)
-    {
-	const char *const versionId = strchr (file, ';');
-
-	vStringCopyS (filePath, path);
-	if (versionId == NULL)
-	    vStringCatS (filePath, file);
-	else
-	    vStringNCatS (filePath, file, versionId - file);
-	vStringCopyToLower (filePath, filePath);
-    }
-    else
-    {
-	/*  File really is a directory; append it to the path.
-	 *  Gotcha: doesn't work with logical names.
-	 */
-	vStringNCopyS (filePath, path, strlen (path) - 1);
-	vStringPut (filePath, '.');
-	vStringNCatS (filePath, file, directoryId - file);
-	if (strchr (path, '[') != NULL)
-	    vStringPut (filePath, ']');
-	else
-	    vStringPut (filePath, '>');
-	vStringTerminate (filePath);
-    }
-#else
-    const int lastChar = path [strlen (path) - 1];
-# ifdef MSDOS_STYLE_PATH
-    boolean terminated = (boolean) (strchr (PathDelimiters, lastChar) != NULL);
-# else
-    boolean terminated = (boolean) (lastChar == PATH_SEPARATOR);
-# endif
-
-    vStringCopyS (filePath, path);
-    if (! terminated)
-    {
-	vStringPut (filePath, OUTPUT_PATH_SEPARATOR);
-	vStringTerminate (filePath);
-    }
-    vStringCatS (filePath, file);
-#endif
-
-    return filePath;
-}
 
 extern void addTotals (
 	const unsigned int files, const long unsigned int lines,
@@ -189,51 +136,6 @@ extern boolean isDestinationStdout (void)
 	)))
 	toStdout = TRUE;
     return toStdout;
-}
-
-extern void processExcludeOption (
-	const char *const __unused__ option, const char *const parameter)
-{
-    const char *const fileName = parameter + 1;
-    if (parameter [0] == '\0')
-	freeList (&Excluded);
-    else if (parameter [0] == '@')
-    {
-	stringList* const sl = stringListNewFromFile (fileName);
-	if (sl == NULL)
-	    error (FATAL | PERROR, "cannot open \"%s\"", fileName);
-	if (Excluded == NULL)
-	    Excluded = sl;
-	else
-	    stringListCombine (Excluded, sl);
-	verbose ("    adding exclude patterns from %s\n", fileName);
-    }
-    else
-    {
-	vString *const item = vStringNewInit (parameter);
-	if (Excluded == NULL)
-	    Excluded = stringListNew ();
-	stringListAdd (Excluded, item);
-	verbose ("    adding exclude pattern: %s\n", parameter);
-    }
-}
-
-static boolean excludedFile (const char* const name)
-{
-    const char* base = baseFilename (name);
-    boolean result = FALSE;
-    if (Excluded != NULL)
-    {
-	result = stringListFileMatched (Excluded, base);
-	if (! result  &&  name != base)
-	    result = stringListFileMatched (Excluded, name);
-    }
-#ifdef AMIGA
-    /* not a good solution, but the only one which works often */
-    if (! result)
-	result = (boolean) (strcmp (name, TagFile.name) == 0);
-#endif
-    return result;
 }
 
 #if defined (HAVE_OPENDIR)
@@ -387,7 +289,7 @@ static boolean createTagsForEntry (const char *const entryName)
     fileStatus *status = eStat (entryName);
 
     Assert (entryName != NULL);
-    if (excludedFile (entryName))
+    if (isExcludedFile (entryName))
 	verbose ("excluding \"%s\"\n", entryName);
     else if (status->isSymbolicLink  &&  ! Option.followLinks)
 	verbose ("ignoring \"%s\" (symbolic link)\n", entryName);
@@ -651,7 +553,6 @@ extern int main (int __unused__ argc, char **argv)
     /*  Clean up.
      */
     eFree (CurrentDirectory);
-    freeList (&Excluded);
     cArgDelete (args);
     freeKeywordTable ();
     freeSourceFileResources ();
