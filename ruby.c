@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: ruby.c,v 1.2 2001/12/18 04:30:18 darren Exp $
 *
 *   Copyright (c) 2000-2001, Thaddeus Covert <sahuagin@mediaone.net>
 *

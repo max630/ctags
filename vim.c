@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: vim.c,v 1.2 2001/12/13 04:23:12 darren Exp $
 *
 *   Copyright (c) 2000-2001, Darren Hiebert
 *

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: main.c,v 1.8 2002/02/16 21:05:25 darren Exp $
 *
 *   Copyright (c) 1996-2001, Darren Hiebert
 *

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: sh.c,v 1.2 2002/02/16 19:53:16 darren Exp $
 *
 *   Copyright (c) 2000-2001, Darren Hiebert
 *

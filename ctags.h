@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: ctags.h,v 1.2 2001/12/22 05:58:16 darren Exp $
 *
 *   Copyright (c) 1996-2001, Darren Hiebert
 *
@@ -15,7 +15,7 @@
 *   MACROS
 */
 #ifndef PROGRAM_VERSION
-# define PROGRAM_VERSION "@@VERSION@@"
+# define PROGRAM_VERSION "5.2.2"
 #endif
 #define PROGRAM_NAME	"Exuberant Ctags"
 #define PROGRAM_URL	"http://ctags.sourceforge.net"

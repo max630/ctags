@@ -1,4 +1,4 @@
-# $Id$
+# $Id: Makefile.in,v 1.6 2002/02/16 20:56:55 darren Exp $
 #
 # Makefile for UNIX-like platforms.
 #

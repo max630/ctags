@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: general.h,v 1.6 2002/02/16 05:40:19 darren Exp $
 *
 *   Copyright (c) 1998-2001, Darren Hiebert
 *

@@ -1,4 +1,4 @@
-# $Id$
+# $Id: mk_mvc.mak,v 1.2 2001/12/22 04:43:33 darren Exp $
 #
 # Makefile for Win32 using Microsoft Visual C++ compiler
 

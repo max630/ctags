@@ -1,4 +1,4 @@
-# $Id$
+# $Id: mk_qdos.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
 #
 # Makefile for ctags on QDOS/SMS systems and C68 v4.24
 # Submitted by Thierry Godefroy <godefroy@imaginet.fr>

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: mac.c,v 1.1 2001/11/02 04:53:43 darren Exp $
 *
 *   Copyright (c) 2001, Maarten L. Hekkelman
 *

@@ -1,5 +1,5 @@
 /*
- *   $Id$
+ *   $Id: slang.c,v 1.2 2001/12/23 20:31:47 darren Exp $
  *
  *   Copyright (c) 2000-2001, Francesc Rocher
  *

@@ -1,4 +1,4 @@
-# $Id$
+# $Id: mk_djg.mak,v 1.1 2001/11/02 04:53:43 darren Exp $
 #
 # The most simplistic Makefile, for DJGPP on MS-DOS
 

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: parse.h,v 1.6 2002/02/16 23:19:39 darren Exp $
 *
 *   Copyright (c) 1998-2001, Darren Hiebert
 *

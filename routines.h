@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: routines.h,v 1.2 2002/02/16 23:19:39 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *

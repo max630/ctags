@@ -1,4 +1,4 @@
-# $Id$
+# $Id: mk_sas.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
 #
 # Makefile for SAS/C Amiga Compiler
 # Submitted by Stefan Haubenthal <polluks@freeshell.org>

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: parsers.h,v 1.2 2001/12/20 01:06:10 darren Exp $
 *
 *   Copyright (c) 2000-2001, Darren Hiebert
 *

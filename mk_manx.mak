@@ -1,4 +1,4 @@
-# $Id$
+# $Id: mk_manx.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
 #
 # Makefile for ctags on the Amiga, using Aztec/Manx C 5.0 or later
 

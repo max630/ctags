@@ -1,4 +1,4 @@
-# $Id$
+# $Id: descrip.mms,v 1.1 2001/11/02 04:53:43 darren Exp $
 #
 # Makefile for building CTAGS under OpenVMS
 #

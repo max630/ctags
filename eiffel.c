@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: eiffel.c,v 1.7 2002/02/16 19:53:16 darren Exp $
 *
 *   Copyright (c) 1998-2001, Darren Hiebert
 *

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: strlist.h,v 1.2 2002/02/16 05:40:19 darren Exp $
 *
 *   Copyright (c) 1999-2001, Darren Hiebert
 *

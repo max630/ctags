@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: debug.c,v 1.1 2001/11/02 04:53:42 darren Exp $
 *
 *   Copyright (c) 1996-2001, Darren Hiebert
 *

@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: argproc.c,v 1.1 2001/11/02 04:53:42 darren Exp $
 *
 *   Copyright (c) 1989, Mark Pizzolato (mark@infopiz.uucp)
 *

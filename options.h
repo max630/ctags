@@ -1,5 +1,5 @@
 /*
-*   $Id$
+*   $Id: options.h,v 1.3 2001/12/16 18:45:18 darren Exp $
 *
 *   Copyright (c) 1998-2001, Darren Hiebert
 *

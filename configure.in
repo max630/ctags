@@ -1,4 +1,4 @@
-dnl $Id$
+dnl $Id: configure.in,v 1.5 2002/02/16 20:52:08 darren Exp $
 
 dnl	Copyright (c) 1996-1999, Darren Hiebert
 dnl
@@ -13,7 +13,7 @@ AC_CONFIG_HEADER(config.h)
 
 dnl Report system info
 dnl ------------------
-echo 'Exuberant Ctags, version @@VERSION@@'
+echo 'Exuberant Ctags, version 5.2.2'
 uname -mrsv 2>/dev/null
 
 dnl Define convenience macros
