@@ -1,4 +1,7 @@
-Current Version: 5.5.3
+Current Version: 5.5.4
+
+ctags-5.5.4 (Thu Mar 25 2004)
+* Fixed broken -R option.
 
 ctags-5.5.3 (Sun Mar 14 2004)
 * Removed forgotten debug statement [Bug #811704].

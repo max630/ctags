@@ -1,5 +1,5 @@
 /*
-*   $Id: main.c,v 1.21 2003/10/13 02:35:45 darren Exp $
+*   $Id: main.c,v 1.22 2004/03/26 05:07:18 darren Exp $
 *
 *   Copyright (c) 1996-2003, Darren Hiebert
 *
@@ -467,7 +467,7 @@ static void makeTags (cookedArgs* args)
     boolean files = (boolean)(! cArgOff (args) || Option.fileList != NULL
 			      || Option.filter);
 
-    if (!files)
+    if (! files  &&  ! Option.recurse)
     {
 	if (filesRequired ())
 	    error (FATAL, "No files specified. Try \"%s --help\".",
