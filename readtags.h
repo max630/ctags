@@ -1,7 +1,7 @@
 /*
-*   $Id: readtags.h,v 1.4 2002/02/16 22:32:12 darren Exp $
+*   $Id: readtags.h,v 1.6 2002/06/17 04:48:13 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for the public domain.
 *
@@ -26,6 +26,7 @@
 /* Options for tagSetSorted() */
 #define TAG_UNSORTED 0
 #define TAG_SORTED   1
+#define TAG_FOLDSORT 2
 
 /* Options for tagsFind() */
 #define TAG_FULLMATCH     0x0

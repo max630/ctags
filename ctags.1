@@ -1,4 +1,4 @@
-.TH CTAGS 1 "Version 5.2.2" "Darren Hiebert"
+.TH CTAGS 1 "Version 5.3" "Darren Hiebert"
 
 
 .SH "NAME"
@@ -62,7 +62,7 @@ names are mapped to languages according to the following default mappings
 .RS 4
 .TP 9
 .B Assembler
-*.asm *.s *.S
+*.asm *.ASM *.[sS] *.A51 *.29[kK] *.[68][68][kKsSxX] *.[xX][68][68]
 .TP 9
 .B ASP
 *.asp *.asa
@@ -129,6 +129,9 @@ names are mapped to languages according to the following default mappings
 .TP 9
 .B Tcl
 *.tcl *.wish
+.TP 9
+.B Verilog
+*.v
 .TP 9
 .B Vim
 *.vim
@@ -272,7 +275,7 @@ be the name of the function instead of the correct name of "foo". Specifying
 .RS 8
 /* creates an RCS version string in module */
 .br
-MODULE_VERSION("$Revision: 1.10 $")
+MODULE_VERSION("$Revision: 1.17 $")
 .RE
 
 .IP
@@ -360,13 +363,12 @@ file name.
 Indicates whether tags generated from the specified files should be appended
 to those already present in the tag file or should replace them. This option
 is off by default. This option must appear before the first file name.
-[Ignored in etags mode]
 
 .TP 5
 \fB--etags-include\fP=\fIfile\fP
 Include a reference to \fIfile\fP in the tag file. This option may be
 specified as many times as desired. This supports Emacs' capability to use a
-tag file which "includes" other tag files. [Used only in etags mode]
+tag file which "includes" other tag files. [Available only in etags mode]
 
 .TP 5
 \fB--exclude\fP=[\fIpattern\fP]
@@ -782,11 +784,14 @@ either the \fBregex(5,7)\fP man page, or the GNU info documentation for regex
 .RE
 
 .TP 5
-\fB--sort\fP[=\fIyes\fP|\fIno\fP]
+\fB--sort\fP[=\fIyes\fP|\fIno\fP|\fIfoldcase\fP]
 Indicates whether the tag file should be sorted on the tag name (default is
-\fIyes\fP). Note that the original \fBvi\fP(1) requires sorted tags. This
-option is on by default. This option must appear before the first file name.
-[Ignored in etags mode]
+\fIyes\fP). Note that the original \fBvi\fP(1) required sorted tags. 
+The \fIfoldcase\fP value specifies case insensitive (or case-folded) sorting.
+Fast binary searches of tag files sorted with case-folding will require
+special support from tools using tag files, such as that found in the ctags
+readtags library, or Vim version 6.2 or higher (using "set ignorecase"). This
+option must appear before the first file name. [Ignored in etags mode]
 
 .TP 5
 \fB--tag-relative\fP[=\fIyes\fP|\fIno\fP]
@@ -842,6 +847,9 @@ labels
 .TP 4
 .I m
 macros
+.TP 4
+.I t
+types (structs and records)
 .RE
 .PD 1
 .RE
@@ -1201,6 +1209,38 @@ Tcl
 .TP 4
 .I p
 procedures
+.RE
+.PD 1
+.RE
+
+.TP 5
+Verilog
+.RS 5
+.PD 0
+.TP 4
+.I f
+functions
+.TP 4
+.I m
+modules
+.TP 4
+.I P
+parameters
+.TP 4
+.I p
+ports
+.TP 4
+.I r
+registers
+.TP 4
+.I t
+tasks
+.TP 4
+.I v
+variables
+.TP 4
+.I w
+wires
 .RE
 .PD 1
 .RE

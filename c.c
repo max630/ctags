@@ -1,7 +1,7 @@
 /*
-*   $Id: c.c,v 1.4 2002/02/16 19:53:16 darren Exp $
+*   $Id: c.c,v 1.7 2002/07/10 05:32:44 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -1427,7 +1427,6 @@ static void processToken (tokenInfo *const token, statementInfo *const st)
 	case KEYWORD_SIGNED:	st->declaration = DECL_BASE;		break;
 	case KEYWORD_STRUCT:	st->declaration = DECL_STRUCT;		break;
 	case KEYWORD_THROWS:	discardTypeList (token);		break;
-	case KEYWORD_TYPEDEF:	st->scope	= SCOPE_TYPEDEF;	break;
 	case KEYWORD_UNION:	st->declaration = DECL_UNION;		break;
 	case KEYWORD_UNSIGNED:	st->declaration = DECL_BASE;		break;
 	case KEYWORD_USING:	st->declaration = DECL_IGNORE;		break;
@@ -1435,12 +1434,19 @@ static void processToken (tokenInfo *const token, statementInfo *const st)
 	case KEYWORD_VOLATILE:	st->declaration = DECL_BASE;		break;
 	case KEYWORD_VIRTUAL:	st->implementation = IMP_VIRTUAL;	break;
 
+	case KEYWORD_TYPEDEF:
+	    reinitStatement (st, FALSE);
+	    st->scope = SCOPE_TYPEDEF;
+	    break;
+
 	case KEYWORD_EXTERN:
+	    reinitStatement (st, FALSE);
 	    st->scope = SCOPE_EXTERN;
 	    st->declaration = DECL_BASE;
 	    break;
 
 	case KEYWORD_STATIC:
+	    reinitStatement (st, FALSE);
 	    if (! isLanguage (Lang_java))
 		st->scope = SCOPE_STATIC;
 	    st->declaration = DECL_BASE;

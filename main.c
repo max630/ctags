@@ -1,7 +1,7 @@
 /*
-*   $Id: main.c,v 1.8 2002/02/16 21:05:25 darren Exp $
+*   $Id: main.c,v 1.12 2002/06/17 04:48:13 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   Author: Darren Hiebert <dhiebert@users.sourceforge.net>
 *           http://ctags.sourceforge.net
@@ -14,7 +14,8 @@
 *   provide a fully featured ctags program which is free of the limitations
 *   which most (all?) others are subject to.
 *
-*   This module contains top level start-up and portability functions.
+*   This module contains the start-up code and routines to determine the list
+*   of files to parsed for tags.
 */
 
 /*
@@ -23,17 +24,6 @@
 #include "general.h"	/* must always come first */
 
 #include <string.h>
-
-#ifdef AMIGA
-# include <dos/dosasl.h>	/* for struct AnchorPath */
-# include <clib/dos_protos.h>	/* function prototypes */
-# define ANCHOR_BUF_SIZE 512
-# define ANCHOR_SIZE (sizeof (struct AnchorPath) + ANCHOR_BUF_SIZE)
-# ifdef __SASC
-   extern struct DosLibrary *DOSBase;
-#  include <pragmas/dos_pragmas.h>
-# endif
-#endif
 
 /*  To provide timings features if available.
  */
@@ -51,6 +41,17 @@
 
 /*  To provide directory searching for recursion feature.
  */
+#ifdef AMIGA
+# include <dos/dosasl.h>	/* for struct AnchorPath */
+# include <clib/dos_protos.h>	/* function prototypes */
+# define ANCHOR_BUF_SIZE 512
+# define ANCHOR_SIZE (sizeof (struct AnchorPath) + ANCHOR_BUF_SIZE)
+# ifdef __SASC
+   extern struct DosLibrary *DOSBase;
+#  include <pragmas/dos_pragmas.h>
+# endif
+#endif
+
 #ifdef HAVE_DIRENT_H
 # ifdef __BORLANDC__
 #  define boolean BORLAND_boolean
@@ -73,6 +74,7 @@
 #ifdef HAVE_IO_H
 # include <io.h>	/* to declare _finddata_t in MSVC++ 4.x */
 #endif
+
 
 #include "debug.h"
 #include "keyword.h"
@@ -111,6 +113,58 @@ static boolean createTagsForEntry (const char *const entryName);
 /*
 *   FUNCTION DEFINITIONS
 */
+
+extern vString *combinePathAndFile (
+    const char *const path, const char *const file)
+{
+    vString *const filePath = vStringNew ();
+#ifdef VMS
+    const char *const directoryId = strstr (file, ".DIR;1");
+
+    if (directoryId == NULL)
+    {
+	const char *const versionId = strchr (file, ';');
+
+	vStringCopyS (filePath, path);
+	if (versionId == NULL)
+	    vStringCatS (filePath, file);
+	else
+	    vStringNCatS (filePath, file, versionId - file);
+	vStringCopyToLower (filePath, filePath);
+    }
+    else
+    {
+	/*  File really is a directory; append it to the path.
+	 *  Gotcha: doesn't work with logical names.
+	 */
+	vStringNCopyS (filePath, path, strlen (path) - 1);
+	vStringPut (filePath, '.');
+	vStringNCatS (filePath, file, directoryId - file);
+	if (strchr (path, '[') != NULL)
+	    vStringPut (filePath, ']');
+	else
+	    vStringPut (filePath, '>');
+	vStringTerminate (filePath);
+    }
+#else
+    const int lastChar = path [strlen (path) - 1];
+# ifdef MSDOS_STYLE_PATH
+    boolean terminated = (boolean) (strchr (PathDelimiters, lastChar) != NULL);
+# else
+    boolean terminated = (boolean) (lastChar == PATH_SEPARATOR);
+# endif
+
+    vStringCopyS (filePath, path);
+    if (! terminated)
+    {
+	vStringPut (filePath, OUTPUT_PATH_SEPARATOR);
+	vStringTerminate (filePath);
+    }
+    vStringCatS (filePath, file);
+#endif
+
+    return filePath;
+}
 
 extern void addTotals (const unsigned int files,
 		       const long unsigned int lines,
@@ -335,17 +389,18 @@ static boolean recurseIntoDirectory (const char *const dirName)
 static boolean createTagsForEntry (const char *const entryName)
 {
     boolean resize = FALSE;
+    fileStatus *status = eStat (entryName);
 
     Assert (entryName != NULL);
     if (excludedFile (entryName))
 	verbose ("excluding \"%s\"\n", entryName);
-    else if (isSymbolicLink (entryName)  &&  ! Option.followLinks)
+    else if (status->isSymbolicLink  &&  ! Option.followLinks)
 	verbose ("ignoring \"%s\" (symbolic link)\n", entryName);
-    else if (! doesFileExist (entryName))
+    else if (! status->exists)
 	error (WARNING | PERROR, "cannot open source file \"%s\"", entryName);
-    else if (isDirectory (entryName))
+    else if (status->isDirectory)
 	resize = recurseIntoDirectory (entryName);
-    else if (! isNormalFile (entryName))
+    else if (! status->isNormalFile)
 	verbose ("ignoring \"%s\" (special file)\n", entryName);
     else
 	resize = parseFile (entryName);
@@ -479,7 +534,7 @@ static void printTotals (const clock_t *const timeStamps)
 	fprintf (errout, " (now %lu tags)", totalTags);
     fputc ('\n', errout);
 
-    if (totalTags > 0  &&  Option.sorted)
+    if (totalTags > 0  &&  Option.sorted != SO_UNSORTED)
     {
 	fprintf (errout, "%lu tag%s sorted", totalTags, plural (totalTags));
 #ifdef CLOCK_AVAILABLE
@@ -502,7 +557,7 @@ static void makeTags (cookedArgs* args)
     boolean files = (boolean)(! cArgOff (args) || Option.fileList != NULL
 			      || Option.filter);
 
-    if (! files  &&  ! Option.recurse)
+    if (! files  &&  ! Option.recurse  &&  ! Option.etagsInclude)
 	error (FATAL, "No files specified. Try \"%s --help\".",
 	       getExecutableName ());
 

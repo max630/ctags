@@ -1,5 +1,5 @@
 /*
-*   $Id: lua.c,v 1.3 2002/02/16 19:53:16 darren Exp $
+*   $Id: lua.c,v 1.5 2002/03/01 03:47:29 darren Exp $
 *
 *   Copyright (c) 2000-2001, Max Ischenko <mfi@ukr.net>.
 *
@@ -40,8 +40,8 @@ static kindOption LuaKinds [] = {
 static void __unused__ print_string (char *p, char *q)
 {
     for ( ; p != q; p++)
-	fprintf(stderr, "%c", *p);
-    fprintf(stderr, "\n");
+	fprintf (errout, "%c", *p);
+    fprintf (errout, "\n");
 }
 
 /*
@@ -73,9 +73,9 @@ static void extract_name (const char *begin, const char *end, vString *name)
     {
 	const char *cp;
 
-	while (isspace (*begin))
+	while (isspace ((int) *begin))
 	    begin++;
-	while (isspace (*end))
+	while (isspace ((int) *end))
 	    end--;
 	if (begin < end)
 	{

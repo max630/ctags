@@ -1,7 +1,7 @@
 /*
-*   $Id: yacc.c,v 1.4 2002/01/29 03:27:59 darren Exp $
+*   $Id: yacc.c,v 1.5 2002/02/17 06:04:32 darren Exp $
 *
-*   Copyright (c) 2001, Nick Hibma <n_hibma@van-laarhoven.org>
+*   Copyright (c) 2001-2002, Nick Hibma <n_hibma@van-laarhoven.org>
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.

@@ -1,4 +1,4 @@
-# $Id: mk_mpw.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
+# $Id: mk_mpw.mak,v 1.6 2002/07/11 02:19:51 darren Exp $
 #
 # Makefile for Macintosh using MPW
 #
@@ -14,15 +14,16 @@ SOURCES = ¶
 	asm.c ¶
 	asp.c ¶
 	awk.c ¶
-	eiffel.c ¶
 	beta.c ¶
 	c.c ¶
 	cobol.c ¶
+	eiffel.c ¶
 	entry.c ¶
 	fortran.c ¶
 	get.c ¶
 	keyword.c ¶
 	lisp.c ¶
+	lregex.c ¶
 	lua.c ¶
 	main.c ¶
 	make.c ¶
@@ -33,7 +34,6 @@ SOURCES = ¶
 	php.c ¶
 	python.c ¶
 	read.c ¶
-	regex.c ¶
 	rexx.c ¶ ¶
 	routines.c ¶
 	ruby.c ¶
@@ -43,9 +43,10 @@ SOURCES = ¶
 	sort.c ¶
 	strlist.c ¶
 	tcl.c ¶
+	verilog.c ¶
 	vim.c ¶
-	yacc.c ¶
 	vstring.c ¶
+	yacc.c ¶
 	mac.c
 
 OBJ = ¶
@@ -53,15 +54,16 @@ OBJ = ¶
 	asm.o ¶
 	asp.o ¶
 	awk.o ¶
-	eiffel.o ¶
 	beta.o ¶
 	c.o ¶
 	cobol.o ¶
+	eiffel.o ¶
 	entry.o ¶
 	fortran.o ¶
 	get.o ¶
 	keyword.o ¶
 	lisp.o ¶
+	lregex.o ¶
 	lua.o ¶
 	main.o ¶
 	make.o ¶
@@ -72,7 +74,6 @@ OBJ = ¶
 	php.o ¶
 	python.o ¶
 	read.o ¶
-	regex.o ¶
 	rexx.o ¶
 	routines.o ¶
 	ruby.o ¶
@@ -82,9 +83,10 @@ OBJ = ¶
 	sort.o ¶
 	strlist.o ¶
 	tcl.o ¶
+	verilog.o ¶
 	vim.o ¶
-	yacc.o ¶
 	vstring.o ¶
+	yacc.o ¶
 	mac.o
 
 LIBS = ¶

@@ -1,4 +1,4 @@
-# $Id: mk_manx.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
+# $Id: mk_manx.mak,v 1.6 2002/07/11 02:19:51 darren Exp $
 #
 # Makefile for ctags on the Amiga, using Aztec/Manx C 5.0 or later
 
@@ -9,15 +9,16 @@ OBJECTS = \
 	asm.$(OBJEXT) \
 	asp.$(OBJEXT) \
 	awk.$(OBJEXT) \
-	eiffel.$(OBJEXT) \
 	beta.$(OBJEXT) \
 	c.$(OBJEXT) \
 	cobol.$(OBJEXT) \
+	eiffel.$(OBJEXT) \
 	entry.$(OBJEXT) \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
 	lisp.$(OBJEXT) \
+	lregex.$(OBJEXT) \
 	lua.$(OBJEXT) \
 	main.$(OBJEXT) \
 	make.$(OBJEXT) \
@@ -28,7 +29,6 @@ OBJECTS = \
 	php.$(OBJEXT) \
 	python.$(OBJEXT) \
 	read.$(OBJEXT) \
-	regex.$(OBJEXT) \
 	rexx.$(OBJEXT) \
 	routines.$(OBJEXT) \
 	ruby.$(OBJEXT) \
@@ -38,9 +38,10 @@ OBJECTS = \
 	sort.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
+	verilog.$(OBJEXT) \
 	vim.$(OBJEXT) \
-	yacc.$(OBJEXT) \
 	vstring.$(OBJEXT) \
+	yacc.$(OBJEXT)
 
 CC = cc
 

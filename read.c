@@ -1,7 +1,7 @@
 /*
-*   $Id: read.c,v 1.3 2002/02/16 19:53:16 darren Exp $
+*   $Id: read.c,v 1.6 2002/06/19 05:27:17 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -68,6 +68,7 @@ static void setInputFileName (const char *const fileName)
 	vStringNCopyS (File.path, fileName, length);
     }
 }
+
 static void setSourceFileParameters (vString *const fileName)
 {
     if (File.source.name != NULL)
@@ -290,9 +291,10 @@ extern void fileClose (void)
 	 *  and is incremented upon each newline.
 	 */
 	if (Option.printTotals)
-	    addTotals (0, File.lineNumber - 1L,
-		      getFileSize (vStringValue (File.name)));
-
+	{
+	    fileStatus *status = eStat (vStringValue (File.name));
+	    addTotals (0, File.lineNumber - 1L, status->size);
+	}
 	fclose (File.fp);
 	File.fp = NULL;
     }

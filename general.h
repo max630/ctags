@@ -1,7 +1,7 @@
 /*
-*   $Id: general.h,v 1.6 2002/02/16 05:40:19 darren Exp $
+*   $Id: general.h,v 1.11 2002/07/11 03:17:33 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -17,13 +17,63 @@
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
-#ifdef macintosh
-# include "mac.h"
+
+/* Include correct file for compilation environment */
+
+#ifdef AMIGA
+# include "e_amiga.h"
 #endif
+
+#ifdef __CYGWIN__
+# include "e_cygwin.h"
+#endif
+
+#ifdef DJGPP
+# include "e_djgpp.h"
+#endif
+
+#ifdef macintosh
+# include "e_mac.h"
+#endif
+
+#if defined (MSDOS) || defined (WIN32)
+# include "e_msoft.h"
+#endif
+
+#ifdef OS2
+# include "e_os2.h"
+#endif
+
+#ifdef QDOS
+# include "e_qdos.h"
+#endif
+
+#ifdef RISCOS
+# include "e_riscos.h"
+#endif
+
+#if defined (__vms) && ! defined (VMS)
+# define VMS 1
+#endif
+#ifdef VMS
+# include "e_vms.h"
+#endif
+
 
 /*
 *   MACROS
 */
+
+/* Define standard error destination
+ */
+#ifndef errout
+# define errout	stderr
+#endif
+
+/* Define regex if supported */
+#if (defined (HAVE_REGCOMP) && !defined (REGCOMP_BROKEN))
+# define HAVE_REGEX 1
+#endif
 
 /*  This is a helpful internal feature of later versions (> 2.7) of GCC
  *  to prevent warnings about unused variables.
@@ -36,166 +86,31 @@
 # define __printf__(s,f)
 #endif
 
-
-
-/*  MS-DOS doesn't allow manipulation of standard error, so we send it to
- *  stdout instead.
+/*
+ *  Portability macros
  */
-#if defined (MSDOS) || defined (WIN32)
-# define errout	stdout
-#else
-# define errout	stderr
-#endif
-
-#if defined (__CYGWIN__)
-# define UNIX_PATH_SEPARATOR 1
-# define MSDOS_STYLE_PATH
-#endif
-
-#if defined (MSDOS) || defined (WIN32)
-# define CASE_INSENSITIVE_FILENAMES
-# define MSDOS_STYLE_PATH
-# define HAVE_DOS_H 1
-# define HAVE_FCNTL_H 1
-# define HAVE_IO_H 1
-# define HAVE_STDLIB_H 1
-# define HAVE_SYS_STAT_H 1
-# define HAVE_SYS_TYPES_H 1
-# define HAVE_TIME_H 1
-# define HAVE_CLOCK 1
-# define HAVE_CHSIZE 1
-# define HAVE_FGETPOS 1
-# define HAVE_STRICMP 1
-# define HAVE_STRNICMP 1
-# define HAVE_STRSTR 1
-# define HAVE_STRERROR 1
-# define HAVE_FINDNEXT 1
-# ifdef __BORLANDC__
-#  define HAVE_DIR_H 1
-#  define HAVE_DIRENT_H 1
-#  define HAVE_FINDFIRST 1
-# elif defined (_MSC_VER)
-#   define HAVE__FINDFIRST 1
-#   define HAVE_DIRECT_H 1
-# elif defined (__MINGW32__)
-#  define HAVE_DIR_H 1
-#  define HAVE_DIRENT_H 1
-#  define HAVE__FINDFIRST 1
-#  define ffblk _finddata_t
-#  define FA_DIREC _A_SUBDIR
-#  define ff_name name
-# endif
-#endif
-
-#ifdef DJGPP
-# define CASE_INSENSITIVE_FILENAMES
-# define MSDOS_STYLE_PATH
-# define HAVE_DIR_H 1
-# define HAVE_SYS_STAT_H 1
-# define HAVE_SYS_TYPES_H 1
-# define HAVE_UNISTD_H 1
-# define HAVE_FGETPOS 1
-# define HAVE_FINDFIRST 1
-# define HAVE_TRUNCATE 1
-#endif
-
-#ifdef OS2
-# define UNIX_PATH_SEPARATOR 1
-# define CASE_INSENSITIVE_FILENAMES
-# define HAVE_DIRENT_H 1
-# define HAVE_FCNTL_H 1
-# define HAVE_IO_H 1
-# define HAVE_STDLIB_H 1
-# define HAVE_SYS_STAT_H 1
-# define HAVE_SYS_TYPES_H 1
-# define HAVE_TIME_H 1
-# define HAVE_UNISTD_H 1
-# define HAVE_CLOCK 1
-# define HAVE_CHSIZE 1
-# define HAVE_FGETPOS 1
-# define HAVE_FTRUNCATE 1
-# define HAVE_OPENDIR 1
-# define HAVE_REGCOMP 1
-# define HAVE_REMOVE 1
-# define HAVE_STRERROR 1
-# define HAVE_STRICMP 1
-# define HAVE_STRNICMP 1
-# define HAVE_STRSTR 1
-# define HAVE_TRUNCATE 1
-#endif
-
-#ifdef AMIGA
-# define HAVE_STDLIB_H 1
-# define HAVE_SYS_STAT_H 1
-# define HAVE_SYS_TYPES_H 1
-# define HAVE_TIME_H 1
-# define HAVE_CLOCK 1
-# define HAVE_FGETPOS 1
-# define HAVE_STRERROR 1
-# define HAVE_STRICMP 1
-# define HAVE_STRNICMP 1
-#endif
-
-#if defined (__MWERKS__) && defined (__MACINTOSH__)
-# define HAVE_STAT_H 1
-#endif
-
-#ifdef QDOS
-# define HAVE_DIRENT_H 1
-# define HAVE_STDLIB_H 1
-# define HAVE_SYS_STAT_H 1
-# define HAVE_SYS_TIMES_H 1
-# define HAVE_SYS_TYPES_H 1
-# define HAVE_TIME_H 1
-# define HAVE_UNISTD_H 1
-# define STDC_HEADERS 1
-# define HAVE_CLOCK 1
-# define HAVE_FGETPOS 1
-# define HAVE_FTRUNCATE 1
-# define HAVE_OPENDIR 1
-# define HAVE_PUTENV 1
-# define HAVE_REMOVE 1
-# define HAVE_STRERROR 1
-# define HAVE_STRSTR 1
-# define HAVE_TIMES 1
-# define HAVE_TRUNCATE 1
-# define NON_CONST_PUTENV_PROTOTYPE 1
-#endif
-
-#if defined (__vms) && ! defined (VMS)
-# define VMS
-#endif
-#ifdef VMS
-# define CASE_INSENSITIVE_FILENAMES 1
-# define HAVE_STDLIB_H 1
-# define HAVE_TIME_H 1
-# ifdef VAXC
-#  define HAVE_STAT_H 1
-#  define HAVE_TYPES_H 1
+#if !defined(HAVE_STRCASECMP) && !defined(strcasecmp)
+# ifdef HAVE_STRICMP
+#  define strcasecmp(s1,s2) stricmp(s1,s2)
 # else
-#  define HAVE_FCNTL_H 1
-#  define HAVE_SYS_STAT_H 1
-#  define HAVE_SYS_TYPES_H 1
+#  define strcasecmp(s1,s2) struppercmp(s1,s2)
 # endif
-# define HAVE_CLOCK 1
-# define HAVE_FGETPOS 1
-# define HAVE_STRERROR 1
-# define HAVE_STRSTR 1
-# define HAVE_UNISTD_H 1
 #endif
 
-
-/* Define regex if supported */
-#if (defined (HAVE_REGCOMP) && !defined (REGCOMP_BROKEN)) || defined (HAVE_RE_COMPILE_PATTERN)
-# define HAVE_REGEX 1
+#if !defined(HAVE_STRNCASECMP) && !defined(strncasecmp)
+# ifdef HAVE_STRNICMP
+#  define strncasecmp(s1,s2,n) strnicmp(s1,s2,n)
+# else
+#  define strncasecmp(s1,s2,n) strnuppercmp(s1,s2,n)
+# endif
 #endif
 
-/* Variant names */
-#if !defined(HAVE_STRCASECMP) && defined(HAVE_STRICMP) && !defined(strcasecmp)
-# define strcasecmp stricmp
+#ifndef HAVE_STRICMP
+# define stricmp(s1,s2) struppercmp(s1,s2)
 #endif
-#if !defined(HAVE_STRNCASECMP) && defined(HAVE_STRNICMP) && !defined(strncasecmp)
-# define strncasecmp strnicmp
+
+#ifndef HAVE_STRICMP
+# define strnicmp(s1,s2,n) strnuppercmp(s1,s2,n)
 #endif
 
 /*
@@ -219,12 +134,6 @@ typedef enum { FALSE, TRUE } boolean;
 
 #if ! defined (HAVE_FGETPOS) && ! defined (fpos_t)
 # define fpos_t long
-#endif
-
-/* Work-around for broken implementation of fgetpos()/fsetpos() on Mingw32 */
-#if defined (__MINGW32__) && defined (__MSVCRT__)
-# undef HAVE_FGETPOS
-# define NEED_PROTO_FGETPOS 1
 #endif
 
 /*

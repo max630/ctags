@@ -1,4 +1,4 @@
-# $Id: mk_sas.mak,v 1.3 2002/02/16 19:53:16 darren Exp $
+# $Id: mk_sas.mak,v 1.6 2002/07/11 02:19:51 darren Exp $
 #
 # Makefile for SAS/C Amiga Compiler
 # Submitted by Stefan Haubenthal <polluks@freeshell.org>
@@ -12,15 +12,16 @@ OBJECTS = \
 	asm.$(OBJEXT) \
 	asp.$(OBJEXT) \
 	awk.$(OBJEXT) \
-	eiffel.$(OBJEXT) \
 	beta.$(OBJEXT) \
 	c.$(OBJEXT) \
 	cobol.$(OBJEXT) \
+	eiffel.$(OBJEXT) \
 	entry.$(OBJEXT) \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
 	lisp.$(OBJEXT) \
+	lregex.$(OBJEXT) \
 	lua.$(OBJEXT) \
 	main.$(OBJEXT) \
 	make.$(OBJEXT) \
@@ -31,7 +32,6 @@ OBJECTS = \
 	php.$(OBJEXT) \
 	python.$(OBJEXT) \
 	read.$(OBJEXT) \
-	regex.$(OBJEXT) \
 	rexx.$(OBJEXT) \
 	routines.$(OBJEXT) \
 	ruby.$(OBJEXT) \
@@ -41,9 +41,10 @@ OBJECTS = \
 	sort.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
+	verilog.$(OBJEXT) \
 	vim.$(OBJEXT) \
-	yacc.$(OBJEXT) \
 	vstring.$(OBJEXT) \
+	yacc.$(OBJEXT)
 
 ctags: $(OBJECTS)
 	sc link to $@ $(OBJECTS) math s sint

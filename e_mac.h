@@ -1,5 +1,5 @@
 /*
-*   $Id: mac.h,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: e_mac.h,v 1.1 2002/03/08 22:35:19 darren Exp $
 *
 *   Copyright (c) 2001, Maarten L. Hekkelman
 *
@@ -10,10 +10,10 @@
 *   GNU General Public License. It is provided on an as-is basis and no
 *   responsibility is accepted for its failure to perform as expected.
 *
-*   This module defines capbilities for Exuberant Ctags on Macintosh.
+*   Configures ctags for Macintosh environment.
 */
-#ifndef MAC_H
-#define MAC_H
+#ifndef E_MAC_H
+#define E_MAC_H
 
 #define BUILD_MPW_TOOL 1
 

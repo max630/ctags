@@ -1,7 +1,7 @@
 /*
-*   $Id: options.h,v 1.3 2001/12/16 18:45:18 darren Exp $
+*   $Id: options.h,v 1.5 2002/06/17 04:48:13 darren Exp $
 *
-*   Copyright (c) 1998-2001, Darren Hiebert
+*   Copyright (c) 1998-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -53,6 +53,12 @@ typedef enum eLocate {
     EX_PATTERN		/* -N  only patterns in tag file */
 } exCmd;
 
+typedef enum sortType {
+    SO_UNSORTED,
+    SO_SORTED,
+    SO_FOLDSORTED
+} sortType;
+
 struct sInclude {
     boolean fileNames;		/* include tags for source file names */
     boolean qualifiedTags;	/* include tags for qualified class members */
@@ -83,7 +89,7 @@ typedef struct sOptionValues {
     boolean etags;	    /* -e  output Emacs style tags file */
     exCmd locate;	    /* --excmd  EX command used to locate tag */
     boolean recurse;	    /* -R  recurse into directories */
-    boolean sorted;	    /* -u,--sort  sort tags */
+    sortType sorted;	    /* -u,--sort  sort tags */
     boolean verbose;	    /* -V  verbose */
     boolean xref;	    /* -x  generate xref output instead */
     char *fileList;	    /* -L  name of file containing names of files */

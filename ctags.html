@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of CTAGS</TITLE>
 </HEAD><BODY>
 <H1>CTAGS</H1>
-Section: User Commands  (1)<BR>Updated: Version 5.2.2<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: Version 5.3<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <P>
@@ -80,7 +80,7 @@ names are mapped to languages according to the following default mappings
 <DT><B>Assembler</B>
 
 <DD>
-*.asm *.s *.S
+*.asm *.ASM *.[sS] *.A51 *.29[kK] *.[68][68][kKsSxX] *.[xX][68][68]
 <DT><B>ASP</B>
 
 <DD>
@@ -169,6 +169,10 @@ names are mapped to languages according to the following default mappings
 
 <DD>
 *.tcl *.wish
+<DT><B>Verilog</B>
+
+<DD>
+*.v
 <DT><B>Vim</B>
 
 <DD>
@@ -328,7 +332,7 @@ be the name of the function instead of the correct name of &quot;foo&quot;. Spec
 /* creates an RCS version string in module */
 <BR>
 
-MODULE_VERSION(&quot;$Revision: 1.10 $&quot;)
+MODULE_VERSION(&quot;$Revision: 1.17 $&quot;)
 </DL>
 
 <P>
@@ -428,12 +432,11 @@ file name.
 Indicates whether tags generated from the specified files should be appended
 to those already present in the tag file or should replace them. This option
 is off by default. This option must appear before the first file name.
-[Ignored in etags mode]
 <P>
 <DT><B>--etags-include</B>=<I>file</I><DD>
 Include a reference to <I>file</I> in the tag file. This option may be
 specified as many times as desired. This supports Emacs' capability to use a
-tag file which &quot;includes&quot; other tag files. [Used only in etags mode]
+tag file which &quot;includes&quot; other tag files. [Available only in etags mode]
 <P>
 <DT><B>--exclude</B>=[<I>pattern</I>]<DD>
 Add <I>pattern</I> to a list of excluded files and directories. This option
@@ -869,11 +872,14 @@ either the <B>regex(5,7)</B> man page, or the GNU info documentation for regex
 
 <P>
 <DL COMPACT>
-<DT><B>--sort</B>[=<I>yes</I>|<I>no</I>]<DD>
+<DT><B>--sort</B>[=<I>yes</I>|<I>no</I>|<I>foldcase</I>]<DD>
 Indicates whether the tag file should be sorted on the tag name (default is
-<I>yes</I>). Note that the original <B><A HREF="http://localhost/cgi-bin/man/man2html?1+vi">vi</A></B>(1) requires sorted tags. This
-option is on by default. This option must appear before the first file name.
-[Ignored in etags mode]
+<I>yes</I>). Note that the original <B><A HREF="http://localhost/cgi-bin/man/man2html?1+vi">vi</A></B>(1) required sorted tags. 
+The <I>foldcase</I> value specifies case insensitive (or case-folded) sorting.
+Fast binary searches of tag files sorted with case-folding will require
+special support from tools using tag files, such as that found in the ctags
+readtags library, or Vim version 6.2 or higher (using &quot;set ignorecase&quot;). This
+option must appear before the first file name. [Ignored in etags mode]
 <P>
 <DT><B>--tag-relative</B>[=<I>yes</I>|<I>no</I>]<DD>
 Indicates that the file paths recorded in the tag file should be relative to
@@ -932,6 +938,10 @@ labels
 
 <DD>
 macros
+<DT><I>t</I>
+
+<DD>
+types (structs and records)
 </DL>
 </DL>
 
@@ -1397,6 +1407,48 @@ namespaces
 
 <DD>
 procedures
+</DL>
+</DL>
+
+
+
+<P>
+<DT>Verilog<DD>
+<DL COMPACT><DT><DD>
+
+<DL COMPACT>
+<DT><I>f</I>
+
+<DD>
+functions
+<DT><I>m</I>
+
+<DD>
+modules
+<DT><I>P</I>
+
+<DD>
+parameters
+<DT><I>p</I>
+
+<DD>
+ports
+<DT><I>r</I>
+
+<DD>
+registers
+<DT><I>t</I>
+
+<DD>
+tasks
+<DT><I>v</I>
+
+<DD>
+variables
+<DT><I>w</I>
+
+<DD>
+wires
 </DL>
 </DL>
 
@@ -1928,6 +1980,6 @@ the info page for GNU <B>etags</B>.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 23:20:26 GMT, February 16, 2002
+Time: 00:18:49 GMT, July 18, 2002
 </BODY>
 </HTML>

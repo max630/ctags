@@ -1,7 +1,7 @@
 /*
-*   $Id: debug.c,v 1.1 2001/11/02 04:53:42 darren Exp $
+*   $Id: debug.c,v 1.3 2002/06/15 22:28:44 darren Exp $
 *
-*   Copyright (c) 1996-2001, Darren Hiebert
+*   Copyright (c) 1996-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -84,8 +84,7 @@ extern void debugEntry (const tagEntryInfo *const tag)
     {
 	printf ("<#%s%s:%s", scope, tag->kindName, tag->name);
 
-	if (Option.extensionFields.access  &&
-		tag->extensionFields.scope [0] != NULL  &&
+	if (tag->extensionFields.scope [0] != NULL  &&
 		tag->extensionFields.scope [1] != NULL)
 	    printf (" [%s:%s]", tag->extensionFields.scope [0],
 		    tag->extensionFields.scope [1]);

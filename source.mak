@@ -1,4 +1,4 @@
-# $Id: source.mak,v 1.5 2002/02/16 19:53:17 darren Exp $
+# $Id: source.mak,v 1.9 2002/07/11 02:19:51 darren Exp $
 #
 # Shared macros
 
@@ -21,6 +21,7 @@ SOURCES = \
 	get.c \
 	keyword.c \
 	lisp.c \
+	lregex.c \
 	lua.c \
 	main.c \
 	make.c \
@@ -31,7 +32,6 @@ SOURCES = \
 	php.c \
 	python.c \
 	read.c \
-	regex.c \
 	rexx.c \
 	routines.c \
 	ruby.c \
@@ -41,9 +41,17 @@ SOURCES = \
 	sort.c \
 	strlist.c \
 	tcl.c \
+	verilog.c \
 	vim.c \
 	yacc.c \
 	vstring.c
+
+ENVIRONMENT_HEADERS = \
+    e_amiga.h e_cygwin.h e_djgpp.h e_mac.h e_msoft.h e_os2.h e_qdos.h \
+    e_riscos.h e_vms.h
+
+ENVIRONMENT_SOURCES = \
+    argproc.c mac.c qdos.c
 
 OBJECTS = \
 	args.$(OBJEXT) \
@@ -59,6 +67,7 @@ OBJECTS = \
 	get.$(OBJEXT) \
 	keyword.$(OBJEXT) \
 	lisp.$(OBJEXT) \
+	lregex.$(OBJEXT) \
 	lua.$(OBJEXT) \
 	main.$(OBJEXT) \
 	make.$(OBJEXT) \
@@ -69,7 +78,6 @@ OBJECTS = \
 	php.$(OBJEXT) \
 	python.$(OBJEXT) \
 	read.$(OBJEXT) \
-	regex.$(OBJEXT) \
 	rexx.$(OBJEXT) \
 	routines.$(OBJEXT) \
 	ruby.$(OBJEXT) \
@@ -79,6 +87,7 @@ OBJECTS = \
 	sort.$(OBJEXT) \
 	strlist.$(OBJEXT) \
 	tcl.$(OBJEXT) \
+	verilog.$(OBJEXT) \
 	vim.$(OBJEXT) \
 	yacc.$(OBJEXT) \
 	vstring.$(OBJEXT)

@@ -1,7 +1,7 @@
 /*
-*   $Id: perl.c,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: perl.c,v 1.4 2002/03/08 05:01:47 darren Exp $
 *
-*   Copyright (c) 2000-2001, Darren Hiebert
+*   Copyright (c) 2000-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
@@ -90,7 +90,8 @@ static void findPerlTags (void)
 
 	    while (isspace (*cp))
 		cp++;
-	    while (! isspace ((int) *cp) && *cp != '\0' && *cp != '{' && *cp != '(')
+	    while (! isspace ((int) *cp) && *cp != '\0' &&
+		   strchr ("{(;", (int) *cp) == NULL)
 	    {
 		vStringPut (name, (int) *cp);
 		cp++;

@@ -1,7 +1,7 @@
 /*
-*   $Id: make.c,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: make.c,v 1.2 2002/02/17 06:04:32 darren Exp $
 *
-*   Copyright (c) 2000-2001, Darren Hiebert
+*   Copyright (c) 2000-2002, Darren Hiebert
 *
 *   This source code is released for free distribution under the terms of the
 *   GNU General Public License.
