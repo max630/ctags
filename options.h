@@ -1,5 +1,5 @@
 /*
-*   $Id: options.h,v 1.5 2002/06/17 04:48:13 darren Exp $
+*   $Id: options.h,v 1.6 2002/09/30 04:30:47 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -76,6 +76,7 @@ struct sExtFields {		/* extension field content control */
     boolean language;
     boolean lineNumber;
     boolean scope;
+    boolean signature;
 };
 
 /*  This stores the command line options.

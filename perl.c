@@ -1,5 +1,5 @@
 /*
-*   $Id: perl.c,v 1.4 2002/03/08 05:01:47 darren Exp $
+*   $Id: perl.c,v 1.5 2002/09/21 21:02:45 darren Exp $
 *
 *   Copyright (c) 2000-2002, Darren Hiebert
 *
@@ -54,7 +54,7 @@ static void findPerlTags (void)
 
 	if (skipPodDoc)
 	{
-	    if (strcmp ((const char*) line, "=cut") == 0)
+	    if (strncmp ((const char*) line, "=cut", (size_t) 4) == 0)
 		skipPodDoc = FALSE;
 	    continue;
 	}

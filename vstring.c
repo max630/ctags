@@ -1,5 +1,5 @@
 /*
-*   $Id: vstring.c,v 1.7 2002/09/04 03:30:54 darren Exp $
+*   $Id: vstring.c,v 1.8 2002/09/30 04:30:47 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -177,6 +177,17 @@ extern void vStringStripTrailing (vString *const string)
 	   string->length > 0)
     {
 	string->length--;
+	string->buffer [string->length] = '\0';
+    }
+}
+
+/*  Chop last character from string.
+ */
+extern void vStringChop (vString *const string)
+{
+    if (string->length > 0)
+    {
+	--string->length;
 	string->buffer [string->length] = '\0';
     }
 }

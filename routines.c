@@ -1,5 +1,5 @@
 /*
-*   $Id: routines.c,v 1.13 2002/07/16 02:23:33 darren Exp $
+*   $Id: routines.c,v 1.14 2002/10/16 02:37:14 darren Exp $
 *
 *   Copyright (c) 2002, Darren Hiebert
 *
@@ -719,7 +719,7 @@ extern FILE *tempFile (const char *const mode, char **const pName)
     const char *const pattern = "tags.XXXXXX";
     const char *tmpdir = NULL;
     fileStatus *file = eStat (ExecutableProgram);
-    if (file->isSetuid)
+    if (! file->isSetuid)
 	tmpdir = getenv ("TMPDIR");
     if (tmpdir == NULL)
 	tmpdir = TMPDIR;

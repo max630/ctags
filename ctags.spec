@@ -1,7 +1,7 @@
 Distribution: Exuberant Ctags
 Summary: A multi-language source code indexing tool
 Name: ctags
-Version: 5.3.1
+Version: 5.4
 Release: 1
 Copyright: GPL
 Group: Development/Tools

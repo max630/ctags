@@ -1,5 +1,5 @@
 /*
-*   $Id: entry.h,v 1.2 2002/02/17 06:04:32 darren Exp $
+*   $Id: entry.h,v 1.3 2002/09/30 04:30:47 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -71,6 +71,7 @@ typedef struct sTagEntryInfo {
 	const char* implementation;
 	const char* inheritance;
 	const char* scope [2];	/* value and key */
+	const char* signature;
     } extensionFields;		/* list of extension fields*/
 } tagEntryInfo;
 

@@ -1,5 +1,5 @@
 /*
-*   $Id: vstring.h,v 1.5 2002/09/04 03:30:54 darren Exp $
+*   $Id: vstring.h,v 1.6 2002/09/30 04:30:47 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -68,6 +68,7 @@ extern void vStringPut (vString *const string, const int c);
 #endif
 extern void vStringStripNewline (vString *const string);
 extern void vStringStripLeading (vString *const string);
+extern void vStringChop (vString *const string);
 extern void vStringStripTrailing (vString *const string);
 extern void vStringCatS (vString *const string, const char *const s);
 extern void vStringNCatS (vString *const string, const char *const s, const size_t length);

@@ -1,5 +1,5 @@
 /*
-*   $Id: parsers.h,v 1.4 2002/07/11 02:19:51 darren Exp $
+*   $Id: parsers.h,v 1.6 2002/10/16 02:19:03 darren Exp $
 *
 *   Copyright (c) 2000-2002, Darren Hiebert
 *
@@ -38,7 +38,9 @@
     SchemeParser, \
     ShParser, \
     SlangParser, \
+    SqlParser, \
     TclParser, \
+    VeraParser, \
     VerilogParser, \
     VimParser, \
     YaccParser

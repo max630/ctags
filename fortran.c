@@ -1,5 +1,5 @@
 /*
-*   $Id: fortran.c,v 1.6 2002/08/23 01:02:19 darren Exp $
+*   $Id: fortran.c,v 1.7 2002/10/16 21:47:37 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -983,7 +983,9 @@ static void parseTypeSpec (tokenInfo *const token)
 
 	case KEYWORD_double:
 	    readToken (token);
-	    if (! isKeyword (token, KEYWORD_precision))
+	    if (isKeyword (token, KEYWORD_precision))
+		readToken (token);
+	    else
 		skipToToken (token, TOKEN_STATEMENT_END);
 	    break;
 
