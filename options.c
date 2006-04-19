@@ -1759,6 +1759,12 @@ extern void initOptions (void)
     processExcludeOption (NULL, "SCCS");
     processExcludeOption (NULL, "RCS");
     processExcludeOption (NULL, "CVS");
+    processExcludeOption (NULL, ".svn");
+    processExcludeOption (NULL, "{arch}");
+    processExcludeOption (NULL, ".arch-ids");
+    processExcludeOption (NULL, ".bzr");
+    processExcludeOption (NULL, "_darcs");
+    processExcludeOption (NULL, ".git");
 
 }
 
