@@ -1,10 +1,10 @@
-exuberant-ctags (1:5.5.4-2) UNRELEASED; urgency=low
+exuberant-ctags (1:5.5.4-2) unstable; urgency=low
 
   * Fix bashisms in postinst and prerm.
   * Add .svn, {arch}, .arch-ids, .bzr, _darcs, and .git to the default
     exclude list (thanks, Jon Dowland; closes: #363388).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 15 Dec 2005 11:48:43 +0000
+ -- Colin Watson <cjwatson@debian.org>  Wed, 19 Apr 2006 11:56:16 +0100
 
 exuberant-ctags (1:5.5.4-1) unstable; urgency=medium
 
