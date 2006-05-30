@@ -1,5 +1,5 @@
 /*
-*   $Id: parse.h,v 1.13 2003/07/11 01:21:54 darren Exp $
+*   $Id: parse.h,v 1.16 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 1998-2003, Darren Hiebert
 *
@@ -14,8 +14,8 @@
 /*
 *   INCLUDE FILES
 */
-#include "general.h"	/* must always come first */
-#include "parsers.h"	/* contains list of parsers */
+#include "general.h"  /* must always come first */
+#include "parsers.h"  /* contains list of parsers */
 #include "strlist.h"
 
 /*
@@ -37,36 +37,36 @@ typedef boolean (*rescanParser) (const unsigned int passCount);
 typedef void (*parserInitialize) (langType language);
 
 typedef struct sKindOption {
-    boolean enabled;			/* are tags for kind enabled? */
-    int letter;				/* kind letter */
-    const char* name;			/* kind name */
-    const char* description;		/* displayed in --help output */
+	boolean enabled;          /* are tags for kind enabled? */
+	int letter;               /* kind letter */
+	const char* name;         /* kind name */
+	const char* description;  /* displayed in --help output */
 } kindOption;
 
 typedef struct {
-    /* defined by parser */
-    char* name;				/* name of language */
-    kindOption* kinds;			/* tag kinds handled by parser */
-    unsigned int kindCount;		/* size of `kinds' list */
-    const char* const* extensions;	/* list of default extensions */
-    const char* const* patterns;	/* list of default file name patterns */
-    parserInitialize initialize;	/* initialization routine, if needed */
-    simpleParser parser;		/* simple parser (common case) */
-    rescanParser parser2;		/* rescanning parser (unusual case) */
-    boolean regex;			/* is this a regex parser? */
+	/* defined by parser */
+	char* name;                    /* name of language */
+	kindOption* kinds;             /* tag kinds handled by parser */
+	unsigned int kindCount;        /* size of `kinds' list */
+	const char *const *extensions; /* list of default extensions */
+	const char *const *patterns;   /* list of default file name patterns */
+	parserInitialize initialize;   /* initialization routine, if needed */
+	simpleParser parser;           /* simple parser (common case) */
+	rescanParser parser2;          /* rescanning parser (unusual case) */
+	boolean regex;                 /* is this a regex parser? */
 
-    /* used internally */
-    unsigned int id;			/* id assigned to language */
-    boolean enabled;			/* currently enabled? */
-    stringList* currentPatterns;	/* current list of file name patterns */
-    stringList* currentExtensions;	/* current list of extensions */
+	/* used internally */
+	unsigned int id;               /* id assigned to language */
+	boolean enabled;               /* currently enabled? */
+	stringList* currentPatterns;   /* current list of file name patterns */
+	stringList* currentExtensions; /* current list of extensions */
 } parserDefinition;
 
 typedef parserDefinition* (parserDefinitionFunc) (void);
 
 typedef struct {
-    size_t start;	/* character index in line where match starts */
-    size_t length;	/* length of match */
+	size_t start;   /* character index in line where match starts */
+	size_t length;  /* length of match */
 } regexMatch;
 
 typedef void (*regexCallback) (const char *line, const regexMatch *matches, unsigned int count);
@@ -93,6 +93,7 @@ extern langType getFileLanguage (const char *const fileName);
 extern void installLanguageMapDefault (const langType language);
 extern void installLanguageMapDefaults (void);
 extern void clearLanguageMap (const langType language);
+extern boolean removeLanguageExtensionMap (const char *const extension);
 extern void addLanguageExtensionMap (const langType language, const char* extension);
 extern void addLanguagePatternMap (const langType language, const char* ptrn);
 extern void printLanguageMap (const langType language);
@@ -123,6 +124,6 @@ extern void printRegexKinds (const langType language, boolean indent);
 extern void freeRegexResources (void);
 extern void checkRegex (void);
 
-#endif	/* _PARSE_H */
+#endif  /* _PARSE_H */
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */

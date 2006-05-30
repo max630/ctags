@@ -1,5 +1,5 @@
 /*
-*   $Id: parsers.h,v 1.11 2003/04/01 05:02:21 darren Exp $
+*   $Id: parsers.h,v 1.12 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 2000-2003, Darren Hiebert
 *
@@ -16,40 +16,40 @@
 
 /* Add the name of any new parser definition function here */
 #define PARSER_LIST \
-    AsmParser, \
-    AspParser, \
-    AwkParser, \
-    BetaParser, \
-    CParser, \
-    CppParser, \
-    CsharpParser, \
-    CobolParser, \
-    EiffelParser, \
-    ErlangParser, \
-    FortranParser, \
-    HtmlParser, \
-    JavaParser, \
-    JavaScriptParser, \
-    LispParser, \
-    LuaParser, \
-    MakefileParser, \
-    PascalParser, \
-    PerlParser, \
-    PhpParser, \
-    PythonParser, \
-    RexxParser, \
-    RubyParser, \
-    SchemeParser, \
-    ShParser, \
-    SlangParser, \
-    SmlParser, \
-    SqlParser, \
-    TclParser, \
-    VeraParser, \
-    VerilogParser, \
-    VimParser, \
-    YaccParser
+	AsmParser, \
+	AspParser, \
+	AwkParser, \
+	BetaParser, \
+	CParser, \
+	CppParser, \
+	CsharpParser, \
+	CobolParser, \
+	EiffelParser, \
+	ErlangParser, \
+	FortranParser, \
+	HtmlParser, \
+	JavaParser, \
+	JavaScriptParser, \
+	LispParser, \
+	LuaParser, \
+	MakefileParser, \
+	PascalParser, \
+	PerlParser, \
+	PhpParser, \
+	PythonParser, \
+	RexxParser, \
+	RubyParser, \
+	SchemeParser, \
+	ShParser, \
+	SlangParser, \
+	SmlParser, \
+	SqlParser, \
+	TclParser, \
+	VeraParser, \
+	VerilogParser, \
+	VimParser, \
+	YaccParser
 
-#endif	/* _PARSERS_H */
+#endif  /* _PARSERS_H */
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */

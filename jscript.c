@@ -1,5 +1,5 @@
 /*
-*   $Id: jscript.c,v 1.1 2003/03/03 03:59:19 darren Exp $
+*   $Id: jscript.c,v 1.2 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 2003, Darren Hiebert
 *
@@ -13,7 +13,7 @@
 /*
 *   INCLUDE FILES
 */
-#include "general.h"	/* must always come first */
+#include "general.h"  /* must always come first */
 #include "parse.h"
 
 /*
@@ -22,17 +22,19 @@
 
 static void installJavaScriptRegex (const langType language)
 {
-    addTagRegex (language, "^[ \t]*function[ \t]*([A-Za-z0-9_]+)[ \t]*\\(",
-	    "\\1", "f,function,functions", NULL);
+	addTagRegex (language, "^[ \t]*function[ \t]*([A-Za-z0-9_]+)[ \t]*\\(",
+		"\\1", "f,function,functions", NULL);
 }
 
 /* Create parser definition stucture */
 extern parserDefinition* JavaScriptParser (void)
 {
-    static const char *const extensions [] = { "js", NULL };
-    parserDefinition *const def = parserNew ("JavaScript");
-    def->extensions = extensions;
-    def->initialize = installJavaScriptRegex;
-    def->regex      = TRUE;
-    return def;
+	static const char *const extensions [] = { "js", NULL };
+	parserDefinition *const def = parserNew ("JavaScript");
+	def->extensions = extensions;
+	def->initialize = installJavaScriptRegex;
+	def->regex      = TRUE;
+	return def;
 }
+
+/* vi:set tabstop=4 shiftwidth=4: */

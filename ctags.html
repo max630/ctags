@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of CTAGS</TITLE>
 </HEAD><BODY>
 <H1>CTAGS</H1>
-Section: Exuberant Ctags (1)<BR>Updated: Version 5.5.4<BR><A HREF="#index">Index</A>
+Section: Exuberant Ctags (1)<BR>Updated: Version 5.6<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <P>
@@ -227,7 +227,7 @@ be the name of the function instead of the correct name of &quot;foo&quot;. Spec
 /* creates an RCS version string in module */
 <BR>
 
-MODULE_VERSION(&quot;$Revision: 1.38 $&quot;)
+MODULE_VERSION(&quot;$Revision: 1.41 $&quot;)
 </DL>
 
 <P>
@@ -515,6 +515,10 @@ Signature of routine (e.g. prototype or parameter list)
 
 <DD>
 Include the &quot;kind:&quot; key in kind field
+<DT><I>t</I>
+
+<DD>
+Type and name of a variable or typedef as &quot;typeref:&quot; field [enabled]
 
 </DL>
 </DL>
@@ -623,7 +627,8 @@ expanded by the shell before being passed to <B>ctags</B>). You can determine
 if shell wildcards are available on your platform by examining the output of
 the <B>--version</B> option, which will include &quot;+wildcards&quot; in the compiled
 feature list; otherwise, the file name patterns are matched against file names
-using a simple textual comparison.
+using a simple textual comparison. When mapping a file extension, it will
+first be unmapped from any other languages.
 <P>
 If the first character in a map is a plus sign, then the extensions and file
 name patterns in that map will be appended to the current map for that
@@ -1281,7 +1286,7 @@ Pages web site at:
 <A NAME="lbAQ">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Darren Hiebert &lt;<A HREF="mailto:dhiebert@users.sourceforge.net">dhiebert@users.sourceforge.net</A>&gt;
+Darren Hiebert &lt;dhiebert at users.sourceforge.net&gt;
 <BR>
 
 <A HREF="http://DarrenHiebert.com/">http://DarrenHiebert.com/</A>
@@ -1344,6 +1349,6 @@ the info page for GNU <B>etags</B>.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 04:18:20 GMT, March 30, 2004
+Time: 04:52:46 GMT, May 30, 2006
 </BODY>
 </HTML>

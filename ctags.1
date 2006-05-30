@@ -1,4 +1,4 @@
-.TH CTAGS 1 "Version 5.5.4" "Darren Hiebert" "Exuberant Ctags"
+.TH CTAGS 1 "Version 5.6" "Darren Hiebert" "Exuberant Ctags"
 
 
 .SH "NAME"
@@ -199,7 +199,7 @@ be the name of the function instead of the correct name of "foo". Specifying
 .RS 8
 /* creates an RCS version string in module */
 .br
-MODULE_VERSION("$Revision: 1.38 $")
+MODULE_VERSION("$Revision: 1.41 $")
 .RE
 
 .IP
@@ -453,6 +453,9 @@ Signature of routine (e.g. prototype or parameter list)
 .TP 4
 .I z
 Include the "kind:" key in kind field
+.TP 4
+.I t
+Type and name of a variable or typedef as "typeref:" field [enabled]
 .PD 1
 .RE
 
@@ -564,7 +567,8 @@ expanded by the shell before being passed to \fBctags\fP). You can determine
 if shell wildcards are available on your platform by examining the output of
 the \fB--version\fP option, which will include "+wildcards" in the compiled
 feature list; otherwise, the file name patterns are matched against file names
-using a simple textual comparison.
+using a simple textual comparison. When mapping a file extension, it will
+first be unmapped from any other languages.
 
 If the first character in a map is a plus sign, then the extensions and file
 name patterns in that map will be appended to the current map for that
@@ -1151,7 +1155,7 @@ http://www.vim.org/
 
 
 .SH "AUTHOR"
-Darren Hiebert <dhiebert@users.sourceforge.net>
+Darren Hiebert <dhiebert at users.sourceforge.net>
 .br
 http://DarrenHiebert.com/
 
