@@ -1,6 +1,7 @@
 exuberant-ctags (1:5.6-1) UNRELEASED; urgency=low
 
   * New upstream release (closes: #374097).
+  * Fix accidentally-unrendered line in ctags(1) (closes: #271323).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 31 Jul 2006 08:53:56 +0100
 
