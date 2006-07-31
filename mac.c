@@ -1,5 +1,5 @@
 /*
-*   $Id: mac.c,v 1.1 2001/11/02 04:53:43 darren Exp $
+*   $Id: mac.c,v 1.2 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 2001, Maarten L. Hekkelman
 *
@@ -244,7 +244,7 @@ char* getcwd(char* out_path, int out_path_len)
 		pb.dirInfo.ioNamePtr = cwd.name;
 		pb.dirInfo.ioVRefNum = cwd.vRefNum;
 		pb.dirInfo.ioDrParID = cwd.parID;
-		do	/* loop until we have an error or find the root directory */
+		do  /* loop until we have an error or find the root directory */
 		{
 			pb.dirInfo.ioFDirIndex = -1;
 			pb.dirInfo.ioDrDirID = pb.dirInfo.ioDrParID;

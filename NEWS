@@ -1,4 +1,23 @@
-Current Version: 5.5.4
+Current Version: 5.6
+
+ctags-5.6 (Mon May 29 2006)
+* Reformatted code for independence of tab stop setting.
+* Changed default configuration to disable installation of etags links.
+* Changed --langmap to first unmap each supplied extension from other languages.
+* Added support for ASP constants [ASP, Patch #961842].
+* Added support for GNU make extensions [Make].
+* Added .mk as extension recognized as a make language file [Make].
+* Added missing help for list-maps options [Bug #1201826].
+* Added new extension field "typeref" [thanks to Bram Moolenaar].
+* Extended functionality of Ruby parser with patch from Elliot Hughes [Ruby].
+* Fixed creation of TAGS file with etags-include but no files [Bug #941233].
+* Fixed problem reading last line of list file (-L) without final newline.
+* Fixed infinite loop that could occur on files without final newline [C, Java].
+* Fixed incorrect tag for first field of table [SQL].
+* Fixed missing tags for functions beginning with underscore [Sh].
+* Fixed missing tags for functions with variable arg list [C, Bug #1201689].
+* Fixed parsing problem with parentheses in argument list [C, Bug #1085585].
+* Fixed problem in preprocessor directive handling [C, Bug #1086609].
 
 ctags-5.5.4 (Thu Mar 25 2004)
 * Fixed broken -R option.

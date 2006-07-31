@@ -1,5 +1,5 @@
 /*
-*   $Id: sort.h,v 1.2 2002/02/17 06:04:32 darren Exp $
+*   $Id: sort.h,v 1.3 2006/05/30 04:37:13 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -14,7 +14,7 @@
 /*
 *   INCLUDE FILES
 */
-#include "general.h"	/* must always come first */
+#include "general.h"  /* must always come first */
 
 /*
 *   FUNCTION PROTOTYPES
@@ -27,6 +27,6 @@ extern void externalSortTags (const boolean toStdout);
 extern void internalSortTags (const boolean toStdout);
 #endif
 
-#endif	/* _SORT_H */
+#endif  /* _SORT_H */
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */

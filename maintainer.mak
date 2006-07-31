@@ -1,4 +1,4 @@
-#	$Id: maintainer.mak,v 1.34 2003/07/31 01:56:32 darren Exp $
+#	$Id: maintainer.mak,v 1.36 2006/05/30 04:37:12 darren Exp $
 #
 #	Copyright (c) 1996-2002, Darren Hiebert
 #
@@ -55,8 +55,9 @@ CC		= gcc
 INCLUDE	= -I.
 DEFS	= -DHAVE_CONFIG_H
 COMP_FLAGS = $(INCLUDE) $(DEFS) $(CFLAGS)
-PROF_OPT= -O3 -march=i686 -mcpu=i686 
-OPT		= $(PROF_OPT) -fomit-frame-pointer
+PROF_OPT= -O3 -march=i686
+#OPT		= $(PROF_OPT) -fomit-frame-pointer
+OPT		= $(PROF_OPT)
 DCFLAGS	= $(COMP_FLAGS) -DDEBUG -DINTERNAL_SORT
 LD		= gcc
 LDFLAGS	= 
@@ -91,7 +92,7 @@ ctags: $(SOURCES:.c=.o)
 
 dctags: $(SOURCES:.c=.od) debug.od
 	@ echo "-- Building $@"
-	$(LD) -o $@ $(LDFLAGS) $^ -lefence
+	$(LD) -o $@ $(LDFLAGS) $^
 
 mctags: $(SOURCES:.c=.om) debug.om safe_malloc.om
 	@ echo "-- Building $@"

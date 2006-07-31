@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.6-1) UNRELEASED; urgency=low
+
+  * New upstream release (closes: #374097).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 31 Jul 2006 08:53:56 +0100
+
 exuberant-ctags (1:5.5.4-2) unstable; urgency=low
 
   * Fix bashisms in postinst and prerm.

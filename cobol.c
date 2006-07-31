@@ -1,5 +1,5 @@
 /*
-*   $Id: cobol.c,v 1.5 2003/04/01 04:55:27 darren Exp $
+*   $Id: cobol.c,v 1.6 2006/05/30 04:37:11 darren Exp $
 *
 *   Copyright (c) 2000-2003, Darren Hiebert
 *
@@ -23,28 +23,28 @@
 static void installCobolRegex (const langType language)
 {
    addTagRegex (language, "^[ \t]*[0-9]+[ \t]+([A-Z0-9][A-Z0-9-]*)[ \t]+(BLANK|OCCURS|IS|JUST|PIC|REDEFINES|RENAMES|SIGN|SYNC|USAGE|VALUE)",
-	"\\1", "d,data,data items", "i");
-   addTagRegex (language, "^[ \t]*[FSR]D[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "f,file,file descriptions (FD, SD, RD)", "i");
-   addTagRegex (language, "^[ \t]*[0-9]+[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "g,group,group items", "i");
-   addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "p,paragraph,paragraphs", "i");
-   addTagRegex (language, "^[ \t]*PROGRAM-ID\\.[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
-	"\\1", "P,program,program ids", "i");
-   addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)[ \t]+SECTION\\.",
-	"\\1", "s,section,sections", "i");
+		"\\1", "d,data,data items", "i");
+	addTagRegex (language, "^[ \t]*[FSR]D[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
+		"\\1", "f,file,file descriptions (FD, SD, RD)", "i");
+	addTagRegex (language, "^[ \t]*[0-9]+[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
+		"\\1", "g,group,group items", "i");
+	addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)\\.",
+		"\\1", "p,paragraph,paragraphs", "i");
+	addTagRegex (language, "^[ \t]*PROGRAM-ID\\.[ \t]+([A-Z0-9][A-Z0-9-]*)\\.",
+		"\\1", "P,program,program ids", "i");
+	addTagRegex (language, "^[ \t]*([A-Z0-9][A-Z0-9-]*)[ \t]+SECTION\\.",
+		"\\1", "s,section,sections", "i");
 }
 
 extern parserDefinition* CobolParser ()
 {
-    static const char *const extensions [] = {
-	    "cbl", "cob", "CBL", "COB", NULL };
-    parserDefinition* def = parserNew ("Cobol");
-    def->extensions = extensions;
-    def->initialize = installCobolRegex;
-    def->regex      = TRUE;
-    return def;
+	static const char *const extensions [] = {
+			"cbl", "cob", "CBL", "COB", NULL };
+	parserDefinition* def = parserNew ("Cobol");
+	def->extensions = extensions;
+	def->initialize = installCobolRegex;
+	def->regex      = TRUE;
+	return def;
 }
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */

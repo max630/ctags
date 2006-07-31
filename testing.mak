@@ -1,4 +1,4 @@
-#	$Id: testing.mak,v 1.12 2003/09/03 02:53:46 darren Exp $
+#	$Id: testing.mak,v 1.15 2006/05/29 01:29:00 darren Exp $
 #
 #	Copyright (c) 1996-2002, Darren Hiebert
 #
@@ -32,7 +32,7 @@ test.include: $(CTAGS_TEST) $(CTAGS_REF)
 	@- $(DIFF)
 
 REF_FIELD_OPTIONS = $(TEST_OPTIONS) --fields=+afmikKlnsSz
-TEST_FIELD_OPTIONS = $(TEST_OPTIONS) --fields=+afmikKlnsSz
+TEST_FIELD_OPTIONS = $(TEST_OPTIONS) --fields=+afmikKlnsStz
 test.fields: $(CTAGS_TEST) $(CTAGS_REF)
 	@ echo -n "Testing extension fields..."
 	@ $(CTAGS_REF) -R $(REF_FIELD_OPTIONS) -o tags.ref Test
@@ -74,7 +74,7 @@ test.eiffel: $(CTAGS_TEST) $(CTAGS_REF)
 
 REF_LINUX_OPTIONS = $(TEST_OPTIONS) --fields=k
 TEST_LINUX_OPTIONS = $(TEST_OPTIONS) --fields=k
-LINUX_DIRECTORY = /usr/src/linux-2.4
+LINUX_DIRECTORY := $(shell ls -dtr /usr/src/kernels/* | tail -1)
 test.linux: $(CTAGS_TEST) $(CTAGS_REF)
 	@ echo -n "Testing Linux tag inclusion..."
 	@ $(CTAGS_REF) -R $(REF_LINUX_OPTIONS) -o tags.ref $(LINUX_DIRECTORY)

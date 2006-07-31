@@ -1,5 +1,5 @@
 /*
-*   $Id: keyword.h,v 1.2 2002/02/17 06:04:32 darren Exp $
+*   $Id: keyword.h,v 1.3 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -14,7 +14,7 @@
 /*
 *   INCLUDE FILES
 */
-#include "general.h"	/* must always come first */
+#include "general.h"  /* must always come first */
 
 #include "parse.h"
 
@@ -28,6 +28,6 @@ extern void freeKeywordTable (void);
 extern void printKeywordTable (void);
 #endif
 
-#endif	/* _KEYWORD_H */
+#endif  /* _KEYWORD_H */
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */

@@ -1,5 +1,5 @@
 /*
-*   $Id: main.h,v 1.7 2003/07/21 01:09:08 darren Exp $
+*   $Id: main.h,v 1.8 2006/05/30 04:37:12 darren Exp $
 *
 *   Copyright (c) 1998-2002, Darren Hiebert
 *
@@ -14,7 +14,7 @@
 /*
 *   INCLUDE FILES
 */
-#include "general.h"	/* must always come first */
+#include "general.h"  /* must always come first */
 
 #include <stdio.h>
 
@@ -27,6 +27,6 @@ extern void addTotals (const unsigned int files, const long unsigned int lines, 
 extern boolean isDestinationStdout (void);
 extern int main (int argc, char **argv);
 
-#endif	/* _MAIN_H */
+#endif  /* _MAIN_H */
 
-/* vi:set tabstop=8 shiftwidth=4: */
+/* vi:set tabstop=4 shiftwidth=4: */
