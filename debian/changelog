@@ -1,3 +1,14 @@
+exuberant-ctags (1:5.7-1) UNRELEASED; urgency=low
+
+  * New upstream release. Debian bugs fixed:
+    - Fixed typo in man page (closes: #366412).
+    - Fixed parsing of generic classes/interfaces (Java, closes: #368955).
+    - Added support for arbitrary nesting depth (Python, closes: #409078).
+    - Fixed parsing of comment-to-end-of-line with no newline before EOF
+      (Fortran, closes: #432872).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 08 Sep 2007 08:52:42 +0100
+
 exuberant-ctags (1:5.6-1) unstable; urgency=low
 
   * New upstream release (closes: #374097).
