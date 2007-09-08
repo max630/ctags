@@ -26,7 +26,7 @@ Makefile:
 clean:
 	rm -f stamp-build debian/files debian/substvars
 	rm -rf debian/tmp 
-	-make distclean
+	[ ! -f Makefile ] || $(MAKE) distclean
 
 binary: binary-arch binary-indep
 
