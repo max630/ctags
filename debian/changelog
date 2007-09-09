@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.7-2) UNRELEASED; urgency=low
+
+  * Add an md5sums control file.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 09 Sep 2007 08:49:22 +0100
+
 exuberant-ctags (1:5.7-1) unstable; urgency=low
 
   * New upstream release. Debian bugs fixed:

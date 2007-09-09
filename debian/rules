@@ -60,6 +60,11 @@ binary-arch: stamp-build
 	install -p -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
 	dpkg-shlibdeps debian/tmp/usr/bin/*
 	dpkg-gencontrol -isp
+	(cd debian/tmp && \
+		find . -name DEBIAN -prune -o -type f -printf '%P\0' | \
+		xargs -r0 md5sum) > debian/tmp/DEBIAN/md5sums
+	chown root:root debian/tmp/DEBIAN/md5sums
+	chmod 644 debian/tmp/DEBIAN/md5sums
 	dpkg --build debian/tmp ..
 
 .PHONY: all build binary binary-indep binary-arch clean
