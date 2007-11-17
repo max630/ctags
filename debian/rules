@@ -4,6 +4,15 @@
 package         = exuberant-ctags
 docdir          = /usr/share/doc/$(package)
 
+DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+  confflags += --build=$(DEB_HOST_GNU_TYPE)
+else
+  confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
+endif
+
 ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 CFLAGS := -O2 -g -Wall
 else
@@ -21,7 +30,7 @@ all build stamp-build: Makefile
 	touch stamp-build
 
 Makefile:
-	CFLAGS="$(CFLAGS)" ./configure 
+	CFLAGS="$(CFLAGS)" ./configure $(confflags)
 
 clean:
 	rm -f stamp-build debian/files debian/substvars
