@@ -5,6 +5,8 @@ exuberant-ctags (1:5.7-3) UNRELEASED; urgency=low
     - Fix parsing of Python variables starting with "def" or "class" as
       function or class definitions.
   * Policy version 3.7.3: no changes required.
+  * Add an actual copyright notice to debian/copyright (from 'ctags
+    --version' output).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 04 Mar 2008 10:30:34 +0000
 
