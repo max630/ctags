@@ -4,6 +4,7 @@ exuberant-ctags (1:5.7-3) UNRELEASED; urgency=low
     closes: #460982, LP: #179492):
     - Fix parsing of Python variables starting with "def" or "class" as
       function or class definitions.
+  * Policy version 3.7.3: no changes required.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 04 Mar 2008 10:30:34 +0000
 
