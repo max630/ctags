@@ -1,3 +1,12 @@
+exuberant-ctags (1:5.7-3) UNRELEASED; urgency=low
+
+  * Backport from upstream (thanks, Daniel Hahler of Ubuntu;
+    closes: #460982, LP: #179492):
+    - Fix parsing of Python variables starting with "def" or "class" as
+      function or class definitions.
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 04 Mar 2008 10:30:34 +0000
+
 exuberant-ctags (1:5.7-2) unstable; urgency=low
 
   * Add an md5sums control file.
