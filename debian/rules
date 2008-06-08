@@ -13,13 +13,13 @@ else
   confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 endif
 
-ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
 CFLAGS := -O2 -g -Wall
 else
 CFLAGS := -g -Wall
 endif
 
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
 INSTALL_PROGRAM := install -s
 else
 INSTALL_PROGRAM := install
