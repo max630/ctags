@@ -12,5 +12,5 @@ and is now maintained by Colin Watson <cjwatson@debian.org>.
 Copyright (C) 1996-2007 Darren Hiebert <dhiebert@users.sourceforge.net>
 
 Exuberant Ctags is licensed under the GNU GPL 2. On Debian systems
-you can find the text for this license in /usr/share/common-licenses/GPL .
+you can find the text for this license in /usr/share/common-licenses/GPL-2 .
 
