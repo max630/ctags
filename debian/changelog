@@ -6,6 +6,7 @@ exuberant-ctags (1:5.7-4) UNRELEASED; urgency=low
   * Add a Homepage control field.
   * Refer to /usr/share/common-licenses/GPL-2 in debian/copyright rather
     than plain GPL.
+  * Policy version 3.8.0.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 08 Jun 2008 21:34:24 +0100
 
