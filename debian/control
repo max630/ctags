@@ -9,6 +9,7 @@ Architecture: any
 Depends: ${shlibs:Depends}
 Provides: ctags
 Suggests: vim | nvi | elvis | vile | emacsen
+Homepage: http://ctags.sourceforge.net/
 Description: build tag file indexes of source code definitions
  ctags parses source code and produces a sort of index mapping
  the names of significant entities (e.g. functions, classes,
