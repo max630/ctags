@@ -1,6 +1,8 @@
 exuberant-ctags (1:5.7-4) UNRELEASED; urgency=low
 
   * Update DEB_BUILD_OPTIONS parsing code from policy 3.8.0.
+  * Backport from upstream (closes: #484797, SF #1878155):
+    - jscript.c was not properly handling escaped quotes.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 08 Jun 2008 21:34:24 +0100
 
