@@ -52,7 +52,7 @@ binary-arch: stamp-build
 		debian/tmp/usr/bin/ctags-exuberant
 	install -p -o root -g root -m 644 ctags.1 \
 		debian/tmp/usr/share/man/man1/ctags-exuberant.1
-	gzip -9 debian/tmp/usr/share/man/man1/ctags-exuberant.1
+	gzip -9n debian/tmp/usr/share/man/man1/ctags-exuberant.1
 
 # Install the documentation
 	install -d -o root -g root -m 755 debian/tmp/$(docdir)
@@ -60,7 +60,7 @@ binary-arch: stamp-build
 		debian/tmp/$(docdir)/changelog.Debian
 	install -p -o root -g root -m 644 FAQ debian/tmp/$(docdir)/
 	install -p -o root -g root -m 644 NEWS debian/tmp/$(docdir)/changelog
-	gzip -9 debian/tmp/$(docdir)/*
+	gzip -9n debian/tmp/$(docdir)/*
 	install -p -o root -g root -m 644 debian/copyright debian/tmp/$(docdir)/
 
 # Do the usual Debian stuff
