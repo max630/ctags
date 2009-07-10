@@ -1,6 +1,7 @@
 exuberant-ctags (1:5.7-5) UNRELEASED; urgency=low
 
   * Compress files using gzip -n (cf. debhelper 6.0.6).
+  * Add a watch file.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 03 Jun 2009 08:32:34 +0100
 
