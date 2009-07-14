@@ -1,11 +1,11 @@
-exuberant-ctags (1:5.8-1) UNRELEASED; urgency=low
+exuberant-ctags (1:5.8-1) unstable; urgency=low
 
   * New upstream release. Debian bugs fixed:
     - Add support for ASP classes (closes: #529215).
   * Compress files using gzip -n (cf. debhelper 6.0.6).
   * Add a watch file.
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 03 Jun 2009 08:32:34 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 14 Jul 2009 15:05:23 +0100
 
 exuberant-ctags (1:5.7-4) unstable; urgency=low
 
