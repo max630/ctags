@@ -1,17 +1,8 @@
 #! /usr/bin/make -f
+%:
+	dh $@
 
-# Debian package information
-package         = exuberant-ctags
-docdir          = /usr/share/doc/$(package)
-
-DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-
-ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
-  confflags += --build=$(DEB_HOST_GNU_TYPE)
-else
-  confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
-endif
+dtmp = debian/exuberant-ctags
 
 ifeq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
 CFLAGS := -O2 -g -Wall
@@ -19,61 +10,13 @@ else
 CFLAGS := -g -Wall
 endif
 
-ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
-INSTALL_PROGRAM := install -s
-else
-INSTALL_PROGRAM := install
-endif
+override_dh_auto_configure:
+	CFLAGS="$(CFLAGS)" dh_auto_configure
 
-all build stamp-build: Makefile
-	$(MAKE) $(MFLAGS)
-	touch stamp-build
-
-Makefile:
-	CFLAGS="$(CFLAGS)" ./configure $(confflags)
-
-clean:
-	rm -f stamp-build debian/files debian/substvars
-	rm -rf debian/tmp 
-	[ ! -f Makefile ] || $(MAKE) distclean
-
-binary: binary-arch binary-indep
-
-binary-indep:
-	@echo This package contains no architecture independent parts
-
-binary-arch: stamp-build
-# Clean up first
-	rm -rf debian/tmp
+override_dh_auto_install:
 # Install exuberant-ctags itself
-	install -d -o root -g root -m 755 debian/tmp/usr/bin
-	install -d -o root -g root -m 755 debian/tmp/usr/share/man/man1
-	$(INSTALL_PROGRAM) -o root -g root -m 755 ctags \
-		debian/tmp/usr/bin/ctags-exuberant
-	install -p -o root -g root -m 644 ctags.1 \
-		debian/tmp/usr/share/man/man1/ctags-exuberant.1
-	gzip -9n debian/tmp/usr/share/man/man1/ctags-exuberant.1
+	install -m 755 ctags $(dtmp)/usr/bin/ctags-exuberant
+	install -p -m 644 ctags.1 $(dtmp)/usr/share/man/man1/ctags-exuberant.1
 
-# Install the documentation
-	install -d -o root -g root -m 755 debian/tmp/$(docdir)
-	install -p -o root -g root -m 644 debian/changelog \
-		debian/tmp/$(docdir)/changelog.Debian
-	install -p -o root -g root -m 644 FAQ debian/tmp/$(docdir)/
-	install -p -o root -g root -m 644 NEWS debian/tmp/$(docdir)/changelog
-	gzip -9n debian/tmp/$(docdir)/*
-	install -p -o root -g root -m 644 debian/copyright debian/tmp/$(docdir)/
-
-# Do the usual Debian stuff
-	install -d -o root -g root -m 755 debian/tmp/DEBIAN
-	install -p -o root -g root -m 755 debian/prerm debian/tmp/DEBIAN/
-	install -p -o root -g root -m 755 debian/postinst debian/tmp/DEBIAN/
-	dpkg-shlibdeps debian/tmp/usr/bin/*
-	dpkg-gencontrol -isp
-	(cd debian/tmp && \
-		find . -name DEBIAN -prune -o -type f -printf '%P\0' | \
-		xargs -r0 md5sum) > debian/tmp/DEBIAN/md5sums
-	chown root:root debian/tmp/DEBIAN/md5sums
-	chmod 644 debian/tmp/DEBIAN/md5sums
-	dpkg --build debian/tmp ..
-
-.PHONY: all build binary binary-indep binary-arch clean
+override_dh_installchangelogs:
+	dh_installchangelogs NEWS

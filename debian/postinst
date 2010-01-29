@@ -18,5 +18,6 @@ if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] ; then
 	rm -f "$buffer"
 fi
 
-exit 0
+#DEBHELPER#
 
+exit 0

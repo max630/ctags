@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.8-2) UNRELEASED; urgency=low
+
+  * Rewrite debian/rules using debhelper 7.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 29 Jan 2010 02:09:33 +0000
+
 exuberant-ctags (1:5.8-1) unstable; urgency=low
 
   * New upstream release. Debian bugs fixed:

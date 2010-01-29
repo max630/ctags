@@ -1,3 +1,4 @@
+*.debhelper*
+*.substvars
+exuberant-ctags
 files
-substvars
-tmp
