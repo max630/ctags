@@ -1,6 +1,7 @@
 exuberant-ctags (1:5.8-2) UNRELEASED; urgency=low
 
   * Rewrite debian/rules using debhelper 7.
+  * Convert to source format 3.0 (quilt).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 29 Jan 2010 02:09:33 +0000
 
