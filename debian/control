@@ -3,7 +3,7 @@ Section: editors
 Priority: optional
 Maintainer: Colin Watson <cjwatson@debian.org>
 Build-Depends: debhelper (>= 7.0.50)
-Standards-Version: 3.8.0
+Standards-Version: 3.8.4
 
 Package: exuberant-ctags
 Architecture: any
