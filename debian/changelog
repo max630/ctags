@@ -5,6 +5,8 @@ exuberant-ctags (1:5.8-2) UNRELEASED; urgency=low
   * Policy version 3.8.4: no changes required.
   * Fix endless loop on unmatched { in a Makefile with no following newline
     (thanks, Martin Dorey; closes: #571652).
+  * Backport upstream patch to ignore keywords inside PHP multiline comments
+    (closes: #505538).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 29 Jan 2010 02:09:33 +0000
 
