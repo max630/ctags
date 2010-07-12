@@ -5,9 +5,9 @@
 dtmp = debian/exuberant-ctags
 
 ifeq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
-CFLAGS := -O2 -g -Wall
+CFLAGS := -O2 -g -Wall -D_FILE_OFFSET_BITS=64
 else
-CFLAGS := -g -Wall
+CFLAGS := -g -Wall -D_FILE_OFFSET_BITS=64
 endif
 
 override_dh_auto_configure:

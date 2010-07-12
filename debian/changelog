@@ -1,3 +1,11 @@
+exuberant-ctags (1:5.8-3) UNRELEASED; urgency=low
+
+  * Compile with -D_FILE_OFFSET_BITS=64 in order to support 64-bit inode
+    numbers and file sizes on 32-bit systems (thanks, Hamish Moffatt;
+    closes: #588771).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 12 Jul 2010 10:11:05 +0100
+
 exuberant-ctags (1:5.8-2) unstable; urgency=low
 
   * Rewrite debian/rules using debhelper 7.
