@@ -1,2 +1,3 @@
 make-match-loop.patch
 php-ignore-keywords-in-comments.patch
+memmove.patch
