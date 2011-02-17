@@ -1,9 +1,9 @@
-exuberant-ctags (1:5.8-4) UNRELEASED; urgency=low
+exuberant-ctags (1:5.8-4) unstable; urgency=low
 
   * Apply patch from Ben Spencer to use memmove rather than strcpy on
     overlapping strings (closes: #594185).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 17 Feb 2011 13:45:08 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 17 Feb 2011 13:47:11 +0000
 
 exuberant-ctags (1:5.8-3) unstable; urgency=low
 
