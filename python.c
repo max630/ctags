@@ -56,7 +56,7 @@ static kindOption PythonKinds[] = {
 	{TRUE, 'f', "function", "functions"},
 	{TRUE, 'm', "member",   "class members"},
     {TRUE, 'v', "variable", "variables"},
-    {TRUE, 'i', "namespace", "imports"}
+    {FALSE, 'i', "namespace", "imports"}
 };
 
 static char const * const singletriple = "'''";
