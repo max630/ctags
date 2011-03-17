@@ -7,6 +7,8 @@ exuberant-ctags (1:5.9~svn20110310-1) UNRELEASED; urgency=low
     - debian/patches/php-ignore-keywords-in-comments.patch
   * For Python, disable -i so imports are not tagged by default (thanks,
     Barry Warsaw; LP: #618979).
+  * Upstream uses AC_SYS_LARGEFILE now, so drop explicit
+    -D_FILE_OFFSET_BITS=64 in debian/rules.
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 17 Mar 2011 15:27:22 +0000
 
