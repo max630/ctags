@@ -1,4 +1,4 @@
-# $Id: source.mak 720 2009-07-07 03:55:23Z dhiebert $
+# $Id: source.mak 771 2010-11-30 13:15:12Z vberthoux $
 #
 # Shared macros
 
@@ -33,6 +33,7 @@ SOURCES = \
 	main.c \
 	make.c \
 	matlab.c \
+	objc.c \
 	ocaml.c \
 	options.c \
 	parse.c \
@@ -95,6 +96,7 @@ OBJECTS = \
 	main.$(OBJEXT) \
 	make.$(OBJEXT) \
 	matlab.$(OBJEXT) \
+	objc.$(OBJEXT) \
 	ocaml.$(OBJEXT) \
 	options.$(OBJEXT) \
 	parse.$(OBJEXT) \

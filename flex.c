@@ -78,9 +78,12 @@ typedef enum eKeywordId {
 	KEYWORD_static,
 	KEYWORD_class,
 	KEYWORD_id,
+	KEYWORD_name,
 	KEYWORD_script,
 	KEYWORD_cdata,
-	KEYWORD_mx
+	KEYWORD_mx,
+	KEYWORD_fx,
+	KEYWORD_override
 } keywordId;
 
 /*	Used to determine whether keyword is valid for the token language and
@@ -116,7 +119,8 @@ typedef enum eTokenType {
 	TOKEN_CLOSE_SGML,
 	TOKEN_LESS_THAN,
 	TOKEN_GREATER_THAN,
-	TOKEN_QUESTION_MARK
+	TOKEN_QUESTION_MARK,
+	TOKEN_OPEN_NAMESPACE
 } tokenType;
 
 typedef struct sTokenInfo {
@@ -182,9 +186,12 @@ static const keywordDesc FlexKeywordTable [] = {
 	{ "static",		KEYWORD_static				},
 	{ "class",		KEYWORD_class				},
 	{ "id",			KEYWORD_id					},
+	{ "name",		KEYWORD_name				},
 	{ "script",		KEYWORD_script				},
 	{ "cdata",		KEYWORD_cdata				},
-	{ "mx",			KEYWORD_mx					}
+	{ "mx",			KEYWORD_mx					},
+	{ "fx",			KEYWORD_fx					},
+	{ "override",	KEYWORD_override			}
 };
 
 /*
@@ -196,6 +203,7 @@ static void parseFunction (tokenInfo *const token);
 static boolean parseBlock (tokenInfo *const token, tokenInfo *const parent);
 static boolean parseLine (tokenInfo *const token);
 static boolean parseActionScript (tokenInfo *const token);
+static boolean parseMXML (tokenInfo *const token);
 
 static boolean isIdentChar (const int c)
 {
@@ -518,13 +526,15 @@ getNextChar:
 
 					  if ( (d != '!' )  && 		/* is this the start of a comment? */
 					       (d != '/' )  &&	 	/* is this the start of a closing mx tag */
-					       (d != 'm' )    ) 	/* is this the start of a mx tag */
+					       (d != 'm' )  &&  	/* is this the start of a mx tag */
+					       (d != 'f' )  &&  	/* is this the start of a fx tag */
+					       (d != 's' )    ) 	/* is this the start of a spark tag */
 					  {
 						  fileUngetc (d);
 						  token->type = TOKEN_LESS_THAN;
 						  token->lineNumber = getSourceLineNumber ();
 						  token->filePosition = getInputFilePosition ();
-
+						  break;						
 					  }
 					  else
 					  {
@@ -582,23 +592,24 @@ getNextChar:
 								  }
 							  }
 						  }
-						  else if (d == 'm')
+						  else if (d == 'm' || d == 'f' || d == 's' )
 						  {
 							  int e = fileGetc ();
-							  if ( e != 'x' ) 		/* continuing an mx tag */
+							  if ( (d == 'm' || d == 'f') && e != 'x' ) 		/* continuing an mx or fx tag */
 							  {
 								  fileUngetc (e);
 								  fileUngetc (d);
 								  token->type = TOKEN_LESS_THAN;
 								  token->lineNumber = getSourceLineNumber ();
 								  token->filePosition = getInputFilePosition ();
+								  break;
 							  }
 							  else
 							  {
-								  if (e == 'x')
+								  if ( (d == 'm' || d == 'f') && e == 'x' )
 								  {
 									  int f = fileGetc ();
-									  if ( f != ':' ) 		/* is this the start of a comment? */
+									  if ( f != ':' ) 		/* start of the tag */
 									  {
 										  fileUngetc (f);
 										  fileUngetc (e);
@@ -606,40 +617,57 @@ getNextChar:
 										  token->type = TOKEN_LESS_THAN;
 										  token->lineNumber = getSourceLineNumber ();
 										  token->filePosition = getInputFilePosition ();
+										  break;
 									  }
 									  else
 									  {
-										  if (f == ':')
-										  {
-											  token->type = TOKEN_OPEN_MXML;
-											  token->lineNumber = getSourceLineNumber ();
-											  token->filePosition = getInputFilePosition ();
-										  }
+										  token->type = TOKEN_OPEN_MXML;
+										  token->lineNumber = getSourceLineNumber ();
+										  token->filePosition = getInputFilePosition ();
+										  break;
 									  }
+								  }
+								  if ( d == 's' && e == ':')    /* continuing a spark tag */
+								  {
+									  token->type = TOKEN_OPEN_MXML;
+									  token->lineNumber = getSourceLineNumber ();
+									  token->filePosition = getInputFilePosition ();
+									  break;
+								  }
+								  else
+								  {
+									  fileUngetc (e);
+									  fileUngetc (d);
+									  token->type = TOKEN_LESS_THAN;
+									  token->lineNumber = getSourceLineNumber ();
+									  token->filePosition = getInputFilePosition ();
+									  break;
 								  }
 							  }
 						  }
 						  else if (d == '/')
 						  {
 							  int e = fileGetc ();
-							  if ( e != 'm' ) 		/* continuing an mx tag */
+							  if ( !(e == 'm' || e == 'f' || e == 's' ))
 							  {
 								  fileUngetc (e);
 								  fileUngetc (d);
 								  token->type = TOKEN_LESS_THAN;
 								  token->lineNumber = getSourceLineNumber ();
 								  token->filePosition = getInputFilePosition ();
+								  break;
 							  }
 							  else
 							  {
 								  int f = fileGetc ();
-								  if ( f != 'x' ) 		/* continuing an mx tag */
+								  if ( (e == 'm' || e == 'f') && f != 'x' ) 		/* continuing an mx or fx tag */
 								  {
 									  fileUngetc (f);
 									  fileUngetc (e);
 									  token->type = TOKEN_LESS_THAN;
 									  token->lineNumber = getSourceLineNumber ();
 									  token->filePosition = getInputFilePosition ();
+									  break;
 								  }
 								  else
 								  {
@@ -654,16 +682,31 @@ getNextChar:
 											  token->type = TOKEN_LESS_THAN;
 											  token->lineNumber = getSourceLineNumber ();
 											  token->filePosition = getInputFilePosition ();
+											  break;
 										  }
 										  else
 										  {
-											  if (g == ':')
-											  {
-												  token->type = TOKEN_CLOSE_MXML;
-												  token->lineNumber = getSourceLineNumber ();
-												  token->filePosition = getInputFilePosition ();
-											  }
+											  token->type = TOKEN_CLOSE_MXML;
+											  token->lineNumber = getSourceLineNumber ();
+											  token->filePosition = getInputFilePosition ();
+											  break;
 										  }
+									  }
+									  if ( e == 's' && f == ':')    /* continuing a spark tag */
+									  {
+										  token->type = TOKEN_CLOSE_MXML;
+										  token->lineNumber = getSourceLineNumber ();
+										  token->filePosition = getInputFilePosition ();
+										  break;
+									  }
+									  else
+									  {
+										  fileUngetc (f);
+										  fileUngetc (e);
+										  token->type = TOKEN_LESS_THAN;
+										  token->lineNumber = getSourceLineNumber ();
+										  token->filePosition = getInputFilePosition ();
+										  break;
 									  }
 								  }
 							  }
@@ -1982,10 +2025,81 @@ static boolean parseCDATA (tokenInfo *const token)
 	return TRUE;
 }
 
+static boolean parseNamespace (tokenInfo *const token)
+{
+	/*
+	 * If we have found a <, we know it is not a TOKEN_OPEN_MXML 
+	 * but it could potentially be a different namespace.
+	 * This means it will also have a closing tag, which will
+	 * mess up the parser if we do not properly recurse 
+	 * through these tags.
+	 */
+
+	if (isType (token, TOKEN_LESS_THAN))
+	{
+		readToken (token);
+	}
+
+	/*
+	 * Check if we have reached a other namespace tag
+	 *   <views:Object ... />
+	 * or
+	 *   <views:Object ... >
+	 *   </views:Object>
+	 */
+	if (isType (token, TOKEN_IDENTIFIER))
+	{
+		readToken (token);
+		if (isType (token, TOKEN_COLON))
+		{
+			readToken (token);
+			if ( ! isType (token, TOKEN_IDENTIFIER))
+			{
+				return TRUE;
+			}
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	else
+	{
+		return TRUE;
+	}
+
+	/* 
+	 * Confirmed we are inside a namespace tag, so
+	 * process it until the close tag.
+	 *
+	 * But also check for new tags, which will either
+	 * be recursive namespaces or MXML tags
+	 */
+	do
+	{
+		if (isType (token, TOKEN_LESS_THAN))
+		{
+			parseNamespace (token);
+			readToken (token);
+		}
+		if (isType (token, TOKEN_OPEN_MXML))
+		{
+			parseMXML (token);
+		}
+		else
+		{
+			readToken (token);
+		}
+	} while (! (isType (token, TOKEN_CLOSE_SGML) || isType (token, TOKEN_CLOSE_MXML)) ); 
+
+	return TRUE;
+}
+
 static boolean parseMXML (tokenInfo *const token)
 {
 	tokenInfo *const name = newToken ();
 	tokenInfo *const type = newToken ();
+	boolean inside_attributes = TRUE;
 	/*
 	 * Detect the common statements, if, while, for, do, ...
 	 * This is necessary since the last statement within a block "{}"
@@ -2059,21 +2173,44 @@ static boolean parseMXML (tokenInfo *const token)
 	readToken (token);
 	do
 	{
-		if (isType (token, TOKEN_OPEN_MXML))
+		if (isType (token, TOKEN_GREATER_THAN))
+		{
+			inside_attributes = FALSE;
+		}
+		if (isType (token, TOKEN_LESS_THAN))
+		{
+			parseNamespace (token);
+			readToken (token);
+		}
+		else if (isType (token, TOKEN_OPEN_MXML))
 		{
 			parseMXML (token);
+			readToken (token);
 		}
-		else if (isKeyword (token, KEYWORD_id))
+		else if (inside_attributes && (isKeyword (token, KEYWORD_id) || isKeyword (token, KEYWORD_name)))
 		{
-			/* = */
-			readToken (token);
-			readToken (token);
+			if (vStringLength(name->string) == 0 )
+			{
+				/* 
+				 * If we have already created the tag based on either "name"
+				 * or "id" do not do it again.
+				 */
+				readToken (token);
+				readToken (token);
 
-			copyToken (name, token);
-			addToScope (name, type->string);
-			makeMXTag (name);
+				copyToken (name, token);
+				addToScope (name, type->string);
+				makeMXTag (name);
+			}
+			else
+			{
+				readToken (token);
+			}
 		}
-		readToken (token);
+		else
+		{
+			readToken (token);
+		}
 	} while (! (isType (token, TOKEN_CLOSE_SGML) || isType (token, TOKEN_CLOSE_MXML)) ); 
 
 	if (isType (token, TOKEN_CLOSE_MXML))
@@ -2154,6 +2291,33 @@ static boolean parseActionScript (tokenInfo *const token)
 		{
 			if (isType(token, TOKEN_KEYWORD))
 			{
+				if (isKeyword (token, KEYWORD_private)   ||
+				    isKeyword (token, KEYWORD_public)    ||
+				    isKeyword (token, KEYWORD_override)  )
+				{
+					/*
+					 * Methods can be defined as:
+					 *     private function f_name
+					 *     public override function f_name
+					 *     override private function f_name
+					 * Ignore these keywords if present.
+					 */
+					readToken (token);
+				}
+				if (isKeyword (token, KEYWORD_private)   ||
+				    isKeyword (token, KEYWORD_public)    ||
+				    isKeyword (token, KEYWORD_override)  )
+				{
+					/*
+					 * Methods can be defined as:
+					 *     private function f_name
+					 *     public override function f_name
+					 *     override private function f_name
+					 * Ignore these keywords if present.
+					 */
+					readToken (token);
+				}
+
 				switch (token->keyword)
 				{
 					case KEYWORD_function:	parseFunction (token); break;
@@ -2178,17 +2342,33 @@ static void parseFlexFile (tokenInfo *const token)
 		{
 			parseMXML (token);
 		} 
-		if (isType (token, TOKEN_LESS_THAN))
+		else if (isType (token, TOKEN_LESS_THAN))
 		{
 			readToken (token);
 			if (isType (token, TOKEN_QUESTION_MARK))
 			{
+				/*
+				 * <?xml version="1.0" encoding="utf-8"?>
+				 */
 				readToken (token);
 				while (! isType (token, TOKEN_QUESTION_MARK) )
 				{
 					readToken (token);
 				} 
 				readToken (token);
+			}
+			else if (isKeyword (token, KEYWORD_NONE))
+			{
+				/*
+				 * This is a simple XML tag, read until the closing statement
+				 * <something .... >
+				 * </something>
+				 */
+				readToken (token);
+				while (! isType (token, TOKEN_GREATER_THAN) )
+				{
+					readToken (token);
+				} 
 			}
 		} 
 		else 

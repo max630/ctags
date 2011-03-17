@@ -1,5 +1,5 @@
 /*
-*   $Id: entry.c 443 2006-05-30 04:37:13Z darren $
+*   $Id: entry.c 766 2010-09-11 18:59:45Z dhiebert $
 *
 *   Copyright (c) 1996-2002, Darren Hiebert
 *
@@ -772,6 +772,8 @@ static int writePatternEntry (const tagEntryInfo *const tag)
 	boolean newlineTerminated;
 	int length = 0;
 
+	if (line == NULL)
+		error (FATAL, "bad tag in %s", vStringValue (File.name));
 	if (tag->truncateLine)
 		truncateTagLine (line, tag->name, FALSE);
 	newlineTerminated = (boolean) (line [strlen (line) - 1] == '\n');

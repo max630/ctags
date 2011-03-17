@@ -1,3 +1,13 @@
+exuberant-ctags (1:5.9~svn20110310-1) UNRELEASED; urgency=low
+
+  * New upstream release snapshot (thanks, Daniel Hahler; LP: #732860).
+    - Fix crash with comments inside strings in OCaml (LP: #554898).
+  * Drop accepted patches:
+    - debian/patches/make-match-loop.patch
+    - debian/patches/php-ignore-keywords-in-comments.patch
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 17 Mar 2011 15:27:22 +0000
+
 exuberant-ctags (1:5.8-4) unstable; urgency=low
 
   * Apply patch from Ben Spencer to use memmove rather than strcpy on
