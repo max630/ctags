@@ -1,4 +1,4 @@
-exuberant-ctags (1:5.9~svn20110310-1) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-1) unstable; urgency=low
 
   * New upstream release snapshot (thanks, Daniel Hahler; LP: #732860).
     - Fix crash with comments inside strings in OCaml (LP: #554898).
@@ -13,7 +13,7 @@ exuberant-ctags (1:5.9~svn20110310-1) UNRELEASED; urgency=low
     character other than whitespace or '-' is found before the first
     alphanumeric character after 'command' (LP: #736367).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 17 Mar 2011 15:27:22 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 17 Mar 2011 16:47:08 +0000
 
 exuberant-ctags (1:5.8-4) unstable; urgency=low
 
