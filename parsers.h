@@ -1,5 +1,5 @@
 /*
-*   $Id: parsers.h 717 2009-07-07 03:40:50Z dhiebert $
+*   $Id: parsers.h 771 2010-11-30 13:15:12Z vberthoux $
 *
 *   Copyright (c) 2000-2003, Darren Hiebert
 *
@@ -38,6 +38,7 @@
 	LuaParser, \
 	MakefileParser, \
 	MatLabParser, \
+	ObjcParser , \
 	OcamlParser, \
 	PascalParser, \
 	PerlParser, \
