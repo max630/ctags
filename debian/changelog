@@ -9,6 +9,9 @@ exuberant-ctags (1:5.9~svn20110310-1) UNRELEASED; urgency=low
     Barry Warsaw; LP: #618979).
   * Upstream uses AC_SYS_LARGEFILE now, so drop explicit
     -D_FILE_OFFSET_BITS=64 in debian/rules.
+  * Fix infinite loop parsing vim commands, when a non-alphanumeric
+    character other than whitespace or '-' is found before the first
+    alphanumeric character after 'command' (LP: #736367).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 17 Mar 2011 15:27:22 +0000
 
