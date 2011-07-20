@@ -1,8 +1,8 @@
-exuberant-ctags (1:5.9~svn20110310-2) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-2) unstable; urgency=low
 
   * Add Go support, from a patch by Alexey Marinichev (closes: #634166).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 20 Jul 2011 14:23:13 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 20 Jul 2011 14:24:17 +0100
 
 exuberant-ctags (1:5.9~svn20110310-1) unstable; urgency=low
 
