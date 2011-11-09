@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.9~svn20110310-3) UNRELEASED; urgency=low
+
+  * Mark exuberant-ctags Multi-Arch: foreign.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 09 Nov 2011 01:44:08 +0000
+
 exuberant-ctags (1:5.9~svn20110310-2) unstable; urgency=low
 
   * Add Go support, from a patch by Alexey Marinichev (closes: #634166).
