@@ -1,8 +1,8 @@
-exuberant-ctags (1:5.9~svn20110310-3) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-3) unstable; urgency=low
 
   * Mark exuberant-ctags Multi-Arch: foreign.
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 09 Nov 2011 01:44:08 +0000
+ -- Colin Watson <cjwatson@debian.org>  Wed, 09 Nov 2011 01:44:38 +0000
 
 exuberant-ctags (1:5.9~svn20110310-2) unstable; urgency=low
 
