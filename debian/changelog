@@ -1,8 +1,10 @@
-exuberant-ctags (1:5.9~svn20110310-3.max.1) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-3.max.1) unstable; urgency=low
 
-  * TODO
+  * Add haskell support
+    - applied a patch from
+      http://zarquon.se/misc/ctags-5.5.4-haskell.diff
 
- -- Max Kirillov <max@max630.net>  Sun, 20 Nov 2011 18:03:13 +0200
+ -- Max Kirillov <max@max630.net>  Sun, 20 Nov 2011 18:37:39 +0200
 
 exuberant-ctags (1:5.9~svn20110310-3) unstable; urgency=low
 
