@@ -25,6 +25,7 @@ SOURCES = \
 	fortran.c \
 	get.c \
 	go.c \
+	haskell.c \
 	html.c \
 	jscript.c \
 	keyword.c \
@@ -89,6 +90,7 @@ OBJECTS = \
 	fortran.$(OBJEXT) \
 	get.$(OBJEXT) \
 	go.$(OBJEXT) \
+	haskell.$(OBJEXT) \
 	html.$(OBJEXT) \
 	jscript.$(OBJEXT) \
 	keyword.$(OBJEXT) \

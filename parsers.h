@@ -32,10 +32,12 @@
 	FlexParser, \
 	FortranParser, \
 	GoParser, \
+    HaskellParser, \
 	HtmlParser, \
 	JavaParser, \
 	JavaScriptParser, \
 	LispParser, \
+    LiterateHaskellParser, \
 	LuaParser, \
 	MakefileParser, \
 	MatLabParser, \
