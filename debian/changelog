@@ -1,4 +1,4 @@
-exuberant-ctags (1:5.9~svn20110310-4) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-4) unstable; urgency=low
 
   * Simplify alternatives handling.  update-alternatives doesn't need so
     much babysitting these days.
@@ -10,7 +10,7 @@ exuberant-ctags (1:5.9~svn20110310-4) UNRELEASED; urgency=low
     honour CPPFLAGS.  This enables -D_FORTIFY_SOURCE=2 with Debian's default
     dpkg-buildflags configuration.
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 14 Apr 2012 13:10:05 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 14 Apr 2012 13:42:14 +0100
 
 exuberant-ctags (1:5.9~svn20110310-3) unstable; urgency=low
 
