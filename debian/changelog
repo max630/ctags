@@ -6,6 +6,9 @@ exuberant-ctags (1:5.9~svn20110310-4) UNRELEASED; urgency=low
     that of emacs (closes: #668560).
   * Upgrade to debhelper v9 and its new arrangements for honouring
     dpkg-buildflags output.
+  * Append CPPFLAGS to CFLAGS, since the upstream build system doesn't
+    honour CPPFLAGS.  This enables -D_FORTIFY_SOURCE=2 with Debian's default
+    dpkg-buildflags configuration.
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 14 Apr 2012 13:10:05 +0100
 
