@@ -2,6 +2,8 @@ exuberant-ctags (1:5.9~svn20110310-4) UNRELEASED; urgency=low
 
   * Simplify alternatives handling.  update-alternatives doesn't need so
     much babysitting these days.
+  * Reduce the etags alternative's priority to 10 so that it's less than
+    that of emacs (closes: #668560).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 14 Apr 2012 13:10:05 +0100
 

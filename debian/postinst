@@ -2,10 +2,11 @@
 
 set -e
 
-for i in ctags etags ; do
-	update-alternatives --install /usr/bin/$i $i /usr/bin/ctags-exuberant 30 \
-		--slave /usr/share/man/man1/$i.1.gz $i.1.gz /usr/share/man/man1/ctags-exuberant.1.gz
-done
+update-alternatives --install /usr/bin/ctags ctags /usr/bin/ctags-exuberant 30 \
+	--slave /usr/share/man/man1/ctags.1.gz ctags.1.gz /usr/share/man/man1/ctags-exuberant.1.gz
+update-alternatives --install /usr/bin/etags etags /usr/bin/ctags-exuberant 10 \
+	--slave /usr/share/man/man1/etags.1.gz etags.1.gz /usr/share/man/man1/ctags-exuberant.1.gz
+
 
 #DEBHELPER#
 
