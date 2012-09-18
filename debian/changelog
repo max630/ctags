@@ -1,3 +1,9 @@
+exuberant-ctags (1:5.9~svn20110310-5) UNRELEASED; urgency=low
+
+  * Adjust debian/watch to remove epoch from Debian version.
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 18 Sep 2012 01:53:43 +0100
+
 exuberant-ctags (1:5.9~svn20110310-4) unstable; urgency=low
 
   * Simplify alternatives handling.  update-alternatives doesn't need so
