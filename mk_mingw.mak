@@ -10,7 +10,7 @@ REGEX_DEFINES = -DHAVE_REGCOMP -D__USE_GNU -Dbool=int -Dfalse=0 -Dtrue=1 -Dstrca
 CFLAGS = -Wall
 DEFINES = -DWIN32 $(REGEX_DEFINES)
 INCLUDES = -I. -Ignu_regex
-CC = gcc
+CC = i586-mingw32msvc-cc
 
 ctags.exe: OPT = -O4
 dctags.exe: OPT = -g
