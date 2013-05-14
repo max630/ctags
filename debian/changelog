@@ -4,8 +4,9 @@ exuberant-ctags (1:5.9~svn20110310-3.max.2) UNRELEASED; urgency=low
     - applied a patch from
       http://zarquon.se/misc/ctags-5.5.4-haskell.diff
   * Implement support for override and final
+  * Removed forgotten debugging
 
- -- Max Kirillov <max@max630.net>  Wed, 01 May 2013 17:31:59 +0300
+ -- Max Kirillov <max@max630.net>  Tue, 14 May 2013 23:14:15 +0300
 
 exuberant-ctags (1:5.9~svn20110310-3) unstable; urgency=low
 
