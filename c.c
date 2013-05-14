@@ -2244,7 +2244,6 @@ static int parseParens (statementInfo *const st, parenInfo *const info)
 						if (token->keyword != KEYWORD_CONST &&
 							token->keyword != KEYWORD_VOLATILE)
 						{
-							fprintf(stderr, "%s: hit\n", __FUNCTION__);
 							info->isKnrParamList = FALSE;
 							info->isNameCandidate = FALSE;
 						}
