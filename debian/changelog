@@ -1,3 +1,10 @@
+exuberant-ctags (1:5.9~svn20110310-6) UNRELEASED; urgency=low
+
+  * Convert debian/copyright to copyright-format 1.0, dropping obsolete
+    source tarball location in the process (closes: #714823).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 04 Jul 2013 12:26:16 +0100
+
 exuberant-ctags (1:5.9~svn20110310-5) unstable; urgency=low
 
   * Adjust debian/watch to remove epoch from Debian version.
