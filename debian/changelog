@@ -1,4 +1,4 @@
-exuberant-ctags (1:5.9~svn20110310-3.max.2) UNRELEASED; urgency=low
+exuberant-ctags (1:5.9~svn20110310-4.max.2) UNRELEASED; urgency=low
 
   * Add haskell support
     - applied a patch from
@@ -6,7 +6,21 @@ exuberant-ctags (1:5.9~svn20110310-3.max.2) UNRELEASED; urgency=low
   * Implement support for override and final
   * Removed forgotten debugging
 
- -- Max Kirillov <max@max630.net>  Tue, 14 May 2013 23:14:15 +0300
+ -- Max Kirillov <max@max630.net>  Mon, 11 Nov 2013 23:42:54 +0200
+
+exuberant-ctags (1:5.9~svn20110310-4) unstable; urgency=low
+
+  * Simplify alternatives handling.  update-alternatives doesn't need so
+    much babysitting these days.
+  * Reduce the etags alternative's priority to 10 so that it's less than
+    that of emacs (closes: #668560).
+  * Upgrade to debhelper v9 and its new arrangements for honouring
+    dpkg-buildflags output.
+  * Append CPPFLAGS to CFLAGS, since the upstream build system doesn't
+    honour CPPFLAGS.  This enables -D_FORTIFY_SOURCE=2 with Debian's default
+    dpkg-buildflags configuration.
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 14 Apr 2012 13:42:14 +0100
 
 exuberant-ctags (1:5.9~svn20110310-3) unstable; urgency=low
 

@@ -4,14 +4,7 @@
 
 dtmp = debian/exuberant-ctags
 
-ifeq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
-CFLAGS := -O2 -g -Wall
-else
-CFLAGS := -g -Wall
-endif
-
-override_dh_auto_configure:
-	CFLAGS="$(CFLAGS)" dh_auto_configure
+export DEB_CFLAGS_MAINT_APPEND := -Wall $(shell dpkg-buildflags --get CPPFLAGS)
 
 override_dh_auto_install:
 # Install exuberant-ctags itself
