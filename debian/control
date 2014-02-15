@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Colin Watson <cjwatson@debian.org>
 Build-Depends: dpkg (>= 1.16.1~), debhelper (>= 9), dh-autoreconf
 Standards-Version: 3.8.4
+Homepage: http://ctags.sourceforge.net/
 
 Package: exuberant-ctags
 Architecture: any
