@@ -405,7 +405,9 @@ static boolean parseCommand (const unsigned char *line)
 			while (*cp && !isspace ((int) *cp))
 				++cp; 
 		}
-	} while ( *cp &&  !isalnum ((int) *cp) );
+		else
+			break;
+	} while ( *cp );
 
 	if ( ! *cp )
 	{
