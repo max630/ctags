@@ -1,11 +1,23 @@
-Description: Add Go support
+From 18e7bce7b0a8c8761c0b911f3039a7f949703fb3 Mon Sep 17 00:00:00 2001
+From: Alexey Marinichev <amarinichev@chromium.org>
+Date: Sat, 15 Feb 2014 22:47:04 +0000
+Subject: Add Go support
+
 Bug-Debian: http://bugs.debian.org/634166
-Author: Alexey Marinichev <amarinichev@chromium.org>
 Origin: other, https://github.com/lyosha/ctags-go/commit/ca097bd639e35470a9abccbf348016b7cc44f811
 Last-Update: 2011-07-20
 
-Index: b/go.c
-===================================================================
+Patch-Name: go.patch
+---
+ go.c       | 670 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ parsers.h  |   1 +
+ source.mak |   2 +
+ 3 files changed, 673 insertions(+)
+ create mode 100644 go.c
+
+diff --git a/go.c b/go.c
+new file mode 100644
+index 0000000..6bd3a36
 --- /dev/null
 +++ b/go.c
 @@ -0,0 +1,670 @@
@@ -679,8 +691,8 @@ Index: b/go.c
 +	def->initialize = initialize;
 +	return def;
 +}
-Index: b/parsers.h
-===================================================================
+diff --git a/parsers.h b/parsers.h
+index 600f636..3a24d6e 100644
 --- a/parsers.h
 +++ b/parsers.h
 @@ -31,6 +31,7 @@
@@ -691,11 +703,11 @@ Index: b/parsers.h
  	HtmlParser, \
  	JavaParser, \
  	JavaScriptParser, \
-Index: b/source.mak
-===================================================================
+diff --git a/source.mak b/source.mak
+index c97617f..985d56c 100644
 --- a/source.mak
 +++ b/source.mak
-@@ -24,6 +24,7 @@
+@@ -24,6 +24,7 @@ SOURCES = \
  	flex.c \
  	fortran.c \
  	get.c \
@@ -703,7 +715,7 @@ Index: b/source.mak
  	html.c \
  	jscript.c \
  	keyword.c \
-@@ -87,6 +88,7 @@
+@@ -87,6 +88,7 @@ OBJECTS = \
  	flex.$(OBJEXT) \
  	fortran.$(OBJEXT) \
  	get.$(OBJEXT) \

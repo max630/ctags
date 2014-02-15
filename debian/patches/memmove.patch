@@ -1,16 +1,25 @@
-Description: Use memmove on overlapping strings
- strcpy is not guaranteed to work on overlapping strings, and this can lead
- to broken paths appearing in tag files.  Use memmove instead.
-Author: Ben Spencer
+From fb56c83886b3c1caf8a483d1e449595e740292e6 Mon Sep 17 00:00:00 2001
+From: Ben Spencer <Ben Spencer>
+Date: Sat, 15 Feb 2014 22:47:00 +0000
+Subject: Use memmove on overlapping strings
+
+strcpy is not guaranteed to work on overlapping strings, and this can lead
+to broken paths appearing in tag files.  Use memmove instead.
+
 Origin: other, http://sourceforge.net/tracker/?func=detail&aid=3034816&group_id=6556&atid=306556
 Forwarded: yes
 Last-Update: 2011-02-17
 
-Index: b/routines.c
-===================================================================
+Patch-Name: memmove.patch
+---
+ routines.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/routines.c b/routines.c
+index 83bcdcc..8ebe2e0 100644
 --- a/routines.c
 +++ b/routines.c
-@@ -757,13 +757,13 @@
+@@ -757,13 +757,13 @@ extern char* absoluteFilename (const char *file)
  				else if (cp [0] != PATH_SEPARATOR)
  					cp = slashp;
  #endif
