@@ -1,6 +1,6 @@
 #! /usr/bin/make -f
 %:
-	dh $@ --with autoreconf
+	dh $@ --with autoreconf --parallel
 
 dtmp = debian/exuberant-ctags
 

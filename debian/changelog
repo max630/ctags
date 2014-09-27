@@ -1,6 +1,7 @@
 exuberant-ctags (1:5.9~svn20110310-8) UNRELEASED; urgency=medium
 
   * Update Vcs-Browser URL for alioth cgit.
+  * Support parallel builds.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 25 Jul 2014 15:01:20 +0100
 
