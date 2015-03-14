@@ -1,9 +1,9 @@
-exuberant-ctags (1:5.9~svn20110310-9) UNRELEASED; urgency=medium
+exuberant-ctags (1:5.9~svn20110310-9) unstable; urgency=medium
 
   * Don't build the compilation date and time into the binary.  This made
     the build unreproducible.
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 14 Mar 2015 00:02:13 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 14 Mar 2015 00:03:24 +0000
 
 exuberant-ctags (1:5.9~svn20110310-8) unstable; urgency=medium
 
