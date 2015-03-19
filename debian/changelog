@@ -1,3 +1,10 @@
+exuberant-ctags (1:5.9~svn20110310-10) UNRELEASED; urgency=medium
+
+  * Drop elvis from Suggests alternatives, since it has been removed from
+    Debian (see #432298).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 19 Mar 2015 10:31:34 +0000
+
 exuberant-ctags (1:5.9~svn20110310-9) unstable; urgency=medium
 
   * Don't build the compilation date and time into the binary.  This made
