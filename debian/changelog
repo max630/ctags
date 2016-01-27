@@ -3,6 +3,7 @@ exuberant-ctags (1:5.9~svn20110310-11) UNRELEASED; urgency=medium
   * Policy version 3.9.6: no changes required.
   * Remove duplicate Homepage field from binary control stanza.
   * Use HTTPS for Vcs-* URLs.
+  * Build with all hardening options.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 05 Jan 2016 09:48:38 +0000
 
