@@ -5,8 +5,8 @@ Maintainer: Colin Watson <cjwatson@debian.org>
 Build-Depends: dpkg (>= 1.16.1~), debhelper (>= 9), dh-autoreconf
 Standards-Version: 3.9.6
 Homepage: http://ctags.sourceforge.net/
-Vcs-Git: git://anonscm.debian.org/users/cjwatson/exuberant-ctags.git
-Vcs-Browser: http://anonscm.debian.org/cgit/users/cjwatson/exuberant-ctags.git/
+Vcs-Git: https://anonscm.debian.org/git/users/cjwatson/exuberant-ctags.git
+Vcs-Browser: https://anonscm.debian.org/cgit/users/cjwatson/exuberant-ctags.git/
 
 Package: exuberant-ctags
 Architecture: any
