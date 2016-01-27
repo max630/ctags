@@ -14,7 +14,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Provides: ctags
 Suggests: vim | nvi | vile | emacsen
 Multi-Arch: foreign
-Homepage: http://ctags.sourceforge.net/
 Description: build tag file indexes of source code definitions
  ctags parses source code and produces a sort of index mapping
  the names of significant entities (e.g. functions, classes,
