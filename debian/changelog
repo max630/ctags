@@ -1,3 +1,10 @@
+exuberant-ctags (1:5.9~svn20110310-11.max630.1) max630; urgency=low
+
+  * Non-maintainer upload.
+  * Add haskell support
+
+ -- Max Kirillov <max@max630.net>  Sun, 02 Apr 2017 00:21:49 +0300
+
 exuberant-ctags (1:5.9~svn20110310-11) unstable; urgency=medium
 
   * Policy version 3.9.6: no changes required.
